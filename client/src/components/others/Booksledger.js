@@ -1,12 +1,21 @@
 import React from "react";
 import Header from "./Header";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useCookies } from "react-cookie";
 const Booksledger = () => {
+  const [cookies, setCookie] = useCookies(['jwtoken']);
+
+
+  const [regData, setregData] = useState([])
+  //navigation
+  const navigate = useNavigate()
   const [Ledger, setLedger] = useState({
-    name: "", className: "", rollNumber: "", amount: "", details:""
+    name: "", className: "", rollNumber: "", amount: "", details: ""
   })
   let name;
   let value;
+  console.log(Ledger);
   const setLedgerData = (e) => {
     name = e.target.name;
     value = e.target.value;
@@ -14,7 +23,7 @@ const Booksledger = () => {
   }
   const addNewLedger = async (e) => {
     e.preventDefault()
-    const { name, className, rollNumber, amount , details} = Ledger
+    const { name, className, rollNumber, amount, details } = Ledger
     if (!name || !className || !rollNumber || !amount || !details) {
       return alert("Please fill each and every field and not that class name, roll number and amout must be a number")
     }
@@ -29,8 +38,11 @@ const Booksledger = () => {
           },
           body: JSON.stringify(Ledger),
         });
+
         if ((await res).status === 200) {
-          setLedger({ name: "", className: "", rollNumber: "", amount: "" })
+
+          setLedger({ name: "", className: "", rollNumber: "", amount: "", details: "" })
+          window.location.reload(true);
           return alert("New student ledger created successfully")
 
         }
@@ -39,7 +51,28 @@ const Booksledger = () => {
       }
     }
   }
+  //  getting data from data base
+  const getLedgerData = async () => {
 
+    try {
+      const res = await fetch("/getledger", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      })
+      const Data = await res.json()
+      setregData(Data)
+
+
+    } catch (error) {
+      return alert("Please try again later.")
+    }
+  }
+  useEffect(() => {
+    getLedgerData()
+  }, [])
 
   return (
     <>
@@ -66,12 +99,12 @@ const Booksledger = () => {
             </div>
             <div class="mb-3">
               <label class="form-label">Payable Amount*</label>
-              <input class="form-control" name="amount" value={Ledger.amount} type="Number" min={"1"} onChange={setLedgerData}  required/>
+              <input class="form-control" name="amount" value={Ledger.amount} type="Number" min={"1"} onChange={setLedgerData} required />
 
             </div>
             <div class="mb-3">
               <label class="form-label">Details*</label>
-              <input class="form-control" name="details" type="text" value={Ledger.details} onChange={setLedgerData}  required />
+              <input class="form-control" name="details" type="text" value={Ledger.details} onChange={setLedgerData} required />
 
             </div>
             <div>
@@ -123,33 +156,43 @@ const Booksledger = () => {
                     <th className="text-end">Status*</th>
                   </tr>
                 </thead>
-                <tbody className="align-middle">
-                  <tr>
-                    <td>
-                      <span className="d-flex align-items-center">
+                {
+                  regData.map((data) => {
+                    return (
+                      <>
+                        <tbody className="align-middle">
+                          <tr>
+                            <td>
+                              <span className="d-flex align-items-center">
 
-                        <span className="d-inline-block">
-                          <strong>Arslan</strong>
-                          <br />
-                          <span className="text-muted text-sm">4th Class</span>
-                        </span>
-                      </span>
-                    </td>
-                    <td>14</td>
+                                <span className="d-inline-block">
+                                  <strong>{data.name}</strong>
+                                  <br />
+                                  <span className="text-muted text-sm">{`${data.className}th Class`} </span>
+                                </span>
+                              </span>
+                            </td>
+                            <td>{data.rollNumber}</td>
 
-                    <td className="text-danger " style={{ fontWeight: "900" }}>
-                      Rs 1550 /-
-                    </td>
-                    <td>N/A</td>
-                    <td>books</td>
-                    <td className="text-end">
-                      {/* <span className="btn btn-success btn-sm text-white">
-                                Paid
-                              </span> */}
-                      <button className="btn btn-info btn-sm" onClick={addNewLedger} >Pay Now</button>
-                    </td>
-                  </tr>
-                </tbody>
+                            <td className="text-danger " style={{ fontWeight: "900" }}>
+                              Rs {data.amount} /-
+                            </td>
+                            <td>N/A</td>
+                            <td>{data.details}</td>
+                            <td className="text-end">
+                              {
+                                data.amount > 0 ?
+                                  <span class="badge me-2 badge-danger-light">Unpaid</span> : <span class="badge me-2 badge-success-light">Paid</span>
+                              }
+                            </td>
+                          </tr>
+
+                        </tbody>
+                      </>
+                    )
+                  })
+                }
+
               </table>
             </div>
           </div>

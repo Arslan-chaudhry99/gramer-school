@@ -3,9 +3,6 @@ const router = express.Router();
 require("../db/conn");
 const Admission = require("../Model/Admission");
 
-router.get("/user", (req, res) => {
-           res.send("welcome")
-})
 router.post("/admit", async (req, res) => {
 
            const { name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth } = req.body;

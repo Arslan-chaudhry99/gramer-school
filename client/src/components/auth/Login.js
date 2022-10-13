@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router";
 
 const Login = () => {
@@ -26,17 +27,21 @@ const Login = () => {
       },
       body: JSON.stringify(Auth),
     });
+    
     if ((await res).status === 201) {
-      alert("Login successfuly");
-      setTimeout(() => {
-        navigate("/Home");
-      }, 2000);
+      return alert("Login successfuly");
+      // setTimeout(() => {
+      //   navigate("/Home");
+      // }, 2000);
     }
-    if (!(await res).status === 201) {
-        alert("Invalid username or password");
+    if (!(await res).status === 422 || 400) {
+      return  alert("Invalid username or password");
       
     }
   };
+  
+  
+  
   return (
     <>
       <div className="page-holder align-items-center py-4 bg-gray-100 vh-100">

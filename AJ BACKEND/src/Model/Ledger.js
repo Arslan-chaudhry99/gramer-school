@@ -5,7 +5,7 @@ const ledgerSchema = new mongoose.Schema({
                       type: String,
                       require: true
            },
-           class: {
+           className: {
                       type: Number,
                       require: true
            },
