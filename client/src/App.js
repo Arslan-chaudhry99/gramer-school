@@ -10,11 +10,11 @@ import RegisForm from "./components/others/RegisForm";
 import Booksledger from "./components/others/Booksledger";
 import Error from "./components/others/Error";
 import Setting from "./components/others/Setting";
-import { Cookies } from "react-cookie";
+import LedgerDetails from "./components/others/LedgerDetails";
 
 const App = () => {
   let user = true
-
+  
   return (
 
     <>
@@ -34,6 +34,7 @@ const App = () => {
                 <Route path="/students-details" element={<Contact />} />
                 <Route path="/Books-ledger" element={<Booksledger />} />
                 <Route path="/Setting" element={<Setting />} />
+                <Route path="/more-details/:id" element={<LedgerDetails />} />
                 <Route
                   path="*"
                   element={

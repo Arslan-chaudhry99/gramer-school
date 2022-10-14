@@ -1,9 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Cookies } from "react-cookie";
+
 import { useNavigate } from "react-router";
 
 const Login = () => {
+  
   const navigate = useNavigate();
   const [Auth, setAuth] = useState({ name: "", password: "" });
   let name;

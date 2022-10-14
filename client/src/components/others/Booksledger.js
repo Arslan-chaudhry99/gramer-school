@@ -1,17 +1,18 @@
 import React from "react";
 import Header from "./Header";
 import { useState, useEffect } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router";
-import { useCookies } from "react-cookie";
+import { AppContext } from "../Context/Context";
+import { Link } from "react-router-dom"
+
 const Booksledger = () => {
-  const [cookies, setCookie] = useCookies(['jwtoken']);
-
-
+  const { ledgerDataVal, ftechLedger } = useContext(AppContext)
   const [regData, setregData] = useState([])
   //navigation
   const navigate = useNavigate()
   const [Ledger, setLedger] = useState({
-    name: "", className: "", rollNumber: "", amount: "", details: ""
+    name: "", className: "", rollNumber: "", amount: "", details: "", remaning: 0
   })
   let name;
   let value;
@@ -51,28 +52,11 @@ const Booksledger = () => {
       }
     }
   }
-  //  getting data from data base
-  const getLedgerData = async () => {
 
-    try {
-      const res = await fetch("/getledger", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        }
-      })
-      const Data = await res.json()
-      setregData(Data)
-
-
-    } catch (error) {
-      return alert("Please try again later.")
-    }
-  }
   useEffect(() => {
-    getLedgerData()
+    ftechLedger()
   }, [])
+
 
   return (
     <>
@@ -125,26 +109,38 @@ const Booksledger = () => {
         style={{ marginLeft: "5%" }}
       >
         <div className="card card-table h-100">
-          <div
-            className="card-header d-flex"
-            style={{ justifyContent: "space-between", alignItems: "center" }}
-          >
-            <h5 className="card-heading">Students Ledger </h5>
-            <span
-              className="bg-primary rounded d-flex justify-content-center align-items-center"
-              style={{ width: "20px", height: "20px", cursor: "pointer" }}
-              data-bs-toggle="collapse"
-              href="#collapseMedia"
-              role="button"
-              aria-expanded="false"
-              aria-controls="collapseMedia"
-            >
-              <i class="fa fa-plus text-white"> </i>
-            </span>
+          <div className="dataTable-top">
+            <div className="dataTable-dropdown">
+              <span className="me-2" id="categoryBulkAction">
+                <select
+                  className="form-select form-select-sm d-inline w-auto"
+                  name="categoryBulkAction"
+                >
+                  <option>Bulk Actions</option>
+                  <option>Delete</option>
+                </select>
+                <button className="btn btn-sm btn-outline-primary align-top "
+                  data-bs-toggle="collapse"
+                  href="#collapseMedia"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="collapseMedia"
+                  style={{ marginLeft: "5px" }}
+                >Add Record <i class="fa fa-plus text-white"></i></button>
+              </span>
+
+            </div>
+            <div class="dataTable-search">
+              <input
+                class="dataTable-input form-control form-control-sm"
+                placeholder="Search..."
+                type="text"
+              />
+            </div>
           </div>
           <div className="card-body">
             <div className="table-responsive">
-              <table className="table table-borderless table-hover mb-0">
+              <table className="table table-borderless table-hover mb-0" >
                 <thead className="light">
                   <tr>
                     <th>Name</th>
@@ -154,19 +150,24 @@ const Booksledger = () => {
                     <th>Remaining</th>
                     <th>Details</th>
                     <th className="text-end">Status*</th>
+                    <th className="text-end">Pay Now!</th>
                   </tr>
                 </thead>
                 {
-                  regData.map((data) => {
+                  ledgerDataVal.length >0 ? 
+                  ledgerDataVal.map((data) => {
+
                     return (
                       <>
-                        <tbody className="align-middle">
+
+                        <tbody className="align-middle " style={{ cursor: "pointer" }} >
                           <tr>
                             <td>
                               <span className="d-flex align-items-center">
 
                                 <span className="d-inline-block">
                                   <strong>{data.name}</strong>
+
                                   <br />
                                   <span className="text-muted text-sm">{`${data.className}th Class`} </span>
                                 </span>
@@ -177,20 +178,31 @@ const Booksledger = () => {
                             <td className="text-danger " style={{ fontWeight: "900" }}>
                               Rs {data.amount} /-
                             </td>
-                            <td>N/A</td>
+                            <td>{data.remaning === 0 ? data.amount : data.remaning}</td>
                             <td>{data.details}</td>
                             <td className="text-end">
                               {
                                 data.amount > 0 ?
+
                                   <span class="badge me-2 badge-danger-light">Unpaid</span> : <span class="badge me-2 badge-success-light">Paid</span>
                               }
                             </td>
+                            <td className="text-end">
+                              {
+                                data.amount > 0 ?
+                                  <Link to={"/more-details/" + data._id}>
+                                    <span class="btn btn-sm btn-warning">PayNow!</span></Link> : <span class="btn btn-sm btn-success">Paid</span>
+                              }
+                            </td>
+
                           </tr>
 
                         </tbody>
+
+
                       </>
                     )
-                  })
+                  }): <div className=" d-flex justify-content-center align-items-center bg-danger col-lg-11 text-white">No Data Found!</div>
                 }
 
               </table>
@@ -198,6 +210,12 @@ const Booksledger = () => {
           </div>
         </div>
       </div>
+
+
+
+
+
+
     </>
   );
 };

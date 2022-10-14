@@ -37,7 +37,7 @@ router.post("/signin", async (req, res) => {
         return res.status(422).json({ error: "invalid password" });
       } else {
         const token = await loginNow.generateAuthToken();
-        res.cookie("jwtoken", token, {
+        res.cookie("userToken", token, {
           expires: new Date(Date.now() + 100000000000000),
           httpOnly: true,
         });

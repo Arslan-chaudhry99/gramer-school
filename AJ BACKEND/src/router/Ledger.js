@@ -3,9 +3,9 @@ const router = express.Router();
 require("../db/conn");
 const Ledger = require("../Model/Ledger");
 router.post("/registerLedger", async (req, res) => {
-  const { name, className, rollNumber, amount, details } = req.body;
+  const { name, className, rollNumber, amount, details ,remaning} = req.body;
   try {
-    const user = new Ledger({ name, className, rollNumber, amount, details });
+    const user = new Ledger({ name, className, rollNumber, amount, details ,remaning});
     const registerLedgerReq = await user.save();
     if (registerLedgerReq) {
       res.send("success")
