@@ -26,11 +26,6 @@ const ledgerSchema = new mongoose.Schema({
            remaning: {
                       type: Number,
                       require: true
-           },
-           payedOrNot: {
-                      type: Boolean,
-                      require: true,
-                      default:false
            }
 })
 

@@ -178,18 +178,18 @@ const Booksledger = () => {
                             <td className="text-danger " style={{ fontWeight: "900" }}>
                               Rs {data.amount} /-
                             </td>
-                            <td>{data.remaning === 0 ? data.amount : data.remaning}</td>
+                            <td>{data.remaning}</td>
                             <td>{data.details}</td>
                             <td className="text-end">
                               {
-                                data.amount > 0 ?
+                                data.remaning > 0 ?
 
                                   <span class="badge me-2 badge-danger-light">Unpaid</span> : <span class="badge me-2 badge-success-light">Paid</span>
                               }
                             </td>
                             <td className="text-end">
                               {
-                                data.amount > 0 ?
+                                data.remaning > 0 ?
                                   <Link to={"/more-details/" + data._id}>
                                     <span class="btn btn-sm btn-warning">PayNow!</span></Link> : <span class="btn btn-sm btn-success">Paid</span>
                               }
