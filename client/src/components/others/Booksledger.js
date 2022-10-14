@@ -7,6 +7,7 @@ import { AppContext } from "../Context/Context";
 import { Link } from "react-router-dom"
 
 const Booksledger = () => {
+  const [hisFilter, sethisFilter] = useState(1)
   const { ledgerDataVal, ftechLedger } = useContext(AppContext)
   const [regData, setregData] = useState([])
   //navigation
@@ -56,7 +57,17 @@ const Booksledger = () => {
   useEffect(() => {
     ftechLedger()
   }, [])
-
+  // filtring data
+  const hisFilterArr = ledgerDataVal.filter((item) => {
+    if (hisFilter === 1) {
+      return item.remaning !== 0  
+    }
+    else if(hisFilter === 0){
+      return item.remaning ===  0
+    }
+    
+  })
+  
 
   return (
     <>
@@ -116,8 +127,8 @@ const Booksledger = () => {
                   className="form-select form-select-sm d-inline w-auto"
                   name="categoryBulkAction"
                 >
-                  <option>Bulk Actions</option>
-                  <option>Delete</option>
+                  <option onClick={()=>{sethisFilter(1)}}>Active</option>
+                  <option onClick={()=>{sethisFilter(0)}}>History</option>
                 </select>
                 <button className="btn btn-sm btn-outline-primary align-top "
                   data-bs-toggle="collapse"
@@ -154,55 +165,55 @@ const Booksledger = () => {
                   </tr>
                 </thead>
                 {
-                  ledgerDataVal.length >0 ? 
-                  ledgerDataVal.map((data) => {
+                  hisFilterArr.length > 0 ?
+                  hisFilterArr.map((data) => {
 
-                    return (
-                      <>
+                      return (
+                        <>
 
-                        <tbody className="align-middle " style={{ cursor: "pointer" }} >
-                          <tr>
-                            <td>
-                              <span className="d-flex align-items-center">
+                          <tbody className="align-middle " style={{ cursor: "pointer" }} >
+                            <tr>
+                              <td>
+                                <span className="d-flex align-items-center">
 
-                                <span className="d-inline-block">
-                                  <strong>{data.name}</strong>
+                                  <span className="d-inline-block">
+                                    <strong>{data.name}</strong>
 
-                                  <br />
-                                  <span className="text-muted text-sm">{`${data.className}th Class`} </span>
+                                    <br />
+                                    <span className="text-muted text-sm">{`${data.className}th Class`} </span>
+                                  </span>
                                 </span>
-                              </span>
-                            </td>
-                            <td>{data.rollNumber}</td>
+                              </td>
+                              <td>{data.rollNumber}</td>
 
-                            <td className="text-danger " style={{ fontWeight: "900" }}>
-                              Rs {data.amount} /-
-                            </td>
-                            <td>{data.remaning}</td>
-                            <td>{data.details}</td>
-                            <td className="text-end">
-                              {
-                                data.remaning > 0 ?
+                              <td className="text-danger " style={{ fontWeight: "900" }}>
+                                Rs {data.amount} /-
+                              </td>
+                              <td>{data.remaning}</td>
+                              <td>{data.details}</td>
+                              <td className="text-end">
+                                {
+                                  data.remaning > 0 ?
 
-                                  <span class="badge me-2 badge-danger-light">Unpaid</span> : <span class="badge me-2 badge-success-light">Paid</span>
-                              }
-                            </td>
-                            <td className="text-end">
-                              {
-                                data.remaning > 0 ?
-                                  <Link to={"/more-details/" + data._id}>
-                                    <span class="btn btn-sm btn-warning">PayNow!</span></Link> : <span class="btn btn-sm btn-success">Paid</span>
-                              }
-                            </td>
+                                    <span class="badge me-2 badge-danger-light">Unpaid</span> : <span class="badge me-2 badge-success-light">Paid</span>
+                                }
+                              </td>
+                              <td className="text-end">
+                                {
+                                  data.remaning > 0 ?
+                                    <Link to={"/more-details/" + data._id}>
+                                      <span class="btn btn-sm btn-warning">PayNow!</span></Link> : <span class="btn btn-sm btn-success">Paid</span>
+                                }
+                              </td>
 
-                          </tr>
+                            </tr>
 
-                        </tbody>
+                          </tbody>
 
 
-                      </>
-                    )
-                  }): <div className=" d-flex justify-content-center align-items-center bg-danger col-lg-11 text-white">No Data Found!</div>
+                        </>
+                      )
+                    }) : <div className=" d-flex justify-content-center align-items-center bg-danger col-lg-11 text-white">No Data Found!</div>
                 }
 
               </table>
