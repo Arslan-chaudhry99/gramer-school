@@ -60,14 +60,14 @@ const Booksledger = () => {
   // filtring data
   const hisFilterArr = ledgerDataVal.filter((item) => {
     if (hisFilter === 1) {
-      return item.remaning !== 0  
+      return item.remaning !== 0
     }
-    else if(hisFilter === 0){
-      return item.remaning ===  0
+    else if (hisFilter === 0) {
+      return item.remaning === 0
     }
-    
+
   })
-  
+
 
   return (
     <>
@@ -127,8 +127,8 @@ const Booksledger = () => {
                   className="form-select form-select-sm d-inline w-auto"
                   name="categoryBulkAction"
                 >
-                  <option onClick={()=>{sethisFilter(1)}}>Active</option>
-                  <option onClick={()=>{sethisFilter(0)}}>History</option>
+                  <option onClick={() => { sethisFilter(1) }}>Active</option>
+                  <option onClick={() => { sethisFilter(0) }}>History</option>
                 </select>
                 <button className="btn btn-sm btn-outline-primary align-top "
                   data-bs-toggle="collapse"
@@ -166,7 +166,7 @@ const Booksledger = () => {
                 </thead>
                 {
                   hisFilterArr.length > 0 ?
-                  hisFilterArr.map((data) => {
+                    hisFilterArr.map((data) => {
 
                       return (
                         <>
@@ -202,7 +202,10 @@ const Booksledger = () => {
                                 {
                                   data.remaning > 0 ?
                                     <Link to={"/more-details/" + data._id}>
-                                      <span class="btn btn-sm btn-warning">PayNow!</span></Link> : <span class="btn btn-sm btn-success">Paid</span>
+                                      <span class="btn btn-sm btn-warning">PayNow!</span></Link> :
+                                    <Link to={"/more-details/" + data._id}>
+                                      <span class="btn btn-sm btn-success">Paid</span>
+                                    </Link>
                                 }
                               </td>
 
