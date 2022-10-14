@@ -6,7 +6,7 @@ dotenv.config({ path: path.join(__dirname, "./config.env") });
 require("./db/conn");
 app.use(express.json())
 const PORT = process.env.PORT;
-app.use('/public', express.static(path.join(__dirname, "public")));
+// app.use('/public', express.static(path.join(__dirname, "public")));
 // const User = require("./Model/usersSchema");
 app.use(require("./router/Auth"));
 app.use(require("./router/Ledger"));
