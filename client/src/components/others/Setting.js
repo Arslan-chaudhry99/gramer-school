@@ -140,7 +140,7 @@ const Setting = () => {
   }
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <dir className="row">
         <div className="col-lg-4 mb-5">
           <div className="card">
@@ -258,7 +258,7 @@ const Setting = () => {
                   />
 
                   <label htmlFor="floatingPassword">Password</label>
-                  <i class="fa fa-eye-slash active " onClick={hideOrvis} style={{ marginLeft: "-40px", fontSize: "20px", cursor: "pointer" }} aria-hidden="true"></i>
+                  <i className="fa fa-eye-slash active " onClick={hideOrvis} style={{ marginLeft: "-40px", fontSize: "20px", cursor: "pointer" }} aria-hidden="true"></i>
                 </div>
                 <div className="form-floating mb-3 d-flex align-items-center">
                   <input
@@ -274,7 +274,7 @@ const Setting = () => {
                     ref={cpass}
                   />
                   <label htmlFor="floatingPassword">Conform Password</label>
-                  <i class="fa fa-eye-slash active " style={{ marginLeft: "-40px", fontSize: "20px", cursor: "pointer" }} aria-hidden="true"></i>
+                  <i className="fa fa-eye-slash active " style={{ marginLeft: "-40px", fontSize: "20px", cursor: "pointer" }} aria-hidden="true"></i>
                 </div>
 
                 <div>

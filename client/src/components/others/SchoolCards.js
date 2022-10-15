@@ -3,7 +3,7 @@ import Header from './Header'
 const SchoolCards = () => {
   return (
     <>
-    <Header/>
+    {/* <Header/> */}
         <div className="page-holder bg-gray-100">
         <div className="container-fluid px-lg-4 px-xl-5">
          

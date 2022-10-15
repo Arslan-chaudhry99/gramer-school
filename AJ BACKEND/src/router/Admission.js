@@ -5,7 +5,7 @@ const Admission = require("../Model/Admission");
 
 router.post("/admit", async (req, res) => {
 
-           const { name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth } = req.body;
+           const { name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth,classname} = req.body;
 
            try {
                       const userPresent = await Admission.findOne({ cnic: cnic });
@@ -13,7 +13,7 @@ router.post("/admit", async (req, res) => {
                                  return res.status(201).json({ success: "already" });
                       }
                       else {
-                                 const user = new Admission({ name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth });
+                                 const user = new Admission({ name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth ,classname});
 
                                  const registerUser = await user.save();
                                  if (registerUser) {
@@ -30,6 +30,14 @@ router.post("/admit", async (req, res) => {
 
 });
 
+router.get("/getschool", async (req, res) => {
+           try {
+           let data = await Admission.find()
+           res.status(200).json(data);
+           } catch (error) {
+                      console.log(error);
+           }
+})
 
 
 module.exports = router;

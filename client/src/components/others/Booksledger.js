@@ -71,35 +71,35 @@ const Booksledger = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
 
       <div
-        class="collapse"
+        className="collapse"
         id="collapseMedia"
 
       >
-        <div class="col-lg-11  p-4 card  mb-3" style={{ marginLeft: "5%" }}>
+        <div className="col-lg-11  p-4 card  mb-3" style={{ marginLeft: "5%" }}>
           <form>
-            <div class="mb-3">
-              <label class="form-label">Name*</label>
-              <input class="form-control" name="name" value={Ledger.name} type="text" onChange={setLedgerData} required />
+            <div className="mb-3">
+              <label className="form-label">Name*</label>
+              <input className="form-control" name="name" value={Ledger.name} type="text" onChange={setLedgerData} required />
             </div>
-            <div class="mb-3">
-              <label class="form-label">Class*</label>
-              <input class="form-control" name="className" value={Ledger.className} type="Number" min={"1"} onChange={setLedgerData} required />
+            <div className="mb-3">
+              <label className="form-label">Class*</label>
+              <input className="form-control" name="className" value={Ledger.className} type="Number" min={"1"} onChange={setLedgerData} required />
             </div>
-            <div class="mb-3">
-              <label class="form-label">Roll Number*</label>
-              <input class="form-control" name="rollNumber" value={Ledger.rollNumber} type="Number" min={"1"} onChange={setLedgerData} required />
+            <div className="mb-3">
+              <label className="form-label">Roll Number*</label>
+              <input className="form-control" name="rollNumber" value={Ledger.rollNumber} type="Number" min={"1"} onChange={setLedgerData} required />
             </div>
-            <div class="mb-3">
-              <label class="form-label">Payable Amount*</label>
-              <input class="form-control" name="amount" value={Ledger.amount} type="Number" min={"1"} onChange={setLedgerData} required />
+            <div className="mb-3">
+              <label className="form-label">Payable Amount*</label>
+              <input className="form-control" name="amount" value={Ledger.amount} type="Number" min={"1"} onChange={setLedgerData} required />
 
             </div>
-            <div class="mb-3">
-              <label class="form-label">Details*</label>
-              <input class="form-control" name="details" type="text" value={Ledger.details} onChange={setLedgerData} required />
+            <div className="mb-3">
+              <label className="form-label">Details*</label>
+              <input className="form-control" name="details" type="text" value={Ledger.details} onChange={setLedgerData} required />
 
             </div>
             <div>
@@ -137,16 +137,12 @@ const Booksledger = () => {
                   aria-expanded="false"
                   aria-controls="collapseMedia"
                   style={{ marginLeft: "5px" }}
-                >Add Record <i class="fa fa-plus text-white"></i></button>
+                >Add Record <i className="fa fa-plus text-white"></i></button>
               </span>
 
             </div>
-            <div class="dataTable-search">
-              <input
-                class="dataTable-input form-control form-control-sm"
-                placeholder="Search..."
-                type="text"
-              />
+            <div className="dataTable-search">
+              
             </div>
           </div>
           <div className="card-body">
@@ -195,16 +191,16 @@ const Booksledger = () => {
                                 {
                                   data.remaning > 0 ?
 
-                                    <span class="badge me-2 badge-danger-light">Unpaid</span> : <span class="badge me-2 badge-success-light">Paid</span>
+                                    <span className="badge me-2 badge-danger-light">Unpaid</span> : <span className="badge me-2 badge-success-light">Paid</span>
                                 }
                               </td>
                               <td className="text-end">
                                 {
                                   data.remaning > 0 ?
                                     <Link to={"/more-details/" + data._id}>
-                                      <span class="btn btn-sm btn-warning">PayNow!</span></Link> :
+                                      <span className="btn btn-sm btn-warning">PayNow!</span></Link> :
                                     <Link to={"/more-details/" + data._id}>
-                                      <span class="btn btn-sm btn-success">Paid</span>
+                                      <span className="btn btn-sm btn-success">Paid</span>
                                     </Link>
                                 }
                               </td>

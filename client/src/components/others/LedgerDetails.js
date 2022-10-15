@@ -99,7 +99,7 @@ const LedgerDetails = () => {
                   return (<>
                       <span className="card mb-4 container mt-4" key={index}>
                           <div className="card-header d-flex align-items-center ">
-                              <i class="fa fa-arrow-left btn btn-sm btn-warning " style={{ marginRight: "10px" }} aria-hidden="true" onClick={goBack}></i>
+                              <i className="fa fa-arrow-left btn btn-sm btn-warning " style={{ marginRight: "10px" }} aria-hidden="true" onClick={goBack}></i>
                               <h4 className="card-heading">Pay Now!</h4>
                           </div>
                           <div className="card-body">
@@ -160,10 +160,10 @@ const LedgerDetails = () => {
 
                               </form> :
                                   <span className='d-flex'>
-                                      <button className="btn btn-info shadow " style={{ marginRight: "10px" }}><i class="fa fa-history" aria-hidden="true"></i>
+                                      <button className="btn btn-info shadow " style={{ marginRight: "10px" }}><i className="fa fa-history" aria-hidden="true"></i>
                                           History</button>
                                       <form method='POST' >
-                                          <button className="btn btn-danger shadow " type="submit" onClick={deleteLedger} ><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                          <button className="btn btn-danger shadow " type="submit" onClick={deleteLedger} ><i className="fa fa-trash" aria-hidden="true"></i></button>
                                       </form></span>}
                           </div>
 

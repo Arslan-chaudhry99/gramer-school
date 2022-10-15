@@ -18,7 +18,7 @@ const Main = () => {
   }
   return (
     <>
-    <Header/>
+    {/* <Header/> */}
       <div className="page-holder bg-gray-100">
         <div className="container-fluid px-lg-4 px-xl-5">
           {/* <!-- Page Header--> */}
@@ -36,7 +36,7 @@ const Main = () => {
                       onClick={register}
                       
                     >
-                      <i class="fas fa-plus "></i>
+                      <i className="fas fa-plus "></i>
 
                     </div>
                     <h6>Registration </h6>
@@ -85,7 +85,7 @@ const Main = () => {
                       style={{position:"absolute", top:"1rem", right:"1rem"}}
                       onClick={ledger}
                     >
-                    <i class="fas fa-book-open "></i>
+                    <i className="fas fa-book-open "></i>
                     </div>
                     <h6>Books Ledger</h6>
                     <h3 className="text-green"

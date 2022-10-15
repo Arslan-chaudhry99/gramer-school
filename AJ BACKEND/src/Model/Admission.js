@@ -36,7 +36,12 @@ const admissionSchema = new mongoose.Schema({
            dateBirth:{
                       type: String,
                       require: true   
-           }
+           },
+           classname:{
+                      type: Number,
+                      require: true   
+           },
+
 
 })
 

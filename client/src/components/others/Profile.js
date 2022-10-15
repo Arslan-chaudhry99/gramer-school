@@ -5,7 +5,7 @@ import Header from "./Header";
 function Profile() {
   return (
     <>
-    <Header/>
+    {/* <Header/> */}
       <div className="page-holder bg-gray-100">
         <div className="container-fluid px-lg-4 px-xl-5">
           {/* <!-- Breadcrumbs --> */}
@@ -27,15 +27,15 @@ function Profile() {
                 <div className="card card-profile mb-4">
                   <div
                     className="card-header"
-                    style={{backgroundImage:"url(dist/img/photos/paul-morris-116514-unsplash.jpg)"}}
+                    // style={{backgroundImage:"url(dist/img/photos/paul-morris-116514-unsplash.jpg)"}}
              
                   ></div>
                   <div className="card-body text-center">
-                    <img
+                    {/* <img
                       className="card-profile-img"
                       src="dist/img/avatar-7.jpg"
                       alt="Nathan Andrews"
-                    />
+                    /> */}
                     <h3 className="mb-3">Arslan Chaudhry</h3>
                     <p className="mb-4">Student</p>
                   </div>
@@ -48,12 +48,12 @@ function Profile() {
                   <div className="card-body">
                     <div className="row mb-3">
                       <div className="col-auto d-flex align-items-center ">
-                        <img
+                        {/* <img
                           type="image"
                           className="avatar avatar-lg p-1"
                           src="dist/img/avatar-7.jpg"
                           alt="Avatar"
-                        />
+                        /> */}
                       </div>
                       <div className="col">
                         <label className="form-label">Name</label>
@@ -72,7 +72,7 @@ function Profile() {
                     <input
                       className="form-control"
                       type="password"
-                      value="password"
+                      // value="password"
                     />
                   </div>
                   <div className="card-footer text-end">

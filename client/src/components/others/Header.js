@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router";
 const Header = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const Header = () => {
       <header className="header">
         <nav className="navbar navbar-expand-lg px-4 py-2bg-white ">
           <li className="nav-item dropdown " style={{ listStyle: "none" }}>
-            <a
+            <span
               className="sidebar-toggler text-gray-500 me-4 me-lg-5 lead "
               id="userInfo"
               data-bs-toggle="dropdown"
@@ -22,25 +22,25 @@ const Header = () => {
               aria-expanded="false"
             >
               <i className="fas fa-align-left  "></i>
-            </a>
+            </span>
             <div
               className="dropdown-menu dropdown-menu-start dropdown-menu-animated"
               aria-labelledby="userInfo"
             >
-              <Link to="/Home">
-                <a className="dropdown-item ">Home</a>
-              </Link>
+              <NavLink to="/Home">
+                <span className="dropdown-item ">Home</span>
+              </NavLink>
             </div>
           </li>
 
-          <a
+          <span
             className="navbar-brand fw-bold text-uppercase text-base "
             onClick={main}
             style={{ cursor: "pointer" }}
           >
             <span className="d-none d-brand-partial">Usman's </span>
             <span className="d-none d-sm-inline">Dashboard</span>
-          </a>
+          </span>
           <ul className="ms-auto d-flex align-items-center list-unstyled mb-0">
             <li className="nav-item dropdown">
               <form className="ms-auto me-4 d-none d-lg-block" id="searchForm">
@@ -59,7 +59,7 @@ const Header = () => {
             </li>
 
             <li className="nav-item dropdown ms-auto">
-              <a
+              <span
                 className="nav-link pe-0 "
                 id="userInfo"
                 data-bs-toggle="dropdown"
@@ -69,10 +69,10 @@ const Header = () => {
                 <img
                   className="avatar p-1"
                   src="dist/img/avatar-6.jpg"
-                  alt="Jason Doe"
+                  alt="img"
                   style={{ cursor: "pointer" }}
                 />
-              </a>
+              </span>
               <div
                 className="dropdown-menu dropdown-menu-end dropdown-menu-animated"
                 aria-labelledby="userInfo"
@@ -83,17 +83,17 @@ const Header = () => {
                 </div>
 
                 <div className="dropdown-divider"></div>
-                <a className="dropdown-item d-flex" style={{alignItems:"center", cursor:"pointer"}} onClick={settingUser}>
+                <span className="dropdown-item d-flex" style={{alignItems:"center", cursor:"pointer"}} onClick={settingUser}>
                   <i
-                    class="fa fa-cog "
+                    className="fa fa-cog "
                     aria-hidden="true"
                     style={{ fontSize: "20px" }}
                   ></i>
                   <span style={{marginLeft:"10px"}} >Setting</span>
-                </a>
+                </span>
                 <div className="dropdown-divider"></div>
-                <a className="dropdown-item text-danger" style={{cursor:"pointer"}}>
-                Logout</a>
+                <span className="dropdown-item text-danger" style={{cursor:"pointer"}}>
+                Logout</span>
               </div>
             </li>
           </ul>

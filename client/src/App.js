@@ -11,7 +11,7 @@ import Booksledger from "./components/others/Booksledger";
 import Error from "./components/others/Error";
 import Setting from "./components/others/Setting";
 import LedgerDetails from "./components/others/LedgerDetails";
-
+import Share from "./Share";
 const App = () => {
   let user = true
   
@@ -25,16 +25,17 @@ const App = () => {
               <Route path="*" element={<Login />} />
             ) : (
               <>
-                <Route path="/" element={<Main />} />
-                <Route path="/Home" element={<Main />} />
+                <Route path="/" element={<Share />} >
+                <Route index path="/Home" element={<Main />} />
                 <Route path="/regestration" element={<Contact />} />
                 <Route path="/SchoolCards" element={<SchoolCards />} />
-                <Route path="/Profile" element={<Profile />} />
+                <Route path="/Profile/:userId" element={<Profile />} />
                 <Route path="/Registration-form" element={<RegisForm />} />
                 <Route path="/students-details" element={<Contact />} />
                 <Route path="/Books-ledger" element={<Booksledger />} />
                 <Route path="/Setting" element={<Setting />} />
                 <Route path="/more-details/:id" element={<LedgerDetails />} />
+                </Route>
                 <Route
                   path="*"
                   element={
