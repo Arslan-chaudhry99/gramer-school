@@ -41,6 +41,14 @@ const admissionSchema = new mongoose.Schema({
                       type: Number,
                       require: true   
            },
+           rollNumber:{
+                      type: Number,
+                      require: true   
+           },
+           education:{
+                      type: String,
+                      require: true   
+           }
 
 
 })

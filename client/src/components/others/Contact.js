@@ -93,7 +93,10 @@ const Contact = () => {
                             >
                               {items.status}
                             </h3>
-                            <p className="text-muted text-sm mb-0"> {`${items.classname}th Class`}</p>
+                            {
+                              items.status === "Student" ?<p className="text-muted text-sm mb-0"> {`${items.classname}th Class`}</p>:<p className="text-muted text-sm mb-0"> {`${items.education}`}</p>
+                            }
+                            
                           </div>
                         </div>
                       </div>

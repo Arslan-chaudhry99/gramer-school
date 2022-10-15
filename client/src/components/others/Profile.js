@@ -4,15 +4,22 @@ import { useContext, useEffect } from "react";
 import { AppContext } from "../Context/Context";
 import { useParams } from "react-router";
 function Profile() {
-  const { fetchSchoolAbout, schoolData } = useContext(AppContext)
+  const { fetchSchoolAbout, schoolData, ftechLedger, ledgerDataVal } = useContext(AppContext)
   const { userId } = useParams("userId")
   useEffect(() => {
     fetchSchoolAbout()
+    ftechLedger()
   }, [])
   const canData = schoolData.filter((item) => {
     return item._id === userId
   })
-console.log(canData);
+
+  let remainingLedger = ledgerDataVal.filter((ledg) => {
+    return ledg.name === canData.name
+
+  })
+  console.log(remainingLedger);
+
   return (
     <>
       {canData.map((item) => {
@@ -49,49 +56,41 @@ console.log(canData);
                         />
                         <h3 className="mb-3">{item.name}</h3>
                         <p className="mb-4">{item.status}</p>
-                        <button class="btn btn-outline-dark btn-sm">
+                        <button class="btn btn-outline-dark btn-sm" onClick={() => {
+                          window.print()
+                        }}>
                           Active</button>
                       </div>
-                      
+
                     </div>
 
                     <form className="card mb-4">
                       <div className="card-header">
-                        <h4 className="card-heading">Update Student Profile</h4>
+                        <h4 className="card-heading">Payment Details</h4>
                       </div>
-                      <div className="card-body">
-                        <div className="row mb-3">
-                          <div className="col-auto d-flex align-items-center ">
-                            <img
-                              type="image"
-                              className="avatar avatar-lg p-1"
-                              src="/avatar-1.jpg"
-                              alt="Avatar"
-                            />
+                      <div>
+                        <div className="col-sm-12 col-md-12 p-3">
+
+                          <span className="form-control" data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-eye " aria-hidden="true"></i>
+                            <span style={{ marginLeft: "7px" }}>Student Ledger</span> </span>
+                          <div class="collapse mt-3" id="collapseExample">
+                            <span class="form-control d-flex justify-content-between align-items-center"><span>Rs 40000/-</span><span className="btn btn-sm btn-warning shadow" >PayNow!</span> </span>
                           </div>
-                          <div className="col">
-                            <label className="form-label">Name</label>
-                            <input className="form-control" placeholder="Your name" />
+                        </div>
+                        {/* fee payment */}
+                        <div className="col-sm-12 col-md-12 p-3">
+
+                          <span className="form-control" data-bs-toggle="collapse" href="#collapseExample1" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-credit-card shadow" aria-hidden="true"></i>
+                            <span style={{ marginLeft: "7px" }}>Student Fee</span> </span>
+                          <div class="collapse mt-3" id="collapseExample1">
+
+                            <span class="form-control d-flex justify-content-between align-items-center"><span>12/3/2022</span><span>Rs 40000/-</span><span className="btn btn-sm btn-warning shadow" >PayNow!</span> </span>
                           </div>
                         </div>
 
-                        <div className="mb-3">
-                          <label className="form-label">Email</label>
-                          <input
-                            className="form-control"
-                            placeholder="you@domain.com"
-                          />
-                        </div>
-                        <label className="form-label">Password</label>
-                        <input
-                          className="form-control"
-                          type="password"
-                        // value="password"
-                        />
+
                       </div>
-                      <div className="card-footer text-end">
-                        <button className="btn btn-primary">Edit Information</button>
-                      </div>
+
                     </form>
                   </div>
                   <div className="col-lg-8">
@@ -136,29 +135,31 @@ console.log(canData);
                             <div className="mb-4">
                               <label className="form-label">Address</label>
                               <span className="form-control">
-                               {item.address}
+                                {item.address}
                               </span>
                             </div>
                           </div>
                           <div className="col-sm-6 col-md-4">
                             <div className="mb-4">
-                              <label className="form-label">{item.status === "Teacher"? "Education":"Class Name"}</label>
-                              <span className="form-control">4th className</span>
+                              <label className="form-label">{item.status === "Teacher" ? "Education" : "Class Name"}</label>
+                              {item.status === "Teacher" ? <span className="form-control">{item.education}th className</span> : <span className="form-control">{item.classname}th className</span>}
+
                             </div>
+
                           </div>
                           <div className="col-sm-6 col-md-3">
                             <div className="mb-4">
-                              <label className="form-label">{item.status === "Teacher"? "Teacher Pay":"Student Fee"}</label>
+                              <label className="form-label">{item.status === "Teacher" ? "Teacher Pay" : "Student Fee"}</label>
                               <span className="form-control">Rs {item.fee}/-</span>
                             </div>
                           </div>
-                          {item.status === "Teacher"? "": <div className="col-md-5">
+                          {item.status === "Teacher" ? "" : <div className="col-md-5">
                             <div className="mb-4">
                               <label className="form-label">Roll Number</label>
-                              <span className="form-control">12</span>
+                              <span className="form-control">{item.rollNumber}</span>
                             </div>
                           </div>}
-                         
+
                         </div>
                       </div>
                     </form>

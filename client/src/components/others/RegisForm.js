@@ -14,7 +14,10 @@ const RegisForm = () => {
     fee: "",
     address: "",
     dateBirth: "",
-    classname:0
+    classname:0,
+    rollNumber:0,
+    education:""
+
 
   });
   
@@ -38,7 +41,7 @@ const RegisForm = () => {
     e.preventDefault();
     console.log(Admission);
     const {
-      name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth,classname
+      name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth,classname,rollNumber,education
     } = Admission;
 
     if (!name || !motherName || !cnic || !status || !fatherName || !phone || !fee || !address || !dateBirth ) {
@@ -143,6 +146,16 @@ const RegisForm = () => {
                 <label className="form-label">Class</label>
                 <input className="form-control" onChange={setData} type="Number" name="classname" />  
                </div> :""
+              }
+              {
+                Status === "Student" ?
+                <div className="mb-3">
+                <label className="form-label">Roll Number</label>
+                <input className="form-control" onChange={setData} type="Number" name="rollNumber" value={Admission.rollNumber} />  
+               </div> :<div className="mb-3">
+                <label className="form-label">Education</label>
+                <input className="form-control" onChange={setData} type="text" name="education" value={Admission.education} />  
+               </div> 
               }
 
               <div className="mb-3">
