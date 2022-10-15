@@ -26,7 +26,8 @@ const App = () => {
             ) : (
               <>
                 <Route path="/" element={<Share />} >
-                <Route index path="/Home" element={<Main />} />
+
+                <Route index path="/" element={<Main />} />
                 <Route path="/regestration" element={<Contact />} />
                 <Route path="/SchoolCards" element={<SchoolCards />} />
                 <Route path="/Profile/:userId" element={<Profile />} />

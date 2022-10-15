@@ -11,7 +11,7 @@ const Contact = () => {
   useEffect(() => {
     fetchSchoolAbout()
   }, [])
-  console.log(schoolData);
+  
   return (
     <>
       {/* <Header /> */}

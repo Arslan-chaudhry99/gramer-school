@@ -2,6 +2,7 @@ import React from "react";
 import Header from "./Header";
 import { useState, useEffect } from "react";
 const RegisForm = () => {
+  const variCnic=/^-[0-9]/g
   const [Status, setStatus] = useState("Teacher")
   const [Admission, setAdmission] = useState({
     name: "",
@@ -108,7 +109,7 @@ const RegisForm = () => {
               </div>
               <div className="mb-3">
                 <label htmlFor="cnic" className="form-label"> CNIC</label>
-                <input className="form-control" name="cnic" type="tel" value={Admission.cnic} onChange={setData} pattern="[0-9]{5}-[0-9]{7}-[0-9]{1}" />
+                <input className="form-control" name="cnic" type="text" value={Admission.cnic} onChange={setData} pattern="[0-9]{5}-[0-9]{7}-[0-9]{1}" />
                 <small>35103-3313331-7</small>
               </div>
               <div className="mb-3">
@@ -130,7 +131,7 @@ const RegisForm = () => {
               </select>
               <div className="mb-3">
                 <label className="form-label">Father Name</label>
-                <input className="form-control" onChange={setData} type="text" name="className" value={Admission.fatherName} />
+                <input className="form-control" onChange={setData} type="text" name="fatherName" value={Admission.fatherName}  />
               </div>
               <div className="mb-3">
                 <label className="form-label">Phone</label>

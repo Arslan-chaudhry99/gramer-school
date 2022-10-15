@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 const Header = () => {
   const navigate = useNavigate();
   const main = () => {
-    navigate("/Home");
+    navigate("/");
   };
   const settingUser=()=>{
     navigate("/setting");
@@ -27,7 +27,7 @@ const Header = () => {
               className="dropdown-menu dropdown-menu-start dropdown-menu-animated"
               aria-labelledby="userInfo"
             >
-              <NavLink to="/Home">
+              <NavLink to="/">
                 <span className="dropdown-item ">Home</span>
               </NavLink>
             </div>
@@ -43,19 +43,7 @@ const Header = () => {
           </span>
           <ul className="ms-auto d-flex align-items-center list-unstyled mb-0">
             <li className="nav-item dropdown">
-              <form className="ms-auto me-4 d-none d-lg-block" id="searchForm">
-                <div className="input-group input-group-sm input-group-navbar">
-                  <input
-                    className="form-control"
-                    id="searchInput"
-                    type="search"
-                    placeholder="Search"
-                  />
-                  <button className="btn" type="button">
-                    <i className="fas fa-search"></i>
-                  </button>
-                </div>
-              </form>
+             
             </li>
 
             <li className="nav-item dropdown ms-auto">
@@ -68,7 +56,7 @@ const Header = () => {
               >
                 <img
                   className="avatar p-1"
-                  src="dist/img/avatar-6.jpg"
+                  src="/avatar-1.jpg"
                   alt="img"
                   style={{ cursor: "pointer" }}
                 />
