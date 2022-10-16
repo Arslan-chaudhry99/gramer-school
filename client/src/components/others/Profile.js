@@ -1,10 +1,12 @@
 import React from "react";
 import Header from "./Header";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../Context/Context";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 function Profile() {
+  const [statusChek, setstatusChek] = useState(1)
+
   const { fetchSchoolAbout, schoolData, ftechLedger, ledgerDataVal } = useContext(AppContext)
   const { userId } = useParams("userId")
   useEffect(() => {
@@ -19,6 +21,18 @@ function Profile() {
     return ledg.className === canData[0].classname && ledg.rollNumber === canData[0].rollNumber
 
   })
+  const adcanceremainingLedger = remainingLedger.filter((item) => {
+    if (statusChek === 1) {
+      return item.remaning === 1 || item.remaning > 1
+    }
+    if (statusChek === 0) {
+      return item.remaning === 0
+    }
+
+  })
+
+  // statusChek
+  // console.log(remainingLedger);
   //  console.log(remainingLedger);
 
   return (
@@ -70,15 +84,28 @@ function Profile() {
                         <h4 className="card-heading">Payment Details</h4>
                       </div>
                       <div>
-                        <div className="col-sm-12 col-md-12 p-3">
+                        <div className="col-sm-12 col-md-12 p-3 ">
 
-                          <span className="form-control" data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-eye " aria-hidden="true"></i>
-                            <span style={{ marginLeft: "7px" }}>Student Ledger</span> </span>
+                          <span className="form-control" data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            <span>
+                              <i class="fa fa-eye " aria-hidden="true"></i>
+                              <span style={{ marginLeft: "7px" }}>Student Ledger</span>
+                            </span>
+
+                          </span>
+
                           <div class="collapse mt-3" id="collapseExample">
+                            <span class="form-control mb-2 d-flex justify-content-between align-items-center">
 
+
+                              <span className="btn btn-sm btn-success col-md-5"
+                                onClick={() => { setstatusChek(0) }} >History</span>
+                              <span className="btn btn-sm btn-danger col-md-5" onClick={() => { setstatusChek(1) }}>Unpaid</span>
+
+                            </span>
                             {/*  */}
                             {
-                              remainingLedger.map((data) => {
+                              adcanceremainingLedger.map((data) => {
 
                                 return (
                                   <>
