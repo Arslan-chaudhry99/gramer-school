@@ -3,6 +3,7 @@ import Header from "./Header";
 import { useContext, useEffect } from "react";
 import { AppContext } from "../Context/Context";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 function Profile() {
   const { fetchSchoolAbout, schoolData, ftechLedger, ledgerDataVal } = useContext(AppContext)
   const { userId } = useParams("userId")
@@ -13,12 +14,12 @@ function Profile() {
   const canData = schoolData.filter((item) => {
     return item._id === userId
   })
-
+  // console.log(canData[0].classname,canData[0].rollNumber);
   let remainingLedger = ledgerDataVal.filter((ledg) => {
-    return ledg.name === canData.name
+    return ledg.className === canData[0].classname && ledg.rollNumber === canData[0].rollNumber
 
   })
-  console.log(remainingLedger);
+  //  console.log(remainingLedger);
 
   return (
     <>
@@ -74,7 +75,26 @@ function Profile() {
                           <span className="form-control" data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-eye " aria-hidden="true"></i>
                             <span style={{ marginLeft: "7px" }}>Student Ledger</span> </span>
                           <div class="collapse mt-3" id="collapseExample">
-                            <span class="form-control d-flex justify-content-between align-items-center"><span>Rs 40000/-</span><span className="btn btn-sm btn-warning shadow" >PayNow!</span> </span>
+
+                            {/*  */}
+                            {
+                              remainingLedger.map((data) => {
+
+                                return (
+                                  <>
+                                    <span class="form-control d-flex justify-content-between align-items-center mb-2">
+                                      <span>Rs {data.amount}/-</span>
+                                      <Link to={"/more-details/" + data._id}>
+                                        {data.remaning === 0 ? <span className="btn btn-sm btn-success shadow" >Paid</span> : <span className="btn btn-sm btn-warning shadow" >PayNow!</span>}
+                                      </Link>
+                                    </span>
+                                  </>
+                                )
+                              })
+                            }
+
+                            {/*  */}
+
                           </div>
                         </div>
                         {/* fee payment */}
@@ -139,7 +159,7 @@ function Profile() {
                               </span>
                             </div>
                           </div>
-                          <div className="col-sm-6 col-md-4">
+                          <div className="col-sm-6 col-md-8">
                             <div className="mb-4">
                               <label className="form-label">{item.status === "Teacher" ? "Education" : "Class Name"}</label>
                               {item.status === "Teacher" ? <span className="form-control">{item.education}th className</span> : <span className="form-control">{item.classname}th className</span>}

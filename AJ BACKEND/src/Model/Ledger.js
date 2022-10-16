@@ -26,7 +26,18 @@ const ledgerSchema = new mongoose.Schema({
            remaning: {
                       type: Number,
                       require: true
+           },
+           date: {
+                      type: String,
+                      require: true,
+
+
+           },
+           endDate: {
+                      type: String,
+                      require:false
            }
+
 })
 
 const Ledger = mongoose.model("Ledger", ledgerSchema);

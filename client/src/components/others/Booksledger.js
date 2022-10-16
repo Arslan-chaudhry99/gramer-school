@@ -13,7 +13,7 @@ const Booksledger = () => {
   //navigation
   const navigate = useNavigate()
   const [Ledger, setLedger] = useState({
-    name: "", className: "", rollNumber: "", amount: "", details: "", remaning: 0
+    name: "", className: "", rollNumber: "", amount: "", details: "", remaning: 0, date: "", 
   })
   let name;
   let value;
@@ -25,8 +25,8 @@ const Booksledger = () => {
   }
   const addNewLedger = async (e) => {
     e.preventDefault()
-    const { name, className, rollNumber, amount, details } = Ledger
-    if (!name || !className || !rollNumber || !amount || !details) {
+    const { name, className, rollNumber, amount, details, date } = Ledger
+    if (!name || !className || !rollNumber || !amount || !details || !date) {
       return alert("Please fill each and every field and not that class name, roll number and amout must be a number")
     }
 
@@ -94,9 +94,13 @@ const Booksledger = () => {
             </div>
             <div className="mb-3">
               <label className="form-label">Payable Amount*</label>
-              <input className="form-control" name="amount" value={Ledger.amount} type="Number" min={"1"} onChange={setLedgerData} required />
-
+              <input className="form-control" name="amount" value={Ledger.amount} type="Number" min={"1"} onChange={setLedgerData} required="true" />
             </div>
+            <div className="mb-3">
+              <label className="form-label">Starting Date</label>
+              <input className="form-control" name="date" type="date" onChange={setLedgerData} />
+            </div>
+           
             <div className="mb-3">
               <label className="form-label">Details*</label>
               <input className="form-control" name="details" type="text" value={Ledger.details} onChange={setLedgerData} required />
@@ -142,7 +146,7 @@ const Booksledger = () => {
 
             </div>
             <div className="dataTable-search">
-              
+
             </div>
           </div>
           <div className="card-body">
