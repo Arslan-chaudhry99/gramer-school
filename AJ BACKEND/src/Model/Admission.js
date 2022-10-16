@@ -48,6 +48,11 @@ const admissionSchema = new mongoose.Schema({
            education:{
                       type: String,
                       require: true   
+           },
+           currentStatus:{
+                     type:Boolean,
+                     require:true
+                      
            }
 
 

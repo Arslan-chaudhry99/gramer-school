@@ -1,23 +1,15 @@
-<span class="card-header-more">
-  <button
-    class="btn-header-more"
-    type="button"
-    data-bs-toggle="dropdown"
-    aria-haspopup="true"
-    aria-expanded="false"
-  >
-    <i class="fas fa-ellipsis-v"></i>
-  </button>
-  <div class="dropdown-menu dropdown-menu-end text-sm">
-    <span class="dropdown-item" href="#!">
-      <i class="fas fa-expand-arrows-alt opacity-5 me-2"></i>Expand
-    </span>
-    <span class="dropdown-item" href="#!">
-      <i class="far fa-window-minimize opacity-5 me-2"></i>Minimize
-    </span>
-    <span class="dropdown-item" href="#!">
-      <i class="fas fa-redo opacity-5 me-2"></i> Reload
-    </span>
-    
+{/* <button type="button" className="btn btn-primary" id="liveToastBtn">Show live toast</button> */}
+
+<div className="position-fixed bottom-0 end-0 p-3" style={{zIndex:"11"}}>
+  <div id="liveToast" className="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div className="toast-header">
+      <img src="..." className="rounded me-2" alt="..."/>
+      <strong className="me-auto">Bootstrap</strong>
+      <small>11 mins ago</small>
+      <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div className="toast-body">
+      Hello, world! This is a toast message.
+    </div>
   </div>
-</span>
+</div>

@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState ,useRef} from "react";
 import { AppContext } from "../Context/Context";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -30,15 +30,24 @@ function Profile() {
     }
 
   })
+  // adcanceremainingLedger.reverse()
 
   // statusChek
   // console.log(remainingLedger);
   //  console.log(remainingLedger);
 
+  
+  
+  const copyToClip=()=>{
+  navigator.clipboard.writeText(document.getElementById("currentId").value);
+  return alert("Copied!")
+
+  }
   return (
     <>
       {canData.map((item) => {
         return (<>
+        
           <div className="page-holder bg-gray-100">
             <div className="container-fluid px-lg-4 px-xl-5">
               {/* <!-- Breadcrumbs --> */}
@@ -71,10 +80,22 @@ function Profile() {
                         />
                         <h3 className="mb-3">{item.name}</h3>
                         <p className="mb-4">{item.status}</p>
-                        <button class="btn btn-outline-dark btn-sm" onClick={() => {
-                          window.print()
-                        }}>
-                          Active</button>
+
+                        {
+                          item.currentStatus === true ? <button className="btn btn-sm btn-success shadow-0">Active</button> : <button className="btn btn-sm btn-danger shadow-0">Disabled</button>
+                        }
+                        <div class="input-group mb-3 mt-3">
+                          <input type="text" class="form-control" value={item._id}
+                         id="currentId"
+                          />
+                         
+                          <span class="input-group-text" id="liveToastBtn" style={{cursor:"pointer"}} onClick={copyToClip}>
+                         
+                          <i class="fa fa-clone text-info" aria-hidden="true"></i>
+
+                          </span>
+                        </div>
+
                       </div>
 
                     </div>
@@ -85,17 +106,20 @@ function Profile() {
                       </div>
                       <div>
                         <div className="col-sm-12 col-md-12 p-3 ">
+                          {
+                            item.status === "Teacher" ? "" :
+                              <span className="form-control" data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                <span>
+                                  <i class="fa fa-eye " aria-hidden="true"></i>
+                                  <span style={{ marginLeft: "7px" }}>Student Ledger</span>
+                                </span>
 
-                          <span className="form-control" data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                            <span>
-                              <i class="fa fa-eye " aria-hidden="true"></i>
-                              <span style={{ marginLeft: "7px" }}>Student Ledger</span>
-                            </span>
+                              </span>
+                          }
 
-                          </span>
 
-                          <div class="collapse mt-3" id="collapseExample">
-                            <span class="form-control mb-2 d-flex justify-content-between align-items-center">
+                          <span class="collapse mt-3" id="collapseExample">
+                            <span class="form-control mb-2 d-flex justify-content-between align-items-center mt-3">
 
 
                               <span className="btn btn-sm btn-success col-md-5"
@@ -122,13 +146,13 @@ function Profile() {
 
                             {/*  */}
 
-                          </div>
+                          </span>
                         </div>
                         {/* fee payment */}
                         <div className="col-sm-12 col-md-12 p-3">
 
                           <span className="form-control" data-bs-toggle="collapse" href="#collapseExample1" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-credit-card shadow" aria-hidden="true"></i>
-                            <span style={{ marginLeft: "7px" }}>Student Fee</span> </span>
+                            <span style={{ marginLeft: "7px" }}>{item.status === "Teacher" ? "Teacher Sellery" : "Student Fee"} </span> </span>
                           <div class="collapse mt-3" id="collapseExample1">
 
                             <span class="form-control d-flex justify-content-between align-items-center"><span>12/3/2022</span><span>Rs 40000/-</span><span className="btn btn-sm btn-warning shadow" >PayNow!</span> </span>

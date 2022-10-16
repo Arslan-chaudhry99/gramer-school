@@ -16,8 +16,8 @@ const RegisForm = () => {
     dateBirth: "",
     classname:0,
     rollNumber:0,
-    education:""
-
+    education:"",
+    currentStatus:true
 
   });
   
@@ -41,7 +41,7 @@ const RegisForm = () => {
     e.preventDefault();
     console.log(Admission);
     const {
-      name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth,classname,rollNumber,education
+      name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth,classname,rollNumber,education,currentStatus
     } = Admission;
 
     if (!name || !motherName || !cnic || !status || !fatherName || !phone || !fee || !address || !dateBirth ) {

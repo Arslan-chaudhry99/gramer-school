@@ -7,7 +7,7 @@ const Setting = () => {
   const cpass = useRef()
   // hide pass or unhide
   const hideOrvis = (e) => {
-   
+
   }
   // password and username authentication
   const passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
@@ -339,6 +339,49 @@ const Setting = () => {
             </div>
           </div>
 
+        </div>
+      </div>
+      <div className="col-lg-10 mb-5 " style={{ marginLeft: "5%" }}>
+        <div className="card">
+          <div className="card-header">
+            <h4 className="card-heading">Enable Or Disable Candidate</h4>
+          </div>
+          <div className="card-body">
+            <form method="POST">
+              <div className="form-floating mb-3 d-flex">
+                <input
+                  className="form-control shadow-0"
+                  id="name"
+                  name="name"
+                  type="text"
+                  value={User.name}
+                  onChange={addAdmin}
+                  autoComplete="off"
+                  required
+                  placeholder=""
+                />
+                <button className="btn btn-warning btn-sm" style={{ marginLeft: "-100px" }}>Search Candidate</button>
+                <label htmlFor="floatingInput">Please Enter Candidate ID</label>
+              </div>
+              <div className="dropdown-divider"></div>
+              <div className="">
+                <span className="form-control d-flex justify-content-between">
+                  <span style={{ fontSize: "20px" }} className="btn btn-sm btn-info">Arslan</span>
+                  <span style={{ fontSize: "20px" }} className="btn btn-sm btn-info">Class Name {1}</span>
+                  <span style={{ fontSize: "20px" }} className="btn btn-sm btn-info">Roll Number {1}</span>
+                  <span class="form-check form-switch btn btn-sm btn-info"   style={{ fontSize: "20px" }}>
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked />
+                    
+                  </span>
+                </span>
+
+              </div>
+
+
+
+
+            </form>
+          </div>
         </div>
       </div>
     </>
