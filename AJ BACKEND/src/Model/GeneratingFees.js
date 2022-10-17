@@ -28,10 +28,32 @@ const feeSchema=new mongoose.Schema({
                       type:Number,
                       require:true
            },
-           feeStatus:{
-                      type:String,
+           
+           remaning:{
+                      type:Number,
                       require:true
+           },
+           endDate:{
+                  type:String,
+                  require:true    
+           },
+           name:{
+              type:String,
+              require:true
+           },
+           fname:{
+              type:String,
+              require:true
+           },
+           motherName:{
+              type:String,
+              require:true
+           },
+           status:{
+              type:String,
+              require:true
            }
+
 })
 
 const Fee=mongoose.model("Fee",feeSchema);

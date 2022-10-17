@@ -15,7 +15,13 @@ router.post("/admit", async (req, res) => {
                       }
                       else {
                                  const user = new Admission({ name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth, classname, rollNumber, education, currentStatus });
-                                 if (generateRollNumber.length !== 0) {
+                                 if (generateRollNumber[0].status === "Teacher") {
+                                            const registerUser = await user.save();
+                                            if (registerUser) {
+                                                       return res.status(200).json({ success: "success" });
+                                            }
+                                 }
+                                 if (generateRollNumber.length !== 0  ) {
                                             return res.status(401).json({ success: "Roll Number Not Available try an other." });
                                  }
                                  const registerUser = await user.save();

@@ -12,6 +12,7 @@ import Error from "./components/others/Error";
 import Setting from "./components/others/Setting";
 import LedgerDetails from "./components/others/LedgerDetails";
 import Share from "./Share";
+import Feepayment from "./components/others/Feepayment";
 const App = () => {
   let user = true
   
@@ -37,6 +38,7 @@ const App = () => {
                 <Route path="/Setting" element={<Setting />} />
                 <Route path="/more-details/:id" element={<LedgerDetails />} />
                 </Route>
+                <Route path="/paynow/:id" element={<Feepayment />} />
                 <Route
                   path="*"
                   element={

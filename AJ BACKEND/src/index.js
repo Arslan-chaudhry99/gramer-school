@@ -14,9 +14,10 @@ const fun=require("../src/router/GeneratingFees")
 app.use(require("./router/Auth"));
 app.use(require("./router/Ledger"));
 app.use(require("./router/Admission"));
-
+app.use(require("./router/CurrentFees"))
+app.use(require("./router/CurrentFees"))
 //server listener
-corn.schedule("0 0 1 * *", function(){
+corn.schedule("34 21 17 * *", function(){
   console.log("work");
   fun()
 })

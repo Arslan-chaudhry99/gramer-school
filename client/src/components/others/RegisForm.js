@@ -161,7 +161,7 @@ const RegisForm = () => {
               }
 
               <div className="mb-3">
-                <label className="form-label">Fee / Sellery </label>
+                <label className="form-label">{Status !== "Teacher"? "Fee":"Sellery"} </label>
                 <input className="form-control" onChange={setData} type="Number" name="fee" value={Admission.fee} />
 
                 <div className="mb-3">

@@ -1,8 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router";
-
-import Header from "./Header";
+import { AppContext } from "../Context/Context";
+import { useContext } from "react";
+import { useEffect } from "react";
+import { Link } from "react-router-dom"
 const Main = () => {
+  const { candidatesFee, candiFees } = useContext(AppContext)
+
   // register a user
   const navigate = useNavigate()
   const register = () => {
@@ -17,7 +21,17 @@ const Main = () => {
     navigate("/Books-ledger")
   }
 
-  
+  useEffect(() => {
+    candidatesFee()
+  }, [])
+  // student filter
+  const studentsFilter = candiFees.filter((item) => {
+    return item.status !== "Teacher"
+  })
+  const teacherFilter = candiFees.filter((item) => {
+    return item.status === "Teacher"
+  })
+  console.log(teacherFilter);
   return (
     <>
 
@@ -105,7 +119,6 @@ const Main = () => {
             </div>
             <div className="row mb-3">
               {/* fee and sellery details */}
-
               <div className="col-lg-8 mb-4">
                 <div className="card card-table h-100">
                   <div className="card-header">
@@ -118,47 +131,53 @@ const Main = () => {
                           <tr>
                             <th>Name</th>
                             <th>Roll Number</th>
-                            <th>Due Date</th>
-                            <th>Submite</th>
+                            <th>Starting Date</th>
+                            <th>Status</th>
                             <th className="text-end">Status*</th>
                           </tr>
                         </thead>
-                        <tbody className="align-middle">
-                          <tr>
-                            <td>
-                              <span className="d-flex align-items-center">
-                                <img
-                                  className="avatar p-1 me-2"
-                                  src="dist/img/avatar-0.jpg"
-                                  alt="Nielsen Cobb"
-                                />
-                                <span className="d-inline-block">
-                                  <strong>Arslan</strong>
-                                  <br />
-                                  <span className="text-muted text-sm">
-                                    4th Class
-                                  </span>
-                                </span>
-                              </span>
-                            </td>
-                            <td>14</td>
-                            <td>January 25</td>
-                            <td>N/A</td>
-                            <td className="text-end">
-                              {/* <span className="btn btn-success btn-sm text-white">
-                                Paid
-                              </span> */}
-                              <button className="btn btn-info btn-sm">Pay Now</button>
-                            </td>
+                        {/*  */}
+                        {studentsFilter.map((item, index) => {
+                          return (
+                            <>
+                              <tbody className="align-middle" key={index}>
+                                <tr>
+                                  <td>
+                                    <span className="d-flex align-items-center">
 
-                          </tr>
-                        </tbody>
+                                      <span className="d-inline-block">
+                                        <strong>{item.name}</strong>
+                                        <br />
+                                        <span className="text-muted text-sm">
+                                          {item.classname}th Class
+                                        </span>
+                                      </span>
+                                    </span>
+                                  </td>
+                                  <td>{item.rollNumber}</td>
+                                  <td>{item.startingDate}</td>
+                                  <td>{item.remaning !== 0 ? <span class="badge me-2 badge-danger-light">Unpaid</span> : <span class="badge me-2 badge-success-light">Paid</span>}</td>
+                                  <td className="text-end">
+                                    {
+                                      item.remaning !== 0 ? <Link to={"/paynow/"+item._id}> <button className="btn btn-info btn-sm">Pay Now</button></Link> :  <Link to={"/paynow/"+item._id}> <button className="btn btn-success btn-sm">Paid</button></Link>
+                                    }
+
+
+                                  </td>
+
+                                </tr>
+                              </tbody>
+                            </>
+                          )
+                        })}
+
                       </table>
                     </div>
                   </div>
 
                 </div>
               </div>
+
               {/* <!-- </Projects Table>-->
               <!-- <Team Members>--> */}
               <div className="col-lg-4 mb-4">
@@ -166,32 +185,42 @@ const Main = () => {
                   <div className="card-header">
                     <h5 className="card-heading">Teachers sellery</h5>
                   </div>
-                  <div className="card-body pb-2 ">
-                    <div className="d-flex align-items-center mb-3  justify-content-around">
+                  {teacherFilter.map((item) => {
+                    return (
+                      <>
+                        <div className="card-body pb-2 ">
+                          <div className="d-flex align-items-center mb-3  justify-content-around">
+                            <div className="mt-1 "  >
 
-                      <img
-                        className="avatar p-1 me-2"
-                        src="dist/img/avatar-0.jpg"
-                        alt="Nielsen Cobb"
-                      />
-                      <div className="mt-1 "  >
+                              <span
+                                className="text-dark fw-bold text-decoration-none"
 
-                        <a
-                          className="text-dark fw-bold text-decoration-none"
-                          href="#!"
-                        >
-                          Nielsen Cobb
-                        </a>
-                        <p className="text-muted text-sm mb-0 text-danger">Unpaid</p>
-
+                              >
+                                {item.name}
+                              </span>
+                              {
+                                item.remaning !== 0 ? <p className="text-muted text-sm mb-0 text-danger">Unpaid</p> : <p className="text-muted text-sm mb-0 text-success">Paid</p>
+                              }
 
 
-                      </div>
 
-                      <span className="btn btn-info btn-sm">Pay Now</span>
-                    </div>
 
-                  </div>
+                            </div>
+                            {
+                               item.remaning !== 0 ?
+                            <Link to={"/paynow/"+item._id}>
+                            <span className="btn btn-info btn-sm" >Pay Now</span>
+                            </Link>:<Link to={"/paynow/"+item._id}>
+                            <span className="btn btn-success btn-sm" >Paid</span>
+                            </Link>
+                            }
+                          </div>
+
+                        </div>
+                      </>
+                    )
+                  })}
+
 
                 </div>
               </div>

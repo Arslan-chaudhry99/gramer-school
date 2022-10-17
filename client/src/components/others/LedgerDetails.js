@@ -16,7 +16,7 @@ const LedgerDetails = () => {
     }, [])
     // payment request
     // payments
-    const [Payment, setPayment] = useState({ payAmount: 0, ledger: id, payStatus: false ,date:""})
+    const [Payment, setPayment] = useState({ payAmount: 0, ledger: id, payStatus: false, date: "" })
     let ledgerName;
     let ledgerValues
     const setQuerys = (e) => {
@@ -25,7 +25,7 @@ const LedgerDetails = () => {
         ledgerValues = e.target.value;
         setPayment({ ...Payment, [ledgerName]: ledgerValues })
     }
-console.log(ledgerDataVal);
+    console.log(ledgerDataVal);
 
     const payNow = async (e) => {
         e.preventDefault()
@@ -97,6 +97,7 @@ console.log(ledgerDataVal);
                     {
                         currentData.map((date, index) => {
                             return (<>
+                            
                                 <span className="card mb-4 container mt-4" key={index}>
                                     <div className="card-header d-flex align-items-center ">
                                         <i className="fa fa-arrow-left btn btn-sm btn-warning " style={{ marginRight: "10px" }} aria-hidden="true" onClick={goBack}></i>
@@ -143,7 +144,7 @@ console.log(ledgerDataVal);
                                             <div className="col-sm-6 col-md-6">
                                                 <div className="mb-4">
                                                     <label className="form-label">End Date</label>
-                                                    <span className='form-control'>{date.endDate ?date.endDate:"N/A" }</span>
+                                                    <span className='form-control'>{date.endDate ? date.endDate : "N/A"}</span>
                                                 </div>
                                             </div>
 
@@ -184,7 +185,8 @@ console.log(ledgerDataVal);
                                     </div>
 
                                 </span>
-                            </>)
+                            </>
+                            )
                         })
                     }
                 </div> : <div>
