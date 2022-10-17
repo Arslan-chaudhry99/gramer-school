@@ -2,7 +2,7 @@ import React from "react";
 import Header from "./Header";
 import { useState, useEffect } from "react";
 const RegisForm = () => {
-  const variCnic=/^-[0-9]/g
+  const variCnic = /^-[0-9]/g
   const [Status, setStatus] = useState("Teacher")
   const [Admission, setAdmission] = useState({
     name: "",
@@ -14,13 +14,13 @@ const RegisForm = () => {
     fee: "",
     address: "",
     dateBirth: "",
-    classname:0,
-    rollNumber:0,
-    education:"",
-    currentStatus:true
+    classname: 0,
+    rollNumber: 0,
+    education: "",
+    currentStatus: true
 
   });
-  
+
   let name;
   let value;
   const setData = (e) => {
@@ -41,13 +41,13 @@ const RegisForm = () => {
     e.preventDefault();
     console.log(Admission);
     const {
-      name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth,classname,rollNumber,education,currentStatus
+      name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth, classname, rollNumber, education, currentStatus
     } = Admission;
 
-    if (!name || !motherName || !cnic || !status || !fatherName || !phone || !fee || !address || !dateBirth ) {
+    if (!name || !motherName || !cnic || !status || !fatherName || !phone || !fee || !address || !dateBirth) {
       return alert("Please fill each an every field correctly")
     }
-    if ( cnic.length < 13 || cnic.length > 13 ) {
+    if (cnic.length < 13 || cnic.length > 13) {
       return alert("CNIC no correct please enter cnic without slah or space and cnic must have 13 digits")
     }
     else {
@@ -59,7 +59,9 @@ const RegisForm = () => {
           },
           body: JSON.stringify(Admission),
         });
-
+        if ((await res).status === 401) {
+          return alert("This Roll Number is not available please try another.")
+        }
         if ((await res).status === 200) {
           setAdmission({
             name: "",
@@ -134,7 +136,7 @@ const RegisForm = () => {
               </select>
               <div className="mb-3">
                 <label className="form-label">Father Name</label>
-                <input className="form-control" onChange={setData} type="text" name="fatherName" value={Admission.fatherName}  />
+                <input className="form-control" onChange={setData} type="text" name="fatherName" value={Admission.fatherName} />
               </div>
               <div className="mb-3">
                 <label className="form-label">Phone</label>
@@ -142,20 +144,20 @@ const RegisForm = () => {
               </div>
               {
                 Status === "Student" ?
-                <div className="mb-3">
-                <label className="form-label">Class</label>
-                <input className="form-control" onChange={setData} type="Number" name="classname" />  
-               </div> :""
+                  <div className="mb-3">
+                    <label className="form-label">Class</label>
+                    <input className="form-control" onChange={setData} type="Number" name="classname" />
+                  </div> : ""
               }
               {
                 Status === "Student" ?
-                <div className="mb-3">
-                <label className="form-label">Roll Number</label>
-                <input className="form-control" onChange={setData} type="Number" name="rollNumber" value={Admission.rollNumber} />  
-               </div> :<div className="mb-3">
-                <label className="form-label">Education</label>
-                <input className="form-control" onChange={setData} type="text" name="education" value={Admission.education} />  
-               </div> 
+                  <div className="mb-3">
+                    <label className="form-label">Roll Number</label>
+                    <input className="form-control" onChange={setData} type="Number" name="rollNumber" value={Admission.rollNumber} />
+                  </div> : <div className="mb-3">
+                    <label className="form-label">Education</label>
+                    <input className="form-control" onChange={setData} type="text" name="education" value={Admission.education} />
+                  </div>
               }
 
               <div className="mb-3">

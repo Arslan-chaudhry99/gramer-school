@@ -40,7 +40,10 @@ const Booksledger = () => {
           },
           body: JSON.stringify(Ledger),
         });
-
+         
+        if ((await res).status ===401) {
+          return alert("Seems Like Candidate note found")
+        }
         if ((await res).status === 200) {
 
           setLedger({ name: "", className: "", rollNumber: "", amount: "", details: "" })

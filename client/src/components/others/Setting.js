@@ -352,30 +352,56 @@ const Setting = () => {
                 <input
                   className="form-control shadow-0"
                   id="name"
-                  name="name"
+                  name="CandidateId"
                   type="text"
-                  value={User.name}
-                  onChange={addAdmin}
+                  value={""}
+                  // onChange={}
                   autoComplete="off"
                   required
                   placeholder=""
                 />
-                <button className="btn btn-warning btn-sm" style={{ marginLeft: "-100px" }}>Search Candidate</button>
+                <button className="btn btn-warning btn-sm" style={{ marginLeft: "-100px" }} type="submit">Search Candidate</button>
                 <label htmlFor="floatingInput">Please Enter Candidate ID</label>
               </div>
-              <div className="dropdown-divider"></div>
-              <div className="">
-                <span className="form-control d-flex justify-content-between">
-                  <span style={{ fontSize: "20px" }} className="btn btn-sm btn-info">Arslan</span>
-                  <span style={{ fontSize: "20px" }} className="btn btn-sm btn-info">Class Name {1}</span>
-                  <span style={{ fontSize: "20px" }} className="btn btn-sm btn-info">Roll Number {1}</span>
-                  <span class="form-check form-switch btn btn-sm btn-info"   style={{ fontSize: "20px" }}>
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked />
-                    
-                  </span>
-                </span>
+              <div className="card-body">
+                <div className="table-responsive">
+                  <table className="table table-borderless table-hover mb-0">
+                    <thead className="light">
+                      <tr>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Roll Number</th>
+                        
+                        <th className="text-end">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="align-middle">
+                      <tr>
+                        <td>
+                          <span className="d-flex align-items-center">
 
+                            <span className="d-inline-block">
+                              <strong>Arslan</strong>
+
+                            </span>
+                          </span>
+                        </td>
+                        <td>17:9:88</td>
+                        <td>Win 10</td>
+                        
+                        <td>
+                          <span class="form-check form-switch" >
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" />
+
+                          </span>
+                        </td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
+
 
 
 

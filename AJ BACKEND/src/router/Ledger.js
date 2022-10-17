@@ -1,12 +1,18 @@
 const express = require("express");
+const Admission = require("../Model/Admission");
 const router = express.Router();
 require("../db/conn");
 const Ledger = require("../Model/Ledger");
 router.post("/registerLedger", async (req, res) => {
   
   const { name, className, rollNumber, amount, details, remaning, date } = req.body;
+  const getCandidateId=await Admission.find({rollNumber:rollNumber,classname:className })
+  console.log(getCandidateId);
   try {
     const user = new Ledger({ name, className, rollNumber, amount, details, remaning: amount, date });
+    if (getCandidateId.length === 0) {
+      return res.status(401).json({ error: "User Not found" });
+    }
     const registerLedgerReq = await user.save();
     if (registerLedgerReq) {
       res.send("success")
