@@ -26,31 +26,18 @@ const Contact = () => {
             <div className="card mb-5">
               <div className="card-body">
                 <div className="row">
-                  <div className="col-sm-6">
+                  <div className="col-sm-12">
                     <select className="form-select d-inline-block w-auto me-3 mb-1 mb-lg-0">
-                      <option val="all">All media items</option>
-                      <option value="image">Teachers</option>
-                      <option value="image">Students</option>
+                      
+                      <option value="Teacher">Teachers</option>
+                      <option value="Student">Students</option>
                     </select>
                     <select className="form-select d-inline-block w-auto mb-1 mb-lg-0">
                       <option value="all">All dates</option>
                       <option value="all">1st Class </option>
                     </select>
                   </div>
-                  <div className="col-sm-6 text-md-end">
-                    <label
-                      className="form-label text-muted text-sm me-2 d-none d-lg-inline-block"
-                      htmlFor="media_search"
-                    >
-                      Search
-                    </label>
-                    <input
-                      className="form-control d-inline-block w-auto"
-                      id="media_search"
-                      type="search"
-                      placeholder="Search student or teacher"
-                    />
-                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -80,7 +67,7 @@ const Contact = () => {
                               <NavLink id="RouterNavLink"  to={"/Profile/" + items._id} >
                               <img
                                 className="avatar p-1 me-2"
-                                src="dist/img/avatar-0.jpg"
+                                src="/logo.jpeg"
                                 alt="img"
                               ></img>
                               </NavLink>

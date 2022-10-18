@@ -1,17 +1,19 @@
 import React from "react";
 import Header from "./Header";
-import { useContext, useEffect, useState ,useRef} from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { AppContext } from "../Context/Context";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 function Profile() {
   const [statusChek, setstatusChek] = useState(1)
 
-  const { fetchSchoolAbout, schoolData, ftechLedger, ledgerDataVal } = useContext(AppContext)
+  const { fetchSchoolAbout, schoolData, ftechLedger, ledgerDataVal, candidatesFee, candiFees } = useContext(AppContext)
+
   const { userId } = useParams("userId")
   useEffect(() => {
     fetchSchoolAbout()
     ftechLedger()
+    candidatesFee()
   }, [])
   const canData = schoolData.filter((item) => {
     return item._id === userId
@@ -32,22 +34,24 @@ function Profile() {
   })
   // adcanceremainingLedger.reverse()
 
-  // statusChek
-  // console.log(remainingLedger);
-  //  console.log(remainingLedger);
+  const teacherOrStudent = candiFees.filter((item) => {
+    return item.candidateId === userId
+  })
+console.log(teacherOrStudent);
 
-  
-  
-  const copyToClip=()=>{
-  navigator.clipboard.writeText(document.getElementById("currentId").value);
-  return alert("Copied!")
+
+
+
+  const copyToClip = () => {
+    navigator.clipboard.writeText(document.getElementById("currentId").value);
+    return alert("Copied!")
 
   }
   return (
     <>
       {canData.map((item) => {
         return (<>
-        
+
           <div className="page-holder bg-gray-100">
             <div className="container-fluid px-lg-4 px-xl-5">
               {/* <!-- Breadcrumbs --> */}
@@ -75,7 +79,7 @@ function Profile() {
                       <div className="card-body text-center">
                         <img
                           className="card-profile-img"
-                          src="/avatar-1.jpg"
+                          src="/logo.jpeg"
                           alt="Nathan Andrews"
                         />
                         <h3 className="mb-3">{item.name}</h3>
@@ -86,12 +90,12 @@ function Profile() {
                         }
                         <div class="input-group mb-3 mt-3">
                           <input type="text" class="form-control" value={item._id}
-                         id="currentId"
+                            id="currentId"
                           />
-                         
-                          <span class="input-group-text" id="liveToastBtn" style={{cursor:"pointer"}} onClick={copyToClip}>
-                         
-                          <i class="fa fa-clone text-info" aria-hidden="true"></i>
+
+                          <span class="input-group-text" id="liveToastBtn" style={{ cursor: "pointer" }} onClick={copyToClip}>
+
+                            <i class="fa fa-clone text-info" aria-hidden="true"></i>
 
                           </span>
                         </div>
@@ -154,8 +158,18 @@ function Profile() {
                           <span className="form-control" data-bs-toggle="collapse" href="#collapseExample1" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-credit-card shadow" aria-hidden="true"></i>
                             <span style={{ marginLeft: "7px" }}>{item.status === "Teacher" ? "Teacher Sellery" : "Student Fee"} </span> </span>
                           <div class="collapse mt-3" id="collapseExample1">
+                            {teacherOrStudent.map((item) => {
+                              return (
+                                <>
+                                  <span class="form-control d-flex justify-content-between align-items-center mb-2"><span>{item.startingDate}</span><span>Rs {item.payableAmoun}/-</span>
+                                  {item.remaning !== 0 ? <span className="btn btn-sm btn-warning shadow" >PayNow!</span>:<span className="btn btn-sm btn-success shadow" >Paid</span>}
+                                  
+                                  
+                                   </span>
+                                </>
+                              )
+                            })}
 
-                            <span class="form-control d-flex justify-content-between align-items-center"><span>12/3/2022</span><span>Rs 40000/-</span><span className="btn btn-sm btn-warning shadow" >PayNow!</span> </span>
                           </div>
                         </div>
 

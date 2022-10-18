@@ -19,17 +19,17 @@ const createNewFees = async () => {
                                  const currentYear = new Date().getFullYear().toString()
                                  const candidateId = item._id;
                                  const payableAmoun = item.fee
-                                 const remaning=item.fee
+                                 const remaning = item.fee
                                  const rollNumber = item.rollNumber
                                  const cnic = item.cnic
                                  const classname = item.classname
-                                 const endDate=""
-                                 const name=item.name
-                                 const fname=item.fatherName
-                                 const motherName=item.motherName
-                                 const status=item.status
+                                 const endDate = ""
+                                 const name = item.name
+                                 const fname = item.fatherName
+                                 const motherName = item.motherName
+                                 const status = item.status
                                  const candiFees = new Fee({
-                                            startingDate, currentYear, candidateId, payableAmoun, rollNumber, cnic, classname,remaning,endDate,name,fname,motherName,status
+                                            startingDate, currentYear, candidateId, payableAmoun, rollNumber, cnic, classname, remaning, endDate, name, fname, motherName, status
                                  })
                                  creatingData(candiFees)
 
@@ -40,7 +40,8 @@ const createNewFees = async () => {
            })
 }
 
-module.exports=createNewFees
+
+module.exports = createNewFees
 
 
 

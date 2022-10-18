@@ -1,12 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import { AppContext } from "../Context/Context";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom"
 const Main = () => {
   const { candidatesFee, candiFees } = useContext(AppContext)
-
+  const [Prevalue, setPrevalue] = useState(0)
+  const [Nextval, setNextval] = useState(5)
+  // console.log(Prevalue, Nextval);
   // register a user
   const navigate = useNavigate()
   const register = () => {
@@ -25,13 +27,37 @@ const Main = () => {
     candidatesFee()
   }, [])
   // student filter
+  let currentDate=new Date().toDateString()
+  
   const studentsFilter = candiFees.filter((item) => {
-    return item.status !== "Teacher"
+    return item.status !== "Teacher" && item.startingDate ===currentDate
   })
+  console.log(studentsFilter);
   const teacherFilter = candiFees.filter((item) => {
-    return item.status === "Teacher"
+    return item.status === "Teacher" && item.startingDate ===currentDate
   })
-  console.log(teacherFilter);
+  const sliceStudentsFilter = studentsFilter.slice(Prevalue, Nextval)
+  
+  const moveNext = () => {
+    if (Nextval < studentsFilter.length) {
+      setNextval(Nextval + 5)
+      setPrevalue(Prevalue + 5)
+    }
+    else{
+      return alert("No more result available")
+    }
+    
+  }
+  const moveBack = () => {
+    if (Prevalue !== 0) {
+      setNextval(Nextval - 5)
+      setPrevalue(Prevalue - 5)
+    }
+    else{
+      return alert("No previous result available")
+    }
+    
+  }
   return (
     <>
 
@@ -119,7 +145,7 @@ const Main = () => {
             </div>
             <div className="row mb-3">
               {/* fee and sellery details */}
-              <div className="col-lg-8 mb-4">
+              <div className="col-lg-12 mb-4">
                 <div className="card card-table h-100">
                   <div className="card-header">
                     <h5 className="card-heading">Students Fees</h5>
@@ -137,7 +163,7 @@ const Main = () => {
                           </tr>
                         </thead>
                         {/*  */}
-                        {studentsFilter.map((item, index) => {
+                        {sliceStudentsFilter.map((item, index) => {
                           return (
                             <>
                               <tbody className="align-middle" key={index}>
@@ -159,7 +185,82 @@ const Main = () => {
                                   <td>{item.remaning !== 0 ? <span class="badge me-2 badge-danger-light">Unpaid</span> : <span class="badge me-2 badge-success-light">Paid</span>}</td>
                                   <td className="text-end">
                                     {
-                                      item.remaning !== 0 ? <Link to={"/paynow/"+item._id}> <button className="btn btn-info btn-sm">Pay Now</button></Link> :  <Link to={"/paynow/"+item._id}> <button className="btn btn-success btn-sm">Paid</button></Link>
+                                      item.remaning !== 0 ? <Link to={"/paynow/" + item._id}> <button className="btn btn-info btn-sm">Pay Now</button></Link> : <Link to={"/paynow/" + item._id}> <button className="btn btn-success btn-sm">Paid</button></Link>
+                                    }
+
+
+                                  </td>
+
+                                </tr>
+                              </tbody>
+                            </>
+                          )
+                        })}
+
+                      </table>
+                    </div>
+                  </div>
+                  <div class="dataTable-bottom">
+                    <span class="d-flex" style={{ justifyContent: "space-between", alignItems: "center" }}>
+                      <button className="btn btn-sm btn-warning" onClick={moveBack}>
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        <span style={{ marginLeft: "4px" }} >Move To Previous</span>
+                      </button>
+
+                      <button className="btn btn-sm btn-warning" onClick={moveNext}><span style={{ marginRight: "5px" }} >Move To Next</span>
+                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                      </button>
+                    </span>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+            <div className="row mb-3">
+              {/* fee and sellery details */}
+              <div className="col-lg-12 mb-4">
+                <div className="card card-table h-100">
+                  <div className="card-header">
+                    <h5 className="card-heading">Teachers Fees</h5>
+                  </div>
+                  <div className="card-body">
+                    <div className="table-responsive">
+                      <table className="table table-borderless table-hover mb-0">
+                        <thead className="light">
+                          <tr>
+                            <th>Name</th>
+
+                            <th>Starting Date</th>
+                            <th>Status</th>
+                            <th className="text-end">Status*</th>
+                          </tr>
+                        </thead>
+                        {/*  */}
+                        {teacherFilter.map((item, index) => {
+                          return (
+                            <>
+                              <tbody className="align-middle" key={index}>
+                                <tr>
+                                  <td>
+                                    <span className="d-flex align-items-center">
+
+                                      <span className="d-inline-block">
+                                        <strong>{item.name}</strong>
+                                        <br />
+                                        <span className="text-muted text-sm">
+                                          {item.cnic}
+                                        </span>
+                                      </span>
+                                    </span>
+                                  </td>
+
+                                  <td>{item.startingDate}</td>
+                                  <td>{item.remaning !== 0 ? <span class="badge me-2 badge-danger-light">Unpaid</span> : <span class="badge me-2 badge-success-light">Paid</span>}</td>
+                                  <td className="text-end">
+                                    {
+                                      item.remaning !== 0 ? <Link to={"/paynow/" + item._id}> <button className="btn btn-info btn-sm">Pay Now</button></Link> : <Link to={"/paynow/" + item._id}> <button className="btn btn-success btn-sm">Paid</button></Link>
                                     }
 
 
@@ -180,53 +281,9 @@ const Main = () => {
 
               {/* <!-- </Projects Table>-->
               <!-- <Team Members>--> */}
-              <div className="col-lg-4 mb-4">
-                <div className="card h-100">
-                  <div className="card-header">
-                    <h5 className="card-heading">Teachers sellery</h5>
-                  </div>
-                  {teacherFilter.map((item) => {
-                    return (
-                      <>
-                        <div className="card-body pb-2 ">
-                          <div className="d-flex align-items-center mb-3  justify-content-around">
-                            <div className="mt-1 "  >
 
-                              <span
-                                className="text-dark fw-bold text-decoration-none"
-
-                              >
-                                {item.name}
-                              </span>
-                              {
-                                item.remaning !== 0 ? <p className="text-muted text-sm mb-0 text-danger">Unpaid</p> : <p className="text-muted text-sm mb-0 text-success">Paid</p>
-                              }
-
-
-
-
-                            </div>
-                            {
-                               item.remaning !== 0 ?
-                            <Link to={"/paynow/"+item._id}>
-                            <span className="btn btn-info btn-sm" >Pay Now</span>
-                            </Link>:<Link to={"/paynow/"+item._id}>
-                            <span className="btn btn-success btn-sm" >Paid</span>
-                            </Link>
-                            }
-                          </div>
-
-                        </div>
-                      </>
-                    )
-                  })}
-
-
-                </div>
-              </div>
               {/* <!-- </Team Members>--> */}
             </div>
-
 
           </section>
         </div>

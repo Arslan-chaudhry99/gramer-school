@@ -21,7 +21,7 @@ router.post("/admit", async (req, res) => {
                                                        return res.status(200).json({ success: "success" });
                                             }
                                  }
-                                 if (generateRollNumber.length !== 0  ) {
+                                 if (generateRollNumber.length !== 0) {
                                             return res.status(401).json({ success: "Roll Number Not Available try an other." });
                                  }
                                  const registerUser = await user.save();
@@ -48,5 +48,29 @@ router.get("/getschool", async (req, res) => {
            }
 })
 
+router.post("/enableOrDisable", async (req, res) => {
+           const { CandidateId } = req.body
+           try {
+                      let data = await Admission.findById({ _id: CandidateId })
+
+                      if (data) {
+                                 return res.status(200).json(data);
+                      }
+                      if (!data) {
+                                 return res.status(401).json({ error: "user not found" });
+                      }
+           } catch (error) {
+                      return res.status(401).json({ error: "user not found" });
+           }
+
+
+
+
+})
+
+router.post("/enableDisable", async (req, res) => {
+           const { value,id } = req.body
+console.log(value,id);
+})
 
 module.exports = router;

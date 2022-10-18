@@ -2,9 +2,43 @@ import React from "react";
 import Header from "./Header";
 import { useState, useEffect, useRef } from "react";
 const Setting = () => {
+  const [CandidateId, setCandidateId] = useState("")
+  const [CandidateData, setCandidateData] = useState([])
+
+  console.log(CandidateData);
+  const getCandidate = async (e) => {
+    e.preventDefault()
+    if (!CandidateId) {
+      return alert("Please paste the candidate id.")
+    }
+    else {
+      const CandidateIdObj = {
+        CandidateId: CandidateId
+      }
+      const res = await fetch("/enableOrDisable", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(CandidateIdObj),
+      });
+      if ((await res).status === 200) {
+        const Data = await res.json()
+        setCandidateData([Data])
+      }
+      if ((await res).status === 401) {
+        return alert("Candidate Not found")
+
+      }
+
+    }
+
+
+  }
   // hide unhide password
   const pass = useRef()
   const cpass = useRef()
+
   // hide pass or unhide
   const hideOrvis = (e) => {
 
@@ -138,6 +172,26 @@ const Setting = () => {
       }
     }
   }
+
+  // onOff
+  const onOff = async (e) => {
+    e.preventDefault()
+    console.log(e);
+
+    try {
+
+      const res = fetch("/enableDisable", {
+        method: "Post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(),
+      });
+    } catch (error) {
+      return alert("Try gain later")
+    }
+  }
+
   return (
     <>
       {/* <Header /> */}
@@ -341,6 +395,7 @@ const Setting = () => {
 
         </div>
       </div>
+
       <div className="col-lg-10 mb-5 " style={{ marginLeft: "5%" }}>
         <div className="card">
           <div className="card-header">
@@ -352,64 +407,85 @@ const Setting = () => {
                 <input
                   className="form-control shadow-0"
                   id="name"
-                  name="CandidateId"
+
                   type="text"
-                  value={""}
-                  // onChange={}
+
+                  onChange={(e) => { setCandidateId(e.target.value) }}
                   autoComplete="off"
                   required
                   placeholder=""
                 />
-                <button className="btn btn-warning btn-sm" style={{ marginLeft: "-100px" }} type="submit">Search Candidate</button>
+                <button className="btn btn-warning btn-sm" style={{ marginLeft: "-100px" }} type="submit" onClick={getCandidate}>Search Candidate</button>
                 <label htmlFor="floatingInput">Please Enter Candidate ID</label>
               </div>
-              <div className="card-body">
-                <div className="table-responsive">
-                  <table className="table table-borderless table-hover mb-0">
-                    <thead className="light">
-                      <tr>
-                        <th>Name</th>
-                        <th>Class</th>
-                        <th>Roll Number</th>
-                        
-                        <th className="text-end">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody className="align-middle">
-                      <tr>
-                        <td>
-                          <span className="d-flex align-items-center">
 
-                            <span className="d-inline-block">
-                              <strong>Arslan</strong>
-
-                            </span>
-                          </span>
-                        </td>
-                        <td>17:9:88</td>
-                        <td>Win 10</td>
-                        
-                        <td>
-                          <span class="form-check form-switch" >
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" />
-
-                          </span>
-                        </td>
-
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
 
 
 
 
 
             </form>
+            {
+              CandidateData.map((item) => {
+                return (
+                  <>
+                    <div className="card-body">
+                      <div className="table-responsive">
+                        <table className="table table-borderless table-hover mb-0">
+                          <thead className="light">
+                            <tr>
+                              <th>Name</th>
+                              <th>{item.status !== "Teacher" ? "Class Name":"CNIC"}</th>
+                              <th>{item.status !== "Teacher" ? "Roll Number":"Education"}</th>
+                              <th>Candidate</th>
+                              <th className="text-end">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody className="align-middle">
+                            <tr>
+                              <td>
+                                <span className="d-flex align-items-center">
+
+                                  <span className="d-inline-block">
+                                    <strong>{item.name}</strong>
+
+                                  </span>
+                                </span>
+                              </td>
+                              <td>{item.status !== "Teacher" ? item.classname:item.cnic}</td>
+                              <td>
+                              {item.status !== "Teacher" ? item.rollNumber:item.education}
+                              </td>
+                              <td>{item.status}</td>
+                              <td className="text-end">
+                                {
+                                  item.currentStatus === true ? 
+                                  <span className="btn btn-success btn-sm text-white" value="true" onClick={onOff}>
+                                  Active
+                                </span>:
+                                 <span className="btn btn-danger btn-sm text-white" value="false" onClick={onOff}>
+                                 Blocked
+                               </span>
+                                }
+                               
+                                
+                              </td>
+
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </>
+                )
+              })
+
+            }
+
           </div>
         </div>
       </div>
+
     </>
   );
 };
