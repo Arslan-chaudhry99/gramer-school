@@ -5,7 +5,8 @@ const Setting = () => {
   const [CandidateId, setCandidateId] = useState("")
   const [CandidateData, setCandidateData] = useState([])
 
-  console.log(CandidateData);
+
+
   const getCandidate = async (e) => {
     e.preventDefault()
     if (!CandidateId) {
@@ -35,6 +36,7 @@ const Setting = () => {
 
 
   }
+  
   // hide unhide password
   const pass = useRef()
   const cpass = useRef()
@@ -174,10 +176,14 @@ const Setting = () => {
   }
 
   // onOff
-  const onOff = async (e) => {
-    e.preventDefault()
-    console.log(e);
 
+
+  const onOff = async () => {
+    
+    
+    const data = {
+      id: CandidateId
+    }
     try {
 
       const res = fetch("/enableDisable", {
@@ -185,11 +191,21 @@ const Setting = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(),
+        body: JSON.stringify(data),
       });
+      if ((await res).status === 201) {
+         alert("Update Success")
+         return window.location.reload();
+      }
+      if ((await res).status === 403) {
+        return alert("Unable to update")
+      }
     } catch (error) {
       return alert("Try gain later")
     }
+
+
+
   }
 
   return (
@@ -415,7 +431,7 @@ const Setting = () => {
                   required
                   placeholder=""
                 />
-                <button className="btn btn-warning btn-sm" style={{ marginLeft: "-100px" }} type="submit" onClick={getCandidate}>Search Candidate</button>
+                <button className="btn btn-warning btn-sm" style={{ marginLeft: "-100px" }} type="submit" id="btns" onClick={getCandidate}>Search Candidate</button>
                 <label htmlFor="floatingInput">Please Enter Candidate ID</label>
               </div>
 
@@ -435,8 +451,8 @@ const Setting = () => {
                           <thead className="light">
                             <tr>
                               <th>Name</th>
-                              <th>{item.status !== "Teacher" ? "Class Name":"CNIC"}</th>
-                              <th>{item.status !== "Teacher" ? "Roll Number":"Education"}</th>
+                              <th>{item.status !== "Teacher" ? "Class Name" : "CNIC"}</th>
+                              <th>{item.status !== "Teacher" ? "Roll Number" : "Education"}</th>
                               <th>Candidate</th>
                               <th className="text-end">Status</th>
                             </tr>
@@ -452,23 +468,26 @@ const Setting = () => {
                                   </span>
                                 </span>
                               </td>
-                              <td>{item.status !== "Teacher" ? item.classname:item.cnic}</td>
+                              <td>{item.status !== "Teacher" ? item.classname : item.cnic}</td>
                               <td>
-                              {item.status !== "Teacher" ? item.rollNumber:item.education}
+                                {item.status !== "Teacher" ? item.rollNumber : item.education}
                               </td>
                               <td>{item.status}</td>
                               <td className="text-end">
                                 {
-                                  item.currentStatus === true ? 
-                                  <span className="btn btn-success btn-sm text-white" value="true" onClick={onOff}>
-                                  Active
-                                </span>:
-                                 <span className="btn btn-danger btn-sm text-white" value="false" onClick={onOff}>
-                                 Blocked
-                               </span>
+                                  <span class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                                      value={"i am "}
+                                      checked={item.currentStatus === true ? true : false}
+                                      onClick={onOff}
+                                    />
+                                  </span>
+
                                 }
-                               
-                                
+
+
+
+
                               </td>
 
                             </tr>

@@ -3,6 +3,7 @@ const router = express.Router();
 require("../db/conn");
 const Admission = require("../Model/Admission");
 
+
 router.post("/admit", async (req, res) => {
 
            const { name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth, classname, rollNumber, education, currentStatus } = req.body;
@@ -69,8 +70,28 @@ router.post("/enableOrDisable", async (req, res) => {
 })
 
 router.post("/enableDisable", async (req, res) => {
-           const { value,id } = req.body
-console.log(value,id);
+           const { id } = req.body
+           try {
+                      const candidatePri = await Admission.findOne({ _id: id })
+                      const candidate = await Admission.findByIdAndUpdate({ _id: id }, {
+                                 $set: {
+                                 currentStatus: candidatePri.currentStatus === true ? false : true,
+                                 rollNumber:0,
+                                 classname:0
+                                 }
+                      }, { new: true })
+                      if (candidate) {
+                           return res.status(201).json({success:"updated successfuly."})      
+                      }
+                      if (!candidate) {
+                           return res.status(403).json({error:"Unable to Updated "})      
+                      }
+
+
+
+           } catch (error) {
+                      return res.status(400).json({ error: "Please try again later." })
+           }
 })
 
 module.exports = router;

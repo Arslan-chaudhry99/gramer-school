@@ -6,8 +6,17 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom"
 const Main = () => {
   const { candidatesFee, candiFees } = useContext(AppContext)
+
   const [Prevalue, setPrevalue] = useState(0)
   const [Nextval, setNextval] = useState(5)
+  const [Classfilter, setClassfilter] = useState(1)
+  const [filterByDate, setfilterByDate] = useState()
+  console.log(filterByDate);
+  const setClsFilter = (e) => {
+    setClassfilter(Number(e.target.value))
+
+  }
+
   // console.log(Prevalue, Nextval);
   // register a user
   const navigate = useNavigate()
@@ -27,37 +36,43 @@ const Main = () => {
     candidatesFee()
   }, [])
   // student filter
-  let currentDate=new Date().toDateString()
-  
+  let currentDate = new Date().toDateString()
+
   const studentsFilter = candiFees.filter((item) => {
-    return item.status !== "Teacher" && item.startingDate ===currentDate
+    return item.status !== "Teacher" && item.startingDate === currentDate && item.classname === Classfilter
   })
-  console.log(studentsFilter);
+  const dateData = candiFees.map((item) => {
+    return item.startingDate
+  })
+
+
   const teacherFilter = candiFees.filter((item) => {
-    return item.status === "Teacher" && item.startingDate ===currentDate
+    return item.status === "Teacher" && item.startingDate === currentDate
   })
   const sliceStudentsFilter = studentsFilter.slice(Prevalue, Nextval)
-  
+
   const moveNext = () => {
     if (Nextval < studentsFilter.length) {
       setNextval(Nextval + 5)
       setPrevalue(Prevalue + 5)
     }
-    else{
+    else {
       return alert("No more result available")
     }
-    
+
   }
   const moveBack = () => {
     if (Prevalue !== 0) {
       setNextval(Nextval - 5)
       setPrevalue(Prevalue - 5)
     }
-    else{
+    else {
       return alert("No previous result available")
     }
-    
+
   }
+
+
   return (
     <>
 
@@ -149,6 +164,20 @@ const Main = () => {
                 <div className="card card-table h-100">
                   <div className="card-header">
                     <h5 className="card-heading">Students Fees</h5>
+                    <select className="form-select d-inline-block w-auto mt-3  mb-lg-0">
+                      <option value="1" onClick={setClsFilter}>1st Class</option>
+                      <option value="2" onClick={setClsFilter}>2st Class</option>
+                      <option value="3" onClick={setClsFilter}>3rd Class</option>
+                      <option value="4" onClick={setClsFilter}>4th Class</option>
+                      <option value="5" onClick={setClsFilter}>5th Class</option>
+                      <option value="6" onClick={setClsFilter}>6th Class</option>
+                      <option value="7" onClick={setClsFilter}>7th Class</option>
+                      <option value="8" onClick={setClsFilter}>8th Class</option>
+                      <option value="9" onClick={setClsFilter}>9th Class</option>
+                      <option value="10" onClick={setClsFilter}>10th Class</option>
+                      <option value="11" onClick={setClsFilter}>11th Class</option>
+                      <option value="12" onClick={setClsFilter}>12th Class</option>
+                    </select>
                   </div>
                   <div className="card-body">
                     <div className="table-responsive">

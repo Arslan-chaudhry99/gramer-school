@@ -17,7 +17,7 @@ app.use(require("./router/Admission"));
 app.use(require("./router/CurrentFees"))
 
 //server listener
-corn.schedule("53 20 18 * *", function(){
+corn.schedule("45 7 19 * *", function(){
   console.log("work");
   fun()
 })
