@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { AppContext } from '../Context/Context'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState,ref } from 'react'
 import { useParams } from 'react-router'
 const Feepayment = () => {
     const { candidatesFee, candiFees } = useContext(AppContext);
@@ -22,7 +22,7 @@ const Feepayment = () => {
         const payObj = {
             PaymentAmount: PaymentAmount,
             PaymentDate: PaymentDate,
-            candidateid:paymentData[0]._id
+            candidateid: paymentData[0]._id
         }
 
         if (payObj.PaymentAmount === 0 || payObj.PaymentDate === "" || !payObj.candidateid) {
@@ -31,7 +31,7 @@ const Feepayment = () => {
         if (paymentData[0].remaning === 0) {
             return alert("No amount remains to pay.")
         }
-        if (paymentData[0].remaning< PaymentAmount) {
+        if (paymentData[0].remaning < PaymentAmount) {
             return alert("Remaining amount is less than you payment amount.")
         }
 
@@ -47,7 +47,7 @@ const Feepayment = () => {
                 if ((await res).status === 200) {
                     window.location.reload(true);
                     return alert("Payment successful")
-                    
+
                 }
                 if ((await res).status === 500) {
                     return alert("server error please try agin later")
@@ -59,6 +59,14 @@ const Feepayment = () => {
         }
 
 
+    }
+    const PrintInfo=useRef("")
+    const printForm = () => {
+        PrintInfo.current.style.display="none"
+        window.print()
+        setTimeout(() => {
+            PrintInfo.current.style.display="block"
+        }, 2000);
     }
     return (
         <>
@@ -108,7 +116,7 @@ const Feepayment = () => {
                                             <div className="mb-4">
                                                 <label className="form-label">
                                                     {data.remaning === 0 ?
-                                                    "Paid":"Payable"}
+                                                        "Paid" : "Payable"}
                                                 </label>
                                                 <span className='form-control'>{data.payableAmoun}</span>
                                             </div>
@@ -162,11 +170,9 @@ const Feepayment = () => {
 
                                     </form>
                                     {
-                                        data.remaning ===0 ? <button className="btn btn-success shadow" style={{ marginLeft: '10px' }} onClick={()=>{
-                                            window.print()
-                                        }} >Print Now!</button>:""
+                                        data.remaning === 0 ? <button className="btn btn-success shadow" style={{ marginLeft: '10px' }} onClick={printForm} ref={PrintInfo}>Print Now!</button> : ""
                                     }
-                                   
+                                    <img src="/signature.png" alt="img" style={{ width: "200px" }} />
 
 
                                 </div>

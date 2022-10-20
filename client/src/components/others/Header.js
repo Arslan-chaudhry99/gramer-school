@@ -56,9 +56,9 @@ const Header = () => {
               >
                 <img
                   className="avatar p-1"
-                  src="/avatar-1.jpg"
+                  src="/usman2.PNG"
                   alt="img"
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: "pointer",objectFit:"contain" }}
                 />
               </span>
               <div

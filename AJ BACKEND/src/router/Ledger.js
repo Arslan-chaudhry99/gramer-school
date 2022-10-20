@@ -3,6 +3,7 @@ const Admission = require("../Model/Admission");
 const router = express.Router();
 require("../db/conn");
 const Ledger = require("../Model/Ledger");
+const Authenticate=require("../middleware/Authenticate")
 router.post("/registerLedger", async (req, res) => {
   
   const { name, className, rollNumber, amount, details, remaning, date } = req.body;
@@ -24,7 +25,7 @@ router.post("/registerLedger", async (req, res) => {
   }
 });
 
-router.get("/getledger", async (req, res) => {
+router.get("/getledger",Authenticate,  async (req, res) => {
   try {
     let data = await Ledger.find()
     res.status(200).json(data);

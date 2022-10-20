@@ -189,13 +189,20 @@ console.log(teacherOrStudent);
                           <div className="col-md-5">
                             <div className="mb-4">
                               <label className="form-label">Name</label>
-                              <span className="form-control">{item.name}</span>
+                              <span className="form-control d-flex justify-content-between align-items-center">
+                                <span>{item.name}</span>
+                                <i class="fa fa-edit text-success" role="button"></i>
+                              </span>
                             </div>
                           </div>
                           <div className="col-sm-6 col-md-3">
                             <div className="mb-4">
                               <label className="form-label">Father Name</label>
-                              <span className="form-control">{item.fatherName}</span>
+                              
+                              <span className="form-control d-flex justify-content-between align-items-center">
+                                <span>{item.fatherName}</span>
+                                <i class="fa fa-edit text-success" role="button"></i>
+                              </span>
                             </div>
                           </div>
                           <div className="col-sm-6 col-md-4">
@@ -249,21 +256,11 @@ console.log(teacherOrStudent);
                       </div>
                     </form>
                   </div>
+                  
                 </div>
               </section>
             </div>
-            <footer className="footer bg-white shadow align-self-end py-3 px-xl-5 w-100">
-              <div className="container-fluid">
-                <div className="row">
-                  <div className="col-md-6 text-center text-md-start fw-bold">
-                    <p className="mb-2 mb-md-0 fw-bold">Your company &copy; 2022</p>
-                  </div>
-                  <div className="col-md-6 text-center text-md-end text-gray-400">
-                    <p className="mb-0">Version 1.3.0</p>
-                  </div>
-                </div>
-              </div>
-            </footer>
+          
           </div>
         </>)
       })}

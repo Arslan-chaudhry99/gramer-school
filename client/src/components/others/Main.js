@@ -316,18 +316,7 @@ const Main = () => {
 
           </section>
         </div>
-        <footer className="footer bg-white shadow align-self-end py-3 px-xl-5 w-100">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-md-6 text-center text-md-start fw-bold">
-                <p className="mb-2 mb-md-0 fw-bold">Your company &copy; 2022</p>
-              </div>
-              <div className="col-md-6 text-center text-md-end text-gray-400">
-                <p className="mb-0">Version 1.0</p>
-              </div>
-            </div>
-          </div>
-        </footer>
+       
       </div>
     </>
   );
