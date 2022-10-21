@@ -16,12 +16,14 @@ const Setting = () => {
       const CandidateIdObj = {
         CandidateId: CandidateId
       }
-      const res = await fetch("/enableOrDisable", {
+      
+      const res = await fetch("/disableCandidate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(CandidateIdObj),
+        credentials:"include"
       });
       if ((await res).status === 200) {
         const Data = await res.json()
@@ -192,6 +194,7 @@ const Setting = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
+        credentials:"include"
       });
       if ((await res).status === 201) {
         alert("Update Success")

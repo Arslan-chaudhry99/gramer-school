@@ -27,15 +27,18 @@ const Login = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(Auth),
+      credentials:"include"
     });
-    
+    console.log( (await res).status);
     if ((await res).status === 201) {
+      setTimeout(() => {
+        navigate("/");
+        window.location.reload();
+      }, 2000);
       return alert("Login successfuly");
-      // setTimeout(() => {
-      //   navigate("/Home");
-      // }, 2000);
+      
     }
-    if (!(await res).status === 422 || 400) {
+    if (!(await res).status === 404 || 400) {
       return  alert("Invalid username or password");
       
     }

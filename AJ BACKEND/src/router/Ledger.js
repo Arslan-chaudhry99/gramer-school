@@ -3,11 +3,11 @@ const Admission = require("../Model/Admission");
 const router = express.Router();
 require("../db/conn");
 const Ledger = require("../Model/Ledger");
-const Authenticate=require("../middleware/Authenticate")
+const Authenticate = require("../middleware/Authenticate")
 router.post("/registerLedger", async (req, res) => {
-  
+
   const { name, className, rollNumber, amount, details, remaning, date } = req.body;
-  const getCandidateId=await Admission.find({rollNumber:rollNumber,classname:className })
+  const getCandidateId = await Admission.find({ rollNumber: rollNumber, classname: className })
   console.log(getCandidateId);
   try {
     const user = new Ledger({ name, className, rollNumber, amount, details, remaning: amount, date });
@@ -25,7 +25,7 @@ router.post("/registerLedger", async (req, res) => {
   }
 });
 
-router.get("/getledger",Authenticate,  async (req, res) => {
+router.get("/getledger", async (req, res) => {
   try {
     let data = await Ledger.find()
     res.status(200).json(data);
@@ -36,7 +36,7 @@ router.get("/getledger",Authenticate,  async (req, res) => {
 })
 // payment
 router.post("/paymentRequest", async (req, res) => {
-  const { payAmount, ledger ,date} = req.body;
+  const { payAmount, ledger, date } = req.body;
   let data = await Ledger.findByIdAndUpdate({ _id: ledger })
   if (data.remaning === 0) {
     return res.status(401).json({ error: "no remins" })
@@ -46,7 +46,7 @@ router.post("/paymentRequest", async (req, res) => {
     let resUpdate = await Ledger.findByIdAndUpdate({ _id: ledger }, {
       $set: {
         remaning: data.remaning - payAmount,
-        endDate:date
+        endDate: date
       }
     })
 

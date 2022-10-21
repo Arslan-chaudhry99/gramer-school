@@ -4,8 +4,8 @@ const router = express.Router();
 require("../db/conn");
 const Admission = require("../Model/Admission");
 
-
-router.post("/admit", async (req, res) => {
+// to store admission for
+router.post("/admit",Authenticate, async (req, res) => {
      const { name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth, classname, rollNumber, education, currentStatus } = req.body;
      try {
           const userPresent = await Admission.findOne({ cnic: cnic });
@@ -46,8 +46,8 @@ router.post("/admit", async (req, res) => {
      }
 
 });
-
-router.get("/getschool", async (req, res) => {
+// to get school data
+router.get("/getschool",Authenticate, async (req, res) => {
      try {
           let data = await Admission.find()
           res.status(200).json(data);
@@ -55,7 +55,7 @@ router.get("/getschool", async (req, res) => {
           console.log(error);
      }
 })
-
+// enable or disable
 router.post("/enableDisable", async (req, res) => {
      const { id } = req.body
      try {
@@ -72,6 +72,24 @@ router.post("/enableDisable", async (req, res) => {
           }
           if (!candidate) {
                return res.status(403).json({ error: "Unable to Updated " })
+          }
+
+
+
+     } catch (error) {
+          return res.status(400).json({ error: "Please try again later." })
+     }
+})
+router.post("/disableCandidate", async (req, res) => {
+     const { CandidateId } = req.body
+     try {
+          const candidatePri = await Admission.findOne({ _id: CandidateId })
+          
+          if (candidatePri) {
+               return res.status(200).json(candidatePri)
+          }
+          if (!candidatePri) {
+               return res.status(401).json({ error: "" })
           }
 
 

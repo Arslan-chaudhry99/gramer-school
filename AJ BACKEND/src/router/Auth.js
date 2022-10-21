@@ -4,7 +4,7 @@ const router = express.Router();
 require("../db/conn");
 const User = require("../Model/usersSchema");
 const bcrypt = require("bcryptjs");
-const authenticate = require("../middleware/Authenticate")
+const Authenticate = require("../middleware/Authenticate")
 
 // registration
 router.post("/signup", async (req, res) => {
@@ -27,25 +27,26 @@ router.post("/signup", async (req, res) => {
   }
 });
 // signin
-router.post("/signin", async (req, res) => {
+router.post("/signin",async (req, res) => {
   const { name, password } = req.body;
   try {
     const loginNow = await User.findOne({ name: name });
     if (loginNow) {
       const isMatch = await bcrypt.compare(password, loginNow.password);
       if (!isMatch) {
-        return res.status(422).json({ error: "invalid password" });
+        return res.status(400).json({ error: "Invalid Credentials" });
       } else {
         const token = await loginNow.generateAuthToken();
         res.cookie("userToken", token, {
-          expires: new Date(Date.now() + 100000000000000),
-          httpOnly: true,
+          expires: new Date(Date.now() + 1800000),
+          // httpOnly: true,
         });
+        
         return res.status(201).json({ success: "login successfully" });
       }
     }
     else {
-      return res.status(404).json({ error: "User not found" })
+      return res.status(404).json({ error: "Invalid Credentials" })
     }
   } catch (error) {
     () => res.status(500).json({ error: " Login failed" });
@@ -79,9 +80,16 @@ router.post("/resetpassword", async (req, res) => {
   }
 });
 
-router.get("/setting", (req, res) => {
-  console.log(req);
-  res.send("This is setting page");
+
+router.get("/logout", (req, res) => {
+  try {
+    res.clearCookie("userToken")
+    res.status(200).send("logout successfuly")
+  } catch (error) {
+    res.status(500).send("logout successfuly")
+  }
+ 
 })
+
 
 module.exports = router;

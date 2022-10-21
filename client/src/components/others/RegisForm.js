@@ -20,7 +20,7 @@ const RegisForm = () => {
     currentStatus: true
 
   });
-
+console.log(Admission);
   let name;
   let value;
   const setData = (e) => {
@@ -58,6 +58,7 @@ const RegisForm = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(Admission),
+          credentials:"include"
         });
         if ((await res).status === 401) {
           return alert("This Roll Number is not available please try another.")
@@ -79,6 +80,9 @@ const RegisForm = () => {
         }
         if ((await res).status === 201) {
           return alert("Seems Like user already exist.")
+        }
+        if ((await res).status === 400) {
+          return window.location.reload()
         }
 
       } catch (error) {

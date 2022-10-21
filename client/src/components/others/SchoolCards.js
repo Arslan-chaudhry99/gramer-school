@@ -1,6 +1,10 @@
 import React from 'react'
+import { useNavigate } from 'react-router'
 import Header from './Header'
+
 const SchoolCards = () => {
+  
+
   return (
     <>
     {/* <Header/> */}

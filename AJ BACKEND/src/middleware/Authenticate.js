@@ -5,11 +5,15 @@ const Authenticate = async (req, res, next) => {
     const token = req.cookies.userToken;
     const verify = jwt.verify(token, process.env.SECRET_KEY);
     if (!verify) {
-      
+      return res.status(400).json({ error: "Anounmous User" });
     }
-    next()
+    if (verify) {
+      next()
+
+    }
+
   } catch (error) {
-    res.status(401).send("Anounmous");
+    return res.status(400).json({ error: "Anounmous User" });
     console.log(error);
   }
 };

@@ -6,7 +6,7 @@ const AppProvider = ({ children }) => {
            const [ledgerDataVal, setledgerDataVal] = useState([])
            const [schoolData, setschoolData] = useState([])
            const [candiFees, setcandiFees] = useState([])
-          
+           const [User, setfirst] = useState()
            //  getting ledger data from data base
            const ftechLedger = async () => {
                       try {
@@ -15,10 +15,14 @@ const AppProvider = ({ children }) => {
                                             headers: {
                                                        Accept: "application/json",
                                                        "Content-Type": "application/json"
-                                            }
+                                            },
+                                            credentials:"include"
                                  })
                                  const Data = await res.json()
                                  setledgerDataVal(Data)
+                                 if ((await res).status === 400) {
+                                 return window.location.reload()
+                                 }
 
 
                       } catch (error) {
@@ -33,7 +37,8 @@ const AppProvider = ({ children }) => {
                                             headers: {
                                                        Accept: "application/json",
                                                        "Content-Type": "application/json"
-                                            }
+                                            },
+                                            credentials:"include"
                                  })
                                  const Data = await res.json()
                                  setschoolData(Data)
@@ -50,12 +55,13 @@ const AppProvider = ({ children }) => {
                                             headers: {
                                                        Accept: "application/json",
                                                        "Content-Type": "application/json"
-                                            }
+                                            },
+                                            credentials:"include"
                                  })
                                  if ((await res).status === 200) {
                                             const Data = await res.json()
                                             setcandiFees(Data)
-                                            
+
                                  }
                                  if ((await res).status === 501) {
                                             return alert("Unable to fetch Data.Please check your internet connection.and try again")
@@ -69,7 +75,7 @@ const AppProvider = ({ children }) => {
                       }
            }
            return (<>
-                      <AppContext.Provider value={{ ftechLedger, ledgerDataVal, fetchSchoolAbout, schoolData, candidatesFee ,candiFees}} >
+                      <AppContext.Provider value={{ ftechLedger, ledgerDataVal, fetchSchoolAbout, schoolData, candidatesFee, candiFees }} >
                                  {children}
                       </AppContext.Provider>
            </>

@@ -6,9 +6,10 @@ const Header = () => {
   const main = () => {
     navigate("/");
   };
-  const settingUser=()=>{
+  const settingUser = () => {
     navigate("/setting");
   }
+
   return (
     <>
       <header className="header">
@@ -43,7 +44,7 @@ const Header = () => {
           </span>
           <ul className="ms-auto d-flex align-items-center list-unstyled mb-0">
             <li className="nav-item dropdown">
-             
+
             </li>
 
             <li className="nav-item dropdown ms-auto">
@@ -58,7 +59,7 @@ const Header = () => {
                   className="avatar p-1"
                   src="/usman2.PNG"
                   alt="img"
-                  style={{ cursor: "pointer",objectFit:"contain" }}
+                  style={{ cursor: "pointer", objectFit: "contain" }}
                 />
               </span>
               <div
@@ -71,17 +72,20 @@ const Header = () => {
                 </div>
 
                 <div className="dropdown-divider"></div>
-                <span className="dropdown-item d-flex" style={{alignItems:"center", cursor:"pointer"}} onClick={settingUser}>
+                <span className="dropdown-item d-flex" style={{ alignItems: "center", cursor: "pointer" }} onClick={settingUser}>
                   <i
                     className="fa fa-cog "
                     aria-hidden="true"
                     style={{ fontSize: "20px" }}
                   ></i>
-                  <span style={{marginLeft:"10px"}} >Setting</span>
+                  <span style={{ marginLeft: "10px" }} >Setting</span>
                 </span>
                 <div className="dropdown-divider"></div>
-                <span className="dropdown-item text-danger" style={{cursor:"pointer"}}>
-                Logout</span>
+                <NavLink to="/logout">
+                  <span className="dropdown-item text-danger" style={{ cursor: "pointer" }}>
+                    Logout
+                  </span>
+                </NavLink>
               </div>
             </li>
           </ul>
