@@ -303,7 +303,7 @@ function Profile() {
                               <label className="form-label">{item.status === "Teacher" ? "Education" : "Class Name"}</label>
                               {item.status === "Teacher" ?
                                 <span className="form-control d-flex justify-content-between align-items-center" >
-                                  {item.education}th className
+                                  {item.education}
                                   <i class="fa fa-edit text-warning" role="button" id="education" onClick={updateValue}></i>
                                 </span>
                                 :
