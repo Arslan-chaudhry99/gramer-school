@@ -80,7 +80,7 @@ const Main = () => {
         <div className="container-fluid px-lg-4 px-xl-5">
           {/* <!-- Page Header--> */}
           <div className="page-header">
-            <h1 className="page-heading">Usman's Dashboard</h1>
+            <h1 className="page-heading">Standard Grammar School</h1>
           </div>
           <section className="mb-3 mb-lg-5">
             <div className="row mb-3 ">

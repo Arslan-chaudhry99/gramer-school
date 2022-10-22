@@ -39,8 +39,8 @@ const Header = () => {
             onClick={main}
             style={{ cursor: "pointer" }}
           >
-            <span className="d-none d-brand-partial">Usman's </span>
-            <span className="d-none d-sm-inline">Dashboard</span>
+            <span className="d-none d-brand-partial">Standard Grammar School</span>
+            <span className="d-none d-sm-inline"></span>
           </span>
           <ul className="ms-auto d-flex align-items-center list-unstyled mb-0">
             <li className="nav-item dropdown">

@@ -55,7 +55,7 @@ const Login = () => {
               <div className="card">
                 <div className="card-header px-lg-5">
                   <div className="card-heading text-primary">
-                    Usman's School
+                  Standard Grammar School
                   </div>
                 </div>
                 <div className="card-body p-lg-5">
@@ -102,15 +102,15 @@ const Login = () => {
                 <div className="card-footer px-lg-5 py-lg-4"></div>
               </div>
             </div>
-            <div className="col-lg-6 col-xl-5 ms-xl-auto px-lg-4 text-center text-primary">
+            <div className="col-lg-6 col-xl-5 ms-xl-auto px-lg-4 text-center text-primary mt-5">
               <img
                 className="img-fluid mb-4"
                 width="100"
-                src="avatar-1.jpg"
+                src="/usman2.PNG"
                 alt=""
               />
-              <h1 className="mb-4">Usman's School</h1>
-              <p className="lead text-muted">Hi usman How are you!</p>
+              <h1 className="mb-4">Engr Usman Ali</h1>
+              <p className="lead text-muted">Welcome to the Standard Grammar School</p>
             </div>
           </div>
         </div>

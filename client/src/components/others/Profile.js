@@ -2,11 +2,13 @@ import React from "react";
 import Header from "./Header";
 import { useContext, useEffect, useState, useRef } from "react";
 import { AppContext } from "../Context/Context";
-import { useParams } from "react-router";
+import { json, useParams } from "react-router";
 import { Link } from "react-router-dom";
 function Profile() {
   const [statusChek, setstatusChek] = useState(1)
-
+  const [UpdateData, setUpdateData] = useState()
+  const [updateNow, setupdateNow] = useState({})
+  console.log(updateNow);
   const { fetchSchoolAbout, schoolData, ftechLedger, ledgerDataVal, candidatesFee, candiFees } = useContext(AppContext)
 
   const { userId } = useParams("userId")
@@ -37,7 +39,7 @@ function Profile() {
   const teacherOrStudent = candiFees.filter((item) => {
     return item.candidateId === userId
   })
-console.log(teacherOrStudent);
+
 
 
 
@@ -46,6 +48,48 @@ console.log(teacherOrStudent);
     navigator.clipboard.writeText(document.getElementById("currentId").value);
     return alert("Copied!")
 
+  }
+  // updated values
+  const updateInput = useRef()
+  const updateValue = (e) => {
+    e.preventDefault()
+    const nameIng = e.target.id
+    updateInput.current.placeholder = nameIng
+    const ID = canData[0]._id
+    const value = UpdateData
+    setupdateNow({
+      candidateId: ID,
+      nameIng,
+      inputValue: value
+    })
+  }
+  // update on every change in input
+  useEffect(() => {
+    setupdateNow({
+      ...updateNow,
+      inputValue: UpdateData
+    })
+  }, [UpdateData])
+  // UpdateDataBaseData
+  const UpdateDataBaseData = async (e) => {
+    e.preventDefault()
+    if (!updateNow) {
+      return alert("Error in frontend refresh the page")
+    }
+    else {
+      try {
+        const res= fetch("/UpdateDataBaseData",{
+         method:"POST",
+         headers:{
+          "Content-Type":"application/json"
+         },
+         body:JSON.stringify(updateNow),
+
+        })
+      } catch (error) {
+        return alert(error)
+      }
+    }
   }
   return (
     <>
@@ -162,10 +206,10 @@ console.log(teacherOrStudent);
                               return (
                                 <>
                                   <span class="form-control d-flex justify-content-between align-items-center mb-2"><span>{item.startingDate}</span><span>Rs {item.payableAmoun}/-</span>
-                                  {item.remaning !== 0 ? <span className="btn btn-sm btn-warning shadow" >PayNow!</span>:<span className="btn btn-sm btn-success shadow" >Paid</span>}
-                                  
-                                  
-                                   </span>
+                                    {item.remaning !== 0 ? <span className="btn btn-sm btn-warning shadow" >PayNow!</span> : <span className="btn btn-sm btn-success shadow" >Paid</span>}
+
+
+                                  </span>
                                 </>
                               )
                             })}
@@ -178,63 +222,95 @@ console.log(teacherOrStudent);
 
                     </form>
                   </div>
-                  <div className="col-lg-8">
 
+                  <div className="col-lg-8 ">
+                    <div class="card-header mb-3 shadow " style={{ borderRadius: "10px" }} >
+
+                      <form class="input-group" method="Post">
+                        <input class="form-control" type="text" placeholder="Update section" ref={updateInput} value={UpdateData} onChange={(e) => {
+                          setUpdateData(e.target.value)
+                        }} />
+                        <button class="btn btn-outline-warning" type="submit" onClick={UpdateDataBaseData}><i class="fa fa-paper-plane"></i></button>
+
+                      </form>
+                    </div>
                     <form className="card mb-4">
                       <div className="card-header">
                         <h4 className="card-heading">Edit Profile</h4>
                       </div>
                       <div className="card-body">
+
                         <div className="row">
+
                           <div className="col-md-5">
                             <div className="mb-4">
                               <label className="form-label">Name</label>
-                              <span className="form-control d-flex justify-content-between align-items-center">
+                              <span className="form-control d-flex justify-content-between align-items-center" >
                                 <span>{item.name}</span>
-                                <i class="fa fa-edit text-success" role="button"></i>
+                                <i class="fa fa-edit text-warning" role="button" id="name" onClick={updateValue}></i>
                               </span>
                             </div>
                           </div>
                           <div className="col-sm-6 col-md-3">
                             <div className="mb-4">
                               <label className="form-label">Father Name</label>
-                              
-                              <span className="form-control d-flex justify-content-between align-items-center">
+
+                              <span className="form-control d-flex justify-content-between align-items-center" >
                                 <span>{item.fatherName}</span>
-                                <i class="fa fa-edit text-success" role="button"></i>
+                                <i class="fa fa-edit text-warning" role="button" id="fatherName" onClick={updateValue}></i>
                               </span>
                             </div>
                           </div>
                           <div className="col-sm-6 col-md-4">
                             <div className="mb-4">
                               <label className="form-label">Mother Name</label>
-                              <span className="form-control"> {item.motherName}</span>
+
+                              <span className="form-control d-flex justify-content-between align-items-center"  >
+                                <span>{item.motherName}</span>
+                                <i class="fa fa-edit text-warning" role="button" id="motherName" onClick={updateValue}></i>
+                              </span>
                             </div>
                           </div>
                           <div className="col-sm-6 col-md-6">
                             <div className="mb-4">
                               <label className="form-label">Date Of Birth</label>
-                              <span className="form-control"> {item.dateBirth}</span>
+                              <span className="form-control d-flex justify-content-between align-items-center" >
+                                <span> {item.dateBirth}</span>
+                                <i class="fa fa-edit text-warning" role="button" id="dateBirth" onClick={updateValue}></i>
+                              </span>
                             </div>
                           </div>
                           <div className="col-sm-6 col-md-6">
                             <div className="mb-4">
                               <label className="form-label">CNIC Number</label>
-                              <span className="form-control">{item.cnic}</span>
+                              <span className="form-control d-flex justify-content-between align-items-center" >
+                                <span> {item.cnic}</span>
+                                <i class="fa fa-edit text-warning" role="button" id="cnic" onClick={updateValue}></i>
+                              </span>
                             </div>
                           </div>
                           <div className="col-md-12">
                             <div className="mb-4">
                               <label className="form-label">Address</label>
-                              <span className="form-control">
-                                {item.address}
+                              <span className="form-control d-flex justify-content-between align-items-center" >
+                                <span>{item.address}</span>
+                                <i class="fa fa-edit text-warning" role="button" id="address" onClick={updateValue}></i>
                               </span>
                             </div>
                           </div>
                           <div className="col-sm-6 col-md-8">
                             <div className="mb-4">
                               <label className="form-label">{item.status === "Teacher" ? "Education" : "Class Name"}</label>
-                              {item.status === "Teacher" ? <span className="form-control">{item.education}th className</span> : <span className="form-control">{item.classname}th className</span>}
+                              {item.status === "Teacher" ?
+                                <span className="form-control d-flex justify-content-between align-items-center" >
+                                  {item.education}th className
+                                  <i class="fa fa-edit text-warning" role="button" id="education" onClick={updateValue}></i>
+                                </span>
+                                :
+                                <span className="form-control d-flex justify-content-between align-items-center" >
+                                  {item.classname}th className
+                                  <i class="fa fa-edit text-warning" role="button" id="classname" onClick={updateValue}></i>
+                                </span>}
 
                             </div>
 
@@ -242,25 +318,33 @@ console.log(teacherOrStudent);
                           <div className="col-sm-6 col-md-3">
                             <div className="mb-4">
                               <label className="form-label">{item.status === "Teacher" ? "Teacher Pay" : "Student Fee"}</label>
-                              <span className="form-control">Rs {item.fee}/-</span>
+                              <span className="form-control d-flex justify-content-between align-items-center" >
+                                <span>Rs {item.fee} /-</span>
+                                <i class="fa fa-edit text-warning" role="button" id="fee" onClick={updateValue}></i>
+                              </span>
                             </div>
                           </div>
                           {item.status === "Teacher" ? "" : <div className="col-md-5">
                             <div className="mb-4">
                               <label className="form-label">Roll Number</label>
-                              <span className="form-control">{item.rollNumber}</span>
+                              <span className="form-control d-flex justify-content-between align-items-center" >
+                                <span>{item.rollNumber}</span>
+                                <i class="fa fa-edit text-warning" role="button" id="rollNumber" onClick={updateValue}></i>
+                              </span>
                             </div>
                           </div>}
 
                         </div>
+
                       </div>
+
                     </form>
                   </div>
-                  
+
                 </div>
               </section>
             </div>
-          
+
           </div>
         </>)
       })}

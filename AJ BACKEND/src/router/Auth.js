@@ -5,7 +5,8 @@ require("../db/conn");
 const User = require("../Model/usersSchema");
 const bcrypt = require("bcryptjs");
 const Authenticate = require("../middleware/Authenticate")
-
+const os = require("os");
+var geoip = require('geoip-lite');
 // registration
 router.post("/signup", async (req, res) => {
   const { name, phone, password, cpassword } = req.body;
@@ -27,7 +28,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 // signin
-router.post("/signin",async (req, res) => {
+router.post("/signin", async (req, res) => {
   const { name, password } = req.body;
   try {
     const loginNow = await User.findOne({ name: name });
@@ -41,8 +42,10 @@ router.post("/signin",async (req, res) => {
           expires: new Date(Date.now() + 1800000),
           // httpOnly: true,
         });
-        
-        return res.status(201).json({ success: "login successfully" });
+        const ipAddress =  req.header('x-forwarded-for') || req.socket.remoteAddress;
+        const hostName = os.hostname();
+        console.log(ipAddress,hostName);
+         return res.status(201).json({ success: "login successfully" });
       }
     }
     else {
@@ -88,7 +91,7 @@ router.get("/logout", (req, res) => {
   } catch (error) {
     res.status(500).send("logout successfuly")
   }
- 
+
 })
 
 
