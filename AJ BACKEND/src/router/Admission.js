@@ -109,30 +109,35 @@ router.post("/UpdateDataBaseData", async (req, res) => {
      else {
 
           try {
-               const candidatePreData=await Admission.find({ _id: candidateId });
-               
+               const candidatePreData = await Admission.find({ _id: candidateId });
+
 
                const candidate = await Admission.findByIdAndUpdate({ _id: candidateId },
                     {
                          $set: {
-                               name: nameIng === "name" ?  inputValue : candidatePreData[0].name,
+                              name: nameIng === "name" ? inputValue : candidatePreData[0].name,
                               motherName: nameIng === "motherName" ? inputValue : candidatePreData[0].motherName,
-                              fatherName: nameIng === "fatherName" ?inputValue:candidatePreData[0].fatherName,
-                              dateBirth: nameIng === "dateBirth" ?inputValue:candidatePreData[0].dateBirth,
-                              cnic: nameIng === "cnic" ?inputValue:candidatePreData[0].cnic,
-                              address: nameIng === "address" ?inputValue:candidatePreData[0].address,
-                              classname: nameIng === "classname" ?inputValue:candidatePreData[0].classname,
-                              rollNumber: nameIng === "rollNumber" ?inputValue:candidatePreData[0].rollNumber,
-                              fee: nameIng === "fee" ?inputValue:candidatePreData[0].fee,
-                              education: nameIng === "education" ?inputValue:candidatePreData[0].education,
+                              fatherName: nameIng === "fatherName" ? inputValue : candidatePreData[0].fatherName,
+                              dateBirth: nameIng === "dateBirth" ? inputValue : candidatePreData[0].dateBirth,
+                              cnic: nameIng === "cnic" ? inputValue : candidatePreData[0].cnic,
+                              address: nameIng === "address" ? inputValue : candidatePreData[0].address,
+                              classname: nameIng === "classname" ? inputValue : candidatePreData[0].classname,
+                              rollNumber: nameIng === "rollNumber" ? inputValue : candidatePreData[0].rollNumber,
+                              fee: nameIng === "fee" ? inputValue : candidatePreData[0].fee,
+                              education: nameIng === "education" ? inputValue : candidatePreData[0].education,
 
                          }
                     }, { new: true }
                )
-               console.log(candidate)
+               if (!candidate) {
+                    return res.status(400).json({ message: "unable to edit" })
+               }
+               if (candidate) {
+                    return res.status(201).json({ message: "success" })
+               }
 
           } catch (error) {
-               console.log(error);
+               return res.status(500).json({ message: "Eror 505" })
           }
      }
 

@@ -78,14 +78,24 @@ function Profile() {
     }
     else {
       try {
-        const res= fetch("/UpdateDataBaseData",{
-         method:"POST",
-         headers:{
-          "Content-Type":"application/json"
-         },
-         body:JSON.stringify(updateNow),
+        const res = fetch("/UpdateDataBaseData", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(updateNow),
 
         })
+        if ((await res).status === 201) {
+          return alert("Info Update successfuly")
+        }
+        if ((await res).status === 400) {
+          return alert("Unable to edit.Please the refresh page try again later")
+        }
+        if ((await res).status === 500) {
+          return alert("Unable to edit.Please the refresh page try again later")
+        }
+
       } catch (error) {
         return alert(error)
       }
