@@ -4,11 +4,13 @@ import { useContext, useEffect, useState, useRef } from "react";
 import { AppContext } from "../Context/Context";
 import { json, useParams } from "react-router";
 import { Link } from "react-router-dom";
+import Preloding from "./Preloding";
 function Profile() {
   const [statusChek, setstatusChek] = useState(1)
   const [UpdateData, setUpdateData] = useState()
   const [updateNow, setupdateNow] = useState({})
-  console.log(updateNow);
+  const [Preload, setPreload] = useState(false)
+  const bodys = useRef()
   const { fetchSchoolAbout, schoolData, ftechLedger, ledgerDataVal, candidatesFee, candiFees } = useContext(AppContext)
 
   const { userId } = useParams("userId")
@@ -78,6 +80,8 @@ function Profile() {
     }
     else {
       try {
+        setPreload(true)
+        bodys.current.style.filter = "blur(10px)";
         const res = fetch("/UpdateDataBaseData", {
           method: "POST",
           headers: {
@@ -87,16 +91,25 @@ function Profile() {
 
         })
         if ((await res).status === 201) {
+          setPreload(false)
+          bodys.current.style.filter = "blur(0px)";
+          window.location.reload()
           return alert("Info Update successfuly")
         }
         if ((await res).status === 400) {
-          return alert("Unable to edit.Please the refresh page try again later")
+          setPreload(false)
+          bodys.current.style.filter = "blur(0px)";
+          return alert("Please select a feild first")
         }
         if ((await res).status === 500) {
+          setPreload(false)
+          bodys.current.style.filter = "blur(0px)";
           return alert("Unable to edit.Please the refresh page try again later")
         }
 
       } catch (error) {
+        setPreload(false)
+        bodys.current.style.filter = "blur(0px)";
         return alert(error)
       }
     }
@@ -105,8 +118,8 @@ function Profile() {
     <>
       {canData.map((item) => {
         return (<>
-
-          <div className="page-holder bg-gray-100">
+          {!Preload ? "" : <Preloding />}
+          <div className="page-holder bg-gray-100" ref={bodys}>
             <div className="container-fluid px-lg-4 px-xl-5">
               {/* <!-- Breadcrumbs --> */}
               <div className="page-breadcrumb">
@@ -143,13 +156,13 @@ function Profile() {
                           item.currentStatus === true ? <button className="btn btn-sm btn-success shadow-0">Active</button> : <button className="btn btn-sm btn-danger shadow-0">Disabled</button>
                         }
                         <div class="input-group mb-3 mt-3">
-                          <input type="text" class="form-control" value={item._id}
+                          <input type="text" class="form-control shadow-0" value={item._id}
                             id="currentId"
                           />
 
-                          <span class="input-group-text" id="liveToastBtn" style={{ cursor: "pointer" }} onClick={copyToClip}>
+                          <span class="input-group-text" id="liveToastBtn" style={{ cursor: "pointer" }} >
 
-                            <i class="fa fa-clone text-info" aria-hidden="true"></i>
+                            <i class="fa fa-clone text-info mute" aria-hidden="true" onClick={copyToClip} ></i>
 
                           </span>
                         </div>
@@ -236,11 +249,11 @@ function Profile() {
                   <div className="col-lg-8 ">
                     <div class="card-header mb-3 shadow " style={{ borderRadius: "10px" }} >
 
-                      <form class="input-group" method="Post">
-                        <input class="form-control" type="text" placeholder="Update section" ref={updateInput} value={UpdateData} onChange={(e) => {
+                      <form class="input-group " method="Post">
+                        <input class="form-control shadow-0" type="text" placeholder="Update section" ref={updateInput} value={UpdateData} onChange={(e) => {
                           setUpdateData(e.target.value)
-                        }} />
-                        <button class="btn btn-outline-warning" type="submit" onClick={UpdateDataBaseData}><i class="fa fa-paper-plane"></i></button>
+                        }}  />
+                        <button class="btn btn-outline-warning shadow-0" type="submit" onClick={UpdateDataBaseData}><i class="fa fa-paper-plane"></i></button>
 
                       </form>
                     </div>

@@ -4,6 +4,7 @@ import { AppContext } from "../Context/Context";
 import { useContext, useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom"
+import Preloding from "./Preloding";
 const Main = () => {
   const { candidatesFee, candiFees } = useContext(AppContext)
 
@@ -11,11 +12,11 @@ const Main = () => {
   const [Nextval, setNextval] = useState(5)
   const [Classfilter, setClassfilter] = useState(1)
   const [filterByDate, setfilterByDate] = useState()
-  console.log(filterByDate);
-  const setClsFilter = (e) => {
-    setClassfilter(Number(e.target.value))
 
-  }
+  // const setClsFilter = (e) => {
+
+
+  // }
 
   // console.log(Prevalue, Nextval);
   // register a user
@@ -71,12 +72,14 @@ const Main = () => {
     }
 
   }
-
+  const handleChange = e => {
+    setClassfilter(Number(e.target.value))
+  };
 
   return (
     <>
-
-      <div className="page-holder bg-gray-100">
+      
+      <div className="page-holder bg-gray-100" >
         <div className="container-fluid px-lg-4 px-xl-5">
           {/* <!-- Page Header--> */}
           <div className="page-header">
@@ -164,19 +167,19 @@ const Main = () => {
                 <div className="card card-table h-100">
                   <div className="card-header">
                     <h5 className="card-heading">Students Fees</h5>
-                    <select className="form-select d-inline-block w-auto mt-3  mb-lg-0">
-                      <option value="1" onClick={setClsFilter}>1st Class</option>
-                      <option value="2" onClick={setClsFilter}>2st Class</option>
-                      <option value="3" onClick={setClsFilter}>3rd Class</option>
-                      <option value="4" onClick={setClsFilter}>4th Class</option>
-                      <option value="5" onClick={setClsFilter}>5th Class</option>
-                      <option value="6" onClick={setClsFilter}>6th Class</option>
-                      <option value="7" onClick={setClsFilter}>7th Class</option>
-                      <option value="8" onClick={setClsFilter}>8th Class</option>
-                      <option value="9" onClick={setClsFilter}>9th Class</option>
-                      <option value="10" onClick={setClsFilter}>10th Class</option>
-                      <option value="11" onClick={setClsFilter}>11th Class</option>
-                      <option value="12" onClick={setClsFilter}>12th Class</option>
+                    <select className="form-select d-inline-block w-auto mt-3  mb-lg-0" name="sort" id="sort" onChange={handleChange}>
+                      <option value="1" >1st Class</option>
+                      <option value="2" >2st Class</option>
+                      <option value="3" >3rd Class</option>
+                      <option value="4" >4th Class</option>
+                      <option value="5" >5th Class</option>
+                      <option value="6" >6th Class</option>
+                      <option value="7" >7th Class</option>
+                      <option value="8" >8th Class</option>
+                      <option value="9" >9th Class</option>
+                      <option value="10" >10th Class</option>
+                      <option value="11" >11th Class</option>
+                      <option value="12" >12th Class</option>
                     </select>
                   </div>
                   <div className="card-body">
@@ -316,8 +319,20 @@ const Main = () => {
 
           </section>
         </div>
-       
+
       </div>
+      <footer className="footer bg-white shadow align-self-end py-3 px-xl-5 w-100">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-6 text-center text-md-start fw-bold">
+              <p className="mb-2 mb-md-0 fw-bold">School &copy; 2022</p>
+            </div>
+            <div className="col-md-6 text-center text-md-end text-gray-400">
+              <p className="mb-0">Version 1.0</p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   );
 };

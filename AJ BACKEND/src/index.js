@@ -21,19 +21,13 @@ app.use(require("./router/Admission"));
 app.use(require("./router/CurrentFees"))
 
 //server listener
-corn.schedule("21 8 22 * *", function () {
+corn.schedule("36 9 25 * *", function () {
   console.log("work");
   fun()
 })
-
-app.get("/", Authenticate, async (req, res) => {
-  try {
-   
-  } catch (error) {
-    console.log(error);
-  }
-
-})
+app.get('/*', (request, response) => {
+  response.sendFile(path.join(__dirname, '../public/index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`connnection successful running on port ${PORT}`);

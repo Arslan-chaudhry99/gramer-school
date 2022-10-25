@@ -8,7 +8,7 @@ router.post("/registerLedger", async (req, res) => {
 
   const { name, className, rollNumber, amount, details, remaning, date } = req.body;
   const getCandidateId = await Admission.find({ rollNumber: rollNumber, classname: className })
-  console.log(getCandidateId);
+  
   try {
     const user = new Ledger({ name, className, rollNumber, amount, details, remaning: amount, date });
     if (getCandidateId.length === 0) {
@@ -19,7 +19,7 @@ router.post("/registerLedger", async (req, res) => {
       res.send("success")
       return res.status(200).json({ error: "Done" });
     }
-    console.log(registerLedgerReq);
+    
   } catch (error) {
     () => res.status(500).json({ error: "Unable to create new ledger.Please try again or contact with Arslan chaudhry" });
   }

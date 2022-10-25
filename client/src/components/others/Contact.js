@@ -1,20 +1,24 @@
 import React from "react";
 import { useNavigate } from "react-router";
-import Header from "./Header";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../Context/Context";
 import { NavLink } from "react-router-dom";
+import { useRef } from "react";
+import Preloding from "./Preloding";
 const Contact = () => {
   const { fetchSchoolAbout, schoolData } = useContext(AppContext)
   const [Schoolfilter, setSchoolfilter] = useState('Student')
   const [ClsFilter, setClsFilter] = useState(1)
-  const setClsFilterFun = (e) => {
-    setClsFilter(Number(e.target.value))
-  }
+  
+  
   const navigate = useNavigate();
   useEffect(() => {
     fetchSchoolAbout()
+    
   }, [])
+  
+  
+  
 
   const data = schoolData.filter((item) => {
     if (Schoolfilter === "Student" || Schoolfilter === "Teacher") {
@@ -34,12 +38,17 @@ const Contact = () => {
 
   })
 
-
-
+  // setSchoolfilter
+  const mainFilter = (e) => {
+    setSchoolfilter(e.target.value)
+  }
+  const mainClassFilter = (e) => {
+    setClsFilter(Number(e.target.value))
+  }
   return (
     <>
-      {/* <Header /> */}
-      <div className="page-holder bg-gray-100">
+      
+      <div className="page-holder bg-gray-100" >
         <div className="container-fluid px-lg-4 px-xl-5">
           {/* <!-- Page Header--> */}
           <div className="page-header d-flex justify-content-between align-items-center">
@@ -51,29 +60,29 @@ const Contact = () => {
               <div className="card-body">
                 <div className="row">
                   <div className="col-sm-12">
-                    <select className="form-select d-inline-block w-auto me-3 mb-1 mb-lg-0">
-                      <option value="Student" onClick={(e) => { setSchoolfilter(e.target.value) }}>Students</option>
-                      <option value="Teacher" onClick={(e) => { setSchoolfilter(e.target.value) }}>Teachers</option>
-                      <option value="disable" onClick={(e) => { setSchoolfilter(e.target.value) }}>Disabled</option>
+                    <select className="form-select d-inline-block w-auto me-3 mb-1 mb-lg-0" name="sort" id="sort" onChange={mainFilter}>
+                      <option value="Student">Students</option>
+                      <option value="Teacher">Teachers</option>
+                      <option value="disable">Disabled</option>
                     </select>
                     {
-                      Schoolfilter === "Student"  ? 
-                      <select className="form-select d-inline-block w-auto mt-3  mb-lg-0">
-                      <option value="1" onClick={setClsFilterFun}>1st Class</option>
-                      <option value="2" onClick={setClsFilterFun}>2st Class</option>
-                      <option value="3" onClick={setClsFilterFun}>3rd Class</option>
-                      <option value="4" onClick={setClsFilterFun}>4th Class</option>
-                      <option value="5" onClick={setClsFilterFun}>5th Class</option>
-                      <option value="6" onClick={setClsFilterFun}>6th Class</option>
-                      <option value="7" onClick={setClsFilterFun}>7th Class</option>
-                      <option value="8" onClick={setClsFilterFun}>8th Class</option>
-                      <option value="9" onClick={setClsFilterFun}>9th Class</option>
-                      <option value="10" onClick={setClsFilterFun}>10th Class</option>
-                      <option value="11" onClick={setClsFilterFun}>11th Class</option>
-                      <option value="12" onClick={setClsFilterFun}>12th Class</option>
-                    </select>:""
+                      Schoolfilter === "Student" ?
+                        <select className="form-select d-inline-block w-auto mt-3  mb-lg-0" name="sort" id="sort" onChange={mainClassFilter}>
+                          <option value="1" >1st Class</option>
+                          <option value="2" >2st Class</option>
+                          <option value="3" >3rd Class</option>
+                          <option value="4" >4th Class</option>
+                          <option value="5" >5th Class</option>
+                          <option value="6" >6th Class</option>
+                          <option value="7" >7th Class</option>
+                          <option value="8" >8th Class</option>
+                          <option value="9" >9th Class</option>
+                          <option value="10" >10th Class</option>
+                          <option value="11" >11th Class</option>
+                          <option value="12" >12th Class</option>
+                        </select> : ""
                     }
-                   
+
                   </div>
 
                 </div>
@@ -138,9 +147,20 @@ const Contact = () => {
             </section>
           </section>
         </div>
-      
+
       </div>
-      ;
+      <footer className="footer bg-white shadow align-self-end py-3 px-xl-5 w-100">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-6 text-center text-md-start fw-bold">
+              <p className="mb-2 mb-md-0 fw-bold">School &copy; 2022</p>
+            </div>
+            <div className="col-md-6 text-center text-md-end text-gray-400">
+              <p className="mb-0">Version 1.0</p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   );
 };

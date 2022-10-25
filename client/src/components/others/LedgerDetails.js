@@ -3,10 +3,15 @@ import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { AppContext } from '../Context/Context'
 import { useNavigate } from 'react-router'
+import Preloding from "./Preloding";
+import { useRef } from 'react'
 const LedgerDetails = () => {
     const navigate = useNavigate()
     const { ledgerDataVal, ftechLedger } = useContext(AppContext)
     let { id } = useParams()
+
+    const [Preload, setPreload] = useState(false)
+    const bodys = useRef()
     // filtring data start
     const currentData = ledgerDataVal.filter((objs) => {
         return objs._id === id
@@ -43,6 +48,8 @@ const LedgerDetails = () => {
         }
         else {
             try {
+                setPreload(true)
+                bodys.current.style.filter = "blur(10px)";
                 const res = fetch("/paymentRequest", {
                     method: "POST",
                     headers: {
@@ -51,12 +58,15 @@ const LedgerDetails = () => {
                     body: JSON.stringify(Payment),
                 })
                 if ((await res).status === 201) {
+                    setPreload(false)
+                    bodys.current.style.filter = "blur(0px)";
                     window.location.reload();
                     return alert("Payment done some remains")
                 }
 
             } catch (error) {
-                console.log(error);
+                setPreload(true)
+                bodys.current.style.filter = "blur(10px)";
             }
         }
 
@@ -67,6 +77,8 @@ const LedgerDetails = () => {
             let sure = window.confirm("Are you sure to delete?");
             let deleteData = { item: currentData[0]._id }
             if (sure) {
+                setPreload(true)
+                bodys.current.style.filter = "blur(10px)";
                 const res = fetch("/deleteLedger", {
                     method: "POST",
                     headers: {
@@ -75,6 +87,8 @@ const LedgerDetails = () => {
                     body: JSON.stringify(deleteData),
                 })
                 if ((await res).status === 200) {
+                    setPreload(false)
+                    bodys.current.style.filter = "blur(0px)";
                     window.location.reload();
                     return alert("Item deleted successfuly")
                 }
@@ -97,8 +111,8 @@ const LedgerDetails = () => {
                     {
                         currentData.map((date, index) => {
                             return (<>
-                            
-                                <span className="card mb-4 container mt-4" key={index}>
+                                {!Preload ? "" : <Preloding />}
+                                <span className="card mb-4 container mt-4" key={index} ref={bodys}>
                                     <div className="card-header d-flex align-items-center ">
                                         <i className="fa fa-arrow-left btn btn-sm btn-warning " style={{ marginRight: "10px" }} aria-hidden="true" onClick={goBack}></i>
                                         <h4 className="card-heading">Pay Now!</h4>

@@ -15,6 +15,7 @@ const Logout = () => {
                       })
 
                       if ((await res).status === 200) {
+                                 navigate("/")
                                  setTimeout(() => {
                                 return window.location.reload();
                                  

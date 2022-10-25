@@ -44,7 +44,7 @@ router.post("/signin", async (req, res) => {
         });
         const ipAddress =  req.header('x-forwarded-for') || req.socket.remoteAddress;
         const hostName = os.hostname();
-        console.log(ipAddress,hostName);
+        
          return res.status(201).json({ success: "login successfully" });
       }
     }
@@ -87,9 +87,9 @@ router.post("/resetpassword", async (req, res) => {
 router.get("/logout", (req, res) => {
   try {
     res.clearCookie("userToken")
-    res.status(200).send("logout successfuly")
+    res.status(200).json({message:"success"})
   } catch (error) {
-    res.status(500).send("logout successfuly")
+    es.status(500).json({message:"server error"})
   }
 
 })

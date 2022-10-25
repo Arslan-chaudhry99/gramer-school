@@ -1,9 +1,13 @@
 import React from "react";
 import Header from "./Header";
 import { useState, useEffect } from "react";
+import Preloding from "./Preloding";
+import { useRef } from "react";
 const RegisForm = () => {
   const variCnic = /^-[0-9]/g
   const [Status, setStatus] = useState("Teacher")
+  const [Preload, setPreload] = useState(false)
+
   const [Admission, setAdmission] = useState({
     name: "",
     motherName: "",
@@ -20,7 +24,9 @@ const RegisForm = () => {
     currentStatus: true
 
   });
-console.log(Admission);
+  const bodys = useRef()
+
+
   let name;
   let value;
   const setData = (e) => {
@@ -52,18 +58,23 @@ console.log(Admission);
     }
     else {
       try {
+        setPreload(true)
+        bodys.current.style.filter = "blur(10px)";
         const res = await fetch("/admit", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(Admission),
-          credentials:"include"
+          credentials: "include"
         });
         if ((await res).status === 401) {
+          setPreload(false)
+          bodys.current.style.filter = "blur(0px)";
           return alert("This Roll Number is not available please try another.")
         }
         if ((await res).status === 200) {
+
           setAdmission({
             name: "",
             motherName: "",
@@ -75,18 +86,26 @@ console.log(Admission);
             address: "",
             dateBirth: ""
           })
+          setPreload(false)
+          bodys.current.style.filter = "blur(0px)";
           return alert("Register successful")
 
         }
         if ((await res).status === 201) {
+          setPreload(false)
+          bodys.current.style.filter = "blur(0px)";
           return alert("Seems Like user already exist.")
         }
         if ((await res).status === 400) {
+          setPreload(false)
+          bodys.current.style.filter = "blur(0px)";
           return window.location.reload()
         }
 
       } catch (error) {
-        console.log(error);
+        setPreload(false)
+        bodys.current.style.filter = "blur(0px)";
+        return alert("Please try again.")
       }
     }
 
@@ -99,8 +118,8 @@ console.log(Admission);
 
   return (
     <>
-      {/* <Header /> */}
-      <div className="py-2 m-2">
+      {!Preload ? "" : <Preloding />}
+      <div className="py-2 m-2" ref={bodys}>
         <div className="card mb-4">
           <div className="card-header">
             <h4 class="card-heading">Add member</h4>
@@ -125,7 +144,7 @@ console.log(Admission);
                 <input
                   type="file"
                   accept="image"
-                  className="btn btn-warning shadow"
+                  alt="image"
                 />
               </div>
               <select
@@ -165,7 +184,7 @@ console.log(Admission);
               }
 
               <div className="mb-3">
-                <label className="form-label">{Status !== "Teacher"? "Fee":"Sellery"} </label>
+                <label className="form-label">{Status !== "Teacher" ? "Fee" : "Sellery"} </label>
                 <input className="form-control" onChange={setData} type="Number" name="fee" value={Admission.fee} />
 
                 <div className="mb-3">
@@ -191,6 +210,18 @@ console.log(Admission);
           </div>
         </div>
       </div>
+      <footer className="footer bg-white shadow align-self-end py-3 px-xl-5 w-100">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-6 text-center text-md-start fw-bold">
+              <p className="mb-2 mb-md-0 fw-bold">School &copy; 2022</p>
+            </div>
+            <div className="col-md-6 text-center text-md-end text-gray-400">
+              <p className="mb-0">Version 1.0</p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   );
 };

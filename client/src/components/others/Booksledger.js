@@ -1,23 +1,24 @@
 import React from "react";
 import Header from "./Header";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router";
 import { AppContext } from "../Context/Context";
 import { Link } from "react-router-dom"
-
+import Preloding from "./Preloding";
 const Booksledger = () => {
   const [hisFilter, sethisFilter] = useState(1)
   const { ledgerDataVal, ftechLedger } = useContext(AppContext)
   const [regData, setregData] = useState([])
+  const [Preload, setPreload] = useState(false)
   //navigation
   const navigate = useNavigate()
+  const bodys = useRef()
   const [Ledger, setLedger] = useState({
-    name: "", className: "", rollNumber: "", amount: "", details: "", remaning: 0, date: "", 
+    name: "", className: "", rollNumber: "", amount: "", details: "", remaning: 0, date: "",
   })
   let name;
   let value;
-  console.log(Ledger);
   const setLedgerData = (e) => {
     name = e.target.name;
     value = e.target.value;
@@ -33,27 +34,34 @@ const Booksledger = () => {
     else {
 
       try {
+        setPreload(true)
+        bodys.current.style.filter = "blur(10px)";
         const res = fetch("/registerLedger", {
           method: "Post",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(Ledger),
-          credentials:'include'
+          credentials: 'include'
         });
-         
-        if ((await res).status ===401) {
+
+        if ((await res).status === 401) {
+          setPreload(false)
+          bodys.current.style.filter = "blur(0px)";
           return alert("Seems Like Candidate note found")
         }
         if ((await res).status === 200) {
-
+          setPreload(false)
+          bodys.current.style.filter = "blur(0px)";
           setLedger({ name: "", className: "", rollNumber: "", amount: "", details: "" })
           window.location.reload(true);
           return alert("New student ledger created successfully")
 
         }
       } catch (error) {
-        console.log(error);
+        setPreload(false)
+        bodys.current.style.filter = "blur(0px)";
+        return alert("Try again")
       }
     }
   }
@@ -72,15 +80,17 @@ const Booksledger = () => {
 
   })
 
-
+  const handleChange = (e) => {
+    sethisFilter(Number(e.target.value))
+  }
   return (
     <>
-      {/* <Header /> */}
+      {!Preload ? "" : <Preloding />}
 
       <div
         className="collapse"
         id="collapseMedia"
-
+        ref={bodys}
       >
         <div className="col-lg-11  p-4 card  mb-3" style={{ marginLeft: "5%" }}>
           <form>
@@ -104,7 +114,7 @@ const Booksledger = () => {
               <label className="form-label">Starting Date</label>
               <input className="form-control" name="date" type="date" onChange={setLedgerData} />
             </div>
-           
+
             <div className="mb-3">
               <label className="form-label">Details*</label>
               <input className="form-control" name="details" type="text" value={Ledger.details} onChange={setLedgerData} required />
@@ -133,10 +143,11 @@ const Booksledger = () => {
               <span className="me-2" id="categoryBulkAction">
                 <select
                   className="form-select form-select-sm d-inline w-auto"
-                  name="categoryBulkAction"
+
+                  name="sort" id="sort" onChange={handleChange}
                 >
-                  <option onClick={() => { sethisFilter(1) }}>Active</option>
-                  <option onClick={() => { sethisFilter(0) }}>History</option>
+                  <option value="1" >Active</option>
+                  <option value="0" >History</option>
                 </select>
                 <button className="btn btn-sm btn-outline-primary align-top "
                   data-bs-toggle="collapse"

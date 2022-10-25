@@ -7,7 +7,7 @@ const Admission = require("../Model/Admission");
 // to store admission for
 router.post("/admit", async (req, res) => {
      const { name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth, classname, rollNumber, education, currentStatus } = req.body;
-     console.log(req.body);
+     
      try {
           const userPresent = await Admission.findOne({ cnic: cnic });
           if (userPresent) {
@@ -61,6 +61,7 @@ router.post("/enableDisable", async (req, res) => {
      const { id } = req.body
      try {
           const candidatePri = await Admission.findOne({ _id: id })
+
           const candidate = await Admission.findByIdAndUpdate({ _id: id }, {
                $set: {
                     currentStatus: candidatePri.currentStatus === true ? false : true,
@@ -84,19 +85,16 @@ router.post("/enableDisable", async (req, res) => {
 router.post("/disableCandidate", async (req, res) => {
      const { CandidateId } = req.body
      try {
-          const candidatePri = await Admission.findOne({ _id: CandidateId })
-
+          const candidatePri = await Admission.find({ _id: CandidateId })
+          
           if (candidatePri) {
                return res.status(200).json(candidatePri)
           }
-          if (!candidatePri) {
-               return res.status(401).json({ error: "" })
+          else{
+               console.log("not");
           }
-
-
-
      } catch (error) {
-          return res.status(400).json({ error: "Please try again later." })
+          // return res.status(400).json({ error: "Please try again later." })
      }
 })
 
@@ -142,11 +140,5 @@ router.post("/UpdateDataBaseData", async (req, res) => {
      }
 
 })
-// , {
-//      $set: {
-//           currentStatus: candidatePri.currentStatus === true ? false : true,
-//           rollNumber: 0,
-//           classname: 0
-//      }
-// }, { new: true }
+
 module.exports = router;

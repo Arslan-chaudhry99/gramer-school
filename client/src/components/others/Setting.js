@@ -1,12 +1,12 @@
 import React from "react";
 import Header from "./Header";
 import { useState, useEffect, useRef } from "react";
+import Preloding from "./Preloding";
 const Setting = () => {
   const [CandidateId, setCandidateId] = useState("")
   const [CandidateData, setCandidateData] = useState([])
-
-
-
+  const [Preload, setPreload] = useState(false)
+  const bodys = useRef()
   const getCandidate = async (e) => {
     e.preventDefault()
     if (!CandidateId) {
@@ -16,20 +16,25 @@ const Setting = () => {
       const CandidateIdObj = {
         CandidateId: CandidateId
       }
-      
+      setPreload(true)
+      bodys.current.style.filter = "blur(10px)";
       const res = await fetch("/disableCandidate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(CandidateIdObj),
-        credentials:"include"
+        credentials: "include"
       });
       if ((await res).status === 200) {
+        setPreload(false)
+        bodys.current.style.filter = "blur(0px)";
         const Data = await res.json()
-        setCandidateData([Data])
+        setCandidateData(Data)
       }
       if ((await res).status === 401) {
+        setPreload(false)
+        bodys.current.style.filter = "blur(0px)";
         return alert("Candidate Not found")
 
       }
@@ -96,6 +101,8 @@ const Setting = () => {
       return alert("Username must start with Alphanumeric");
     } else {
       try {
+        setPreload(true)
+      bodys.current.style.filter = "blur(10px)";
         const res = await fetch("/signup", {
 
           method: "POST",
@@ -106,10 +113,13 @@ const Setting = () => {
         });
 
         if ((await res).status === 422) {
-
+          setPreload(false)
+          bodys.current.style.filter = "blur(0px)";
           return alert("Please try another username");
         }
         if ((await res).status === 200) {
+          setPreload(false)
+          bodys.current.style.filter = "blur(0px)";
           setUser({
             name: "",
             phone: "",
@@ -119,10 +129,13 @@ const Setting = () => {
           return alert("User register successfuly");
         }
         if ((await res).status === 422) {
-
+          setPreload(false)
+          bodys.current.style.filter = "blur(0px)";
           return alert("Error 500. please try again later");
         }
       } catch (error) {
+        setPreload(false)
+        bodys.current.style.filter = "blur(0px)";
         console.log(error);
       }
     }
@@ -148,6 +161,8 @@ const Setting = () => {
     }
     else {
       try {
+        setPreload(true)
+        bodys.current.style.filter = "blur(10px)";
         const res = await fetch("/resetpassword", {
 
           method: "POST",
@@ -157,12 +172,18 @@ const Setting = () => {
           body: JSON.stringify(Rest),
         });
         if ((await res).status === 401) {
+          setPreload(false)
+          bodys.current.style.filter = "blur(0px)";
           return alert("User not found.")
         }
         if ((await res).status === 402) {
+          setPreload(false)
+          bodys.current.style.filter = "blur(0px)";
           return alert("Invalid old password")
         }
         if ((await res).status === 203) {
+          setPreload(false)
+          bodys.current.style.filter = "blur(0px)";
           setRest({
             name: "",
             oldPass: "",
@@ -172,6 +193,8 @@ const Setting = () => {
           return alert("Password updated success")
         }
       } catch (error) {
+        setPreload(false)
+        bodys.current.style.filter = "blur(0px)";
         console.log(error);
       }
     }
@@ -187,23 +210,31 @@ const Setting = () => {
       id: CandidateId
     }
     try {
-
+      setPreload(true)
+      bodys.current.style.filter = "blur(10px)";
       const res = fetch("/enableDisable", {
         method: "Post",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-        credentials:"include"
+        credentials: "include"
       });
       if ((await res).status === 201) {
+        setPreload(false)
+        bodys.current.style.filter = "blur(0px)";
         alert("Update Success")
         return window.location.reload();
       }
+
       if ((await res).status === 403) {
+        setPreload(false)
+        bodys.current.style.filter = "blur(0px)";
         return alert("Unable to update")
       }
     } catch (error) {
+      setPreload(false)
+      bodys.current.style.filter = "blur(0px)";
       return alert("Try gain later")
     }
 
@@ -213,8 +244,8 @@ const Setting = () => {
 
   return (
     <>
-      {/* <Header /> */}
-      <dir className="row">
+      {!Preload ? "" : <Preloding />}
+      <dir className="row" ref={bodys}>
         <div className="col-lg-4 mb-5">
           <div className="card">
             <div className="card-header">
@@ -379,7 +410,7 @@ const Setting = () => {
                     <th>Name</th>
                     <th>IP Address</th>
                     <th>Device</th>
-                    <th>Location</th>
+                    
                     <th className="text-end">Status</th>
                   </tr>
                 </thead>
@@ -396,13 +427,13 @@ const Setting = () => {
                     </td>
                     <td>17:9:88</td>
                     <td>Win 10</td>
-                    <td>Laahore</td>
+                    
                     <td className="text-end">
                       {/* <span className="btn btn-danger btn-sm text-white">
                                 offline
                               </span> */}
                       <span className="btn btn-success btn-sm text-white">
-                        Online
+                        Active
                       </span>
                     </td>
 
