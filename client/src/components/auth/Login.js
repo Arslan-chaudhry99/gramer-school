@@ -1,10 +1,10 @@
 import React from "react";
-import { useState, useEffect } from "react";
-
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
-
+import Preloding from "../others/Preloding";
 const Login = () => {
-  
+  const [Preload, setPreload] = useState(false)
+  const bodys = useRef()
   const navigate = useNavigate();
   const [Auth, setAuth] = useState({ name: "", password: "" });
   let name;
@@ -21,41 +21,48 @@ const Login = () => {
     if (!name || !password) {
       return alert("Invalid username or password");
     }
+    setPreload(true)
+    bodys.current.style.filter = "blur(10px)";
     const res = fetch("/signin", {
       method: "Post",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(Auth),
-      credentials:"include"
+      credentials: "include"
     });
-    console.log( (await res).status);
+
     if ((await res).status === 201) {
+      setPreload(false)
+                bodys.current.style.filter = "blur(0px)";
       setTimeout(() => {
         navigate("/");
         window.location.reload();
       }, 2000);
       return alert("Login successfuly");
-      
+
     }
     if (!(await res).status === 404 || 400) {
-      return  alert("Invalid username or password");
-      
+      setPreload(false)
+      bodys.current.style.filter = "blur(0px)";
+      return alert("Invalid username or password");
+
     }
   };
-  
-  
-  
+
+
+
   return (
     <>
-      <div className="page-holder align-items-center py-4 bg-gray-100 vh-100">
+      {!Preload ? "" : <Preloding />}
+      <div className="page-holder align-items-center py-4 bg-gray-100 vh-100" ref={bodys}>
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-6 px-lg-4">
               <div className="card">
                 <div className="card-header px-lg-5">
                   <div className="card-heading text-primary">
-                  Standard Grammar School
+                    Standard Grammar School
                   </div>
                 </div>
                 <div className="card-body p-lg-5">
