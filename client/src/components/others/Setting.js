@@ -102,7 +102,7 @@ const Setting = () => {
     } else {
       try {
         setPreload(true)
-      bodys.current.style.filter = "blur(10px)";
+        bodys.current.style.filter = "blur(10px)";
         const res = await fetch("/signup", {
 
           method: "POST",
@@ -245,7 +245,7 @@ const Setting = () => {
   return (
     <>
       {!Preload ? "" : <Preloding />}
-      <dir className="row" ref={bodys}>
+      <dir className="row w-100" ref={bodys} style={{ marginRight: "0" }}>
         <div className="col-lg-4 mb-5">
           <div className="card">
             <div className="card-header">
@@ -253,7 +253,7 @@ const Setting = () => {
             </div>
             <div className="card-body">
               <form method="POST">
-                <div className="form-floating mb-3">
+                <div className="form-floating ">
                   <input
                     className="form-control"
                     id="floatingInput"
@@ -311,13 +311,13 @@ const Setting = () => {
         {/* adding a user */}
         {/* adding a user */}
         {/* adding a user */}
-        <div className="col-lg-7 mb-5">
+        <div className="col-lg-8 mb-5">
           <div className="card">
             <div className="card-header">
               <h4 className="card-heading">add admin</h4>
             </div>
             <div className="card-body">
-              <form method="POST">
+              <form method="POST" encType="multipart/form-data">
                 <div className="form-floating mb-3">
                   <input
                     className="form-control"
@@ -347,6 +347,14 @@ const Setting = () => {
                   <label htmlFor="floatingPassword">Phone</label>
                   <small>exp: 341-5403790</small>
                 </div>
+                <button className="btn btn-success shadow mb-3">
+                  <input type="file" accept="image/*" name="photo"
+                    onChange={(e) => {
+                      console.log(e.target.files[0]);
+                    }}
+                  />
+                </button>
+
                 <div className="form-floating mb-3 d-flex align-items-center">
                   <input
                     className="form-control"
@@ -410,7 +418,7 @@ const Setting = () => {
                     <th>Name</th>
                     <th>IP Address</th>
                     <th>Device</th>
-                    
+
                     <th className="text-end">Status</th>
                   </tr>
                 </thead>
@@ -427,7 +435,7 @@ const Setting = () => {
                     </td>
                     <td>17:9:88</td>
                     <td>Win 10</td>
-                    
+
                     <td className="text-end">
                       {/* <span className="btn btn-danger btn-sm text-white">
                                 offline

@@ -23,7 +23,7 @@ const Contact = () => {
   const data = schoolData.filter((item) => {
     if (Schoolfilter === "Student" || Schoolfilter === "Teacher") {
       if (Schoolfilter === "Teacher") {
-        return item.status === Schoolfilter
+        return item.status === Schoolfilter && item.currentStatus !== false
       }
       if (Schoolfilter === "Student") {
         return item.status === Schoolfilter && item.currentStatus !== false &&
@@ -128,7 +128,10 @@ const Contact = () => {
                               {items.status}
                             </h3>
                             {
-                              items.status === "Student" ? <p className="text-muted text-sm mb-0"> {`${items.classname}th Class`}</p> : <p className="text-muted text-sm mb-0"> {`${items.education}`}</p>
+                              items.status === "Student" ? <p className="text-muted text-sm mb-0"> {`Class: ${items.classname}`}</p> : <p className="text-muted text-sm mb-0"> {`${items.education}`}</p>
+                            }
+                            {
+                              items.status === "Student" ? <p className="text-muted text-sm mb-0"> {`RollNo: ${items.rollNumber}`}</p> : ""
                             }
                             {
                               items.currentStatus === true ?

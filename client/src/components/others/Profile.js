@@ -18,11 +18,13 @@ function Profile() {
     fetchSchoolAbout()
     ftechLedger()
     candidatesFee()
+
+
   }, [])
   const canData = schoolData.filter((item) => {
     return item._id === userId
   })
-  // console.log(canData[0].classname,canData[0].rollNumber);
+
   let remainingLedger = ledgerDataVal.filter((ledg) => {
     return ledg.className === canData[0].classname && ledg.rollNumber === canData[0].rollNumber
 
@@ -93,7 +95,9 @@ function Profile() {
         if ((await res).status === 201) {
           setPreload(false)
           bodys.current.style.filter = "blur(0px)";
-          window.location.reload()
+          fetchSchoolAbout()
+          ftechLedger()
+          candidatesFee()
           return alert("Info Update successfuly")
         }
         if ((await res).status === 400) {
@@ -246,13 +250,13 @@ function Profile() {
                     </form>
                   </div>
 
-                  <div className="col-lg-8 ">
-                    <div class="card-header mb-3 shadow " style={{ borderRadius: "10px" }} >
+                  <div className="col-lg-8 " >
+                    <div class="card-header mb-3 shadow  border border-danger " style={{ borderRadius: "10px" }} >
 
                       <form class="input-group " method="Post">
                         <input class="form-control shadow-0" type="text" placeholder="Update section" ref={updateInput} value={UpdateData} onChange={(e) => {
                           setUpdateData(e.target.value)
-                        }}  />
+                        }} />
                         <button class="btn btn-outline-warning shadow-0" type="submit" onClick={UpdateDataBaseData}><i class="fa fa-paper-plane"></i></button>
 
                       </form>

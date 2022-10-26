@@ -126,7 +126,7 @@ const RegisForm = () => {
           </div>
 
           <div className="row p-4">
-            <form method="POST">
+            <form method="POST" encType="multipart/form-data">
               <div className="mb-3">
                 <label className="form-label">Name</label>
                 <input className="form-control" name="name" value={Admission.name} type="text" onChange={setData} />
@@ -145,6 +145,7 @@ const RegisForm = () => {
                   type="file"
                   accept="image"
                   alt="image"
+                  name="image"
                 />
               </div>
               <select

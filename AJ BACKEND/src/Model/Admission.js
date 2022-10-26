@@ -1,4 +1,4 @@
-const mongoose=require("mongoose");
+const mongoose = require("mongoose");
 const admissionSchema = new mongoose.Schema({
            name: {
                       type: String,
@@ -29,30 +29,34 @@ const admissionSchema = new mongoose.Schema({
                       type: Number,
                       require: true
            },
-           address:{
+           address: {
                       type: String,
-                      require: true   
+                      require: true
            },
-           dateBirth:{
+           dateBirth: {
                       type: String,
-                      require: true   
+                      require: true
            },
-           classname:{
+           classname: {
                       type: Number,
-                      require: true   
+                      require: true
            },
-           rollNumber:{
+           rollNumber: {
                       type: Number,
-                      require: true   
+                      require: true
            },
-           education:{
+           education: {
                       type: String,
-                      require: true   
+                      require: true
            },
-           currentStatus:{
-                     type:Boolean,
-                     require:true
-                      
+           currentStatus: {
+                      type: Boolean,
+                      require: true
+
+           },
+           image: {
+                      type: String
+
            }
 
 

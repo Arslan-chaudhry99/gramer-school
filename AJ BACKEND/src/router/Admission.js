@@ -6,8 +6,8 @@ const Admission = require("../Model/Admission");
 
 // to store admission for
 router.post("/admit", async (req, res) => {
-     const { name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth, classname, rollNumber, education, currentStatus } = req.body;
-     
+     const { name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth, classname, rollNumber, education, currentStatus, image } = req.body;
+
      try {
           const userPresent = await Admission.findOne({ cnic: cnic });
           if (userPresent) {
@@ -65,8 +65,8 @@ router.post("/enableDisable", async (req, res) => {
           const candidate = await Admission.findByIdAndUpdate({ _id: id }, {
                $set: {
                     currentStatus: candidatePri.currentStatus === true ? false : true,
-                    rollNumber: 0,
-                    classname: 0
+                    rollNumber: candidatePri.currentStatus === true ? 0 : candidatePri.rollNumber,
+                    classname: candidatePri.currentStatus === true ? 0 : candidatePri.classname,
                }
           }, { new: true })
           if (candidate) {
@@ -86,11 +86,11 @@ router.post("/disableCandidate", async (req, res) => {
      const { CandidateId } = req.body
      try {
           const candidatePri = await Admission.find({ _id: CandidateId })
-          
+
           if (candidatePri) {
                return res.status(200).json(candidatePri)
           }
-          else{
+          else {
                console.log("not");
           }
      } catch (error) {
