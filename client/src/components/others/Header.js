@@ -29,7 +29,28 @@ const Header = () => {
               aria-labelledby="userInfo"
             >
               <NavLink to="/">
-                <span className="dropdown-item ">Home</span>
+                <span className="dropdown-item ">
+                  <i class="fa fa-home" aria-hidden="true" ></i>
+                  <span style={{ marginLeft: "5px" }}>Home</span>
+                </span>
+              </NavLink>
+              <NavLink to="/students-details">
+                <span className="dropdown-item ">
+                  <i class="fa fa-user" aria-hidden="true"></i>
+                  <span style={{ marginLeft: "5px" }}>Profiles</span>
+                </span>
+              </NavLink>
+              <NavLink to="/Registration-form">
+                <span className="dropdown-item ">
+                  <i class="fa fa-registered" aria-hidden="true"></i>
+                  <span > Registration</span>
+                </span>
+              </NavLink>
+              <NavLink to="/Books-ledger">
+                <span className="dropdown-item ">
+                  <i class="fa fa-file" aria-hidden="true"></i>
+                  <span style={{ marginLeft: "5px" }}>Ledger</span>
+                </span>
               </NavLink>
             </div>
           </li>
