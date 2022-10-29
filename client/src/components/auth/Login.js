@@ -21,7 +21,7 @@ const Login = () => {
     const { name, password } = Auth;
     if (!name || !password) {
       const id = toast.loading("Please wait...")
-     return toast.update(id, { render: "Invalid credentials", type: "error", isLoading: false });
+     return toast.update(id, { render: "Invalid credentials", type: "error", isLoading: false, autoClose: 3000, closeOnClick: true });
     }
     else {
       const id = toast.loading("Please wait...")
@@ -40,11 +40,11 @@ const Login = () => {
           navigate("/");
           window.location.reload();
         }, 2000);
-       return toast.update(id, { render: "Login successfully", type: "success", isLoading: false });
+       return toast.update(id, { render: "Login successfully", type: "success", isLoading: false, autoClose: 3000, closeOnClick: true });
       }
      if (!(await res).status === 404 || 400) {
 
-      return  toast.update(id, { render: "Invalid credentials", type: "error", isLoading: false });
+      return  toast.update(id, { render: "Invalid credentials", type: "error", isLoading: false, autoClose: 3000, closeOnClick: true });
 
 
       }
