@@ -1,42 +1,26 @@
-<div class="dataTable-bottom">
-  <div class="dataTable-info">Showing 1 to 5 of 30 entries</div>
-  <nav class="dataTable-pagination">
-    <ul class="dataTable-pagination-list">
-      <li class="active">
-        <a href="#" data-page="1">
-          1
-        </a>
-      </li>
-      <li class="">
-        <a href="#" data-page="2">
-          2
-        </a>
-      </li>
-      <li class="">
-        <a href="#" data-page="3">
-          3
-        </a>
-      </li>
-      <li class="">
-        <a href="#" data-page="4">
-          4
-        </a>
-      </li>
-      <li class="">
-        <a href="#" data-page="5">
-          5
-        </a>
-      </li>
-      <li class="">
-        <a href="#" data-page="6">
-          6
-        </a>
-      </li>
-      <li class="pager">
-        <a href="#" data-page="2">
-          ›
-        </a>
-      </li>
-    </ul>
-  </nav>
-</div>
+for (let index = 1; index < 10; index++) {
+  console.log(`phse ${index}-------`);
+  for (let i = 1; i < 100; i++) {
+    const setAdmission = async () => {
+      const user = new Admission({
+        name: "Arslan",
+        motherName: "ABC",
+        cnic: "1234",
+        status: "Student",
+        fatherName: "ABC",
+        phone: 123,
+        fee: 900,
+        address: "GK",
+        dateBirth: "27 oct",
+        classname: index,
+        rollNumber: i,
+        education: "ABC",
+        currentStatus: true,
+      });
+      const registerUser = await user.save();
+      if (registerUser) {
+        console.log(`part ${i}`);
+      }
+    };
+  }
+}

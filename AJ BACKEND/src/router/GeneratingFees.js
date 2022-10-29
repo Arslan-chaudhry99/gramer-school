@@ -6,7 +6,7 @@ const Admission = require("../Model/Admission");
 const cron = require("node-cron");
 
 const createNewFees = async () => {
-           const Candidates = await Admission.find()
+           const Candidates = await Admission.find();
            const creatingData = async (modlValues) => {
                       const adding = await modlValues.save()
                       if (adding) {
@@ -37,11 +37,8 @@ const createNewFees = async () => {
                       else {
                                  null
                       }
-           })
-}
-
-
-module.exports = createNewFees
+           })};
+module.exports = createNewFees;
 
 
 

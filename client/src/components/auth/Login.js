@@ -1,10 +1,10 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
-import Preloding from "../others/Preloding";
+import { loderData } from "../others/Preloding";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Login = () => {
-  const [Preload, setPreload] = useState(false)
-  const bodys = useRef()
   const navigate = useNavigate();
   const [Auth, setAuth] = useState({ name: "", password: "" });
   let name;
@@ -15,47 +15,62 @@ const Login = () => {
     setAuth({ ...Auth, [name]: value });
   };
   // signInNow
+
   const signInNow = async (e) => {
     e.preventDefault();
     const { name, password } = Auth;
     if (!name || !password) {
-      return alert("Invalid username or password");
+      const id = toast.loading("Please wait...")
+     return toast.update(id, { render: "Invalid credentials", type: "error", isLoading: false });
     }
-    setPreload(true)
-    bodys.current.style.filter = "blur(10px)";
-    const res = fetch("/signin", {
-      method: "Post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(Auth),
-      credentials: "include"
-    });
+    else {
+      const id = toast.loading("Please wait...")
+      const res = await fetch("/signin", {
+        method: "Post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(Auth),
+        credentials: "include"
+      })
 
-    if ((await res).status === 201) {
-      setPreload(false)
-                bodys.current.style.filter = "blur(0px)";
-      setTimeout(() => {
-        navigate("/");
-        window.location.reload();
-      }, 2000);
-      return alert("Login successfuly");
+
+      if ((await res).status === 201) {
+        setTimeout(() => {
+          navigate("/");
+          window.location.reload();
+        }, 2000);
+       return toast.update(id, { render: "Login successfully", type: "success", isLoading: false });
+      }
+     if (!(await res).status === 404 || 400) {
+
+      return  toast.update(id, { render: "Invalid credentials", type: "error", isLoading: false });
+
+
+      }
+
 
     }
-    if (!(await res).status === 404 || 400) {
-      setPreload(false)
-      bodys.current.style.filter = "blur(0px)";
-      return alert("Invalid username or password");
 
-    }
   };
 
 
 
   return (
     <>
-      {!Preload ? "" : <Preloding />}
-      <div className="page-holder align-items-center py-4 bg-gray-100 vh-100" ref={bodys}>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <div className="page-holder align-items-center py-4 bg-gray-100 vh-100" >
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-6 px-lg-4">
@@ -65,6 +80,7 @@ const Login = () => {
                     Standard Grammar School
                   </div>
                 </div>
+
                 <div className="card-body p-lg-5">
                   <h3 className="mb-4">Hi, Sir Usman! 👋👋</h3>
                   <p className="text-muted text-sm mb-5">

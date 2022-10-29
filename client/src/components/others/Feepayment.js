@@ -2,12 +2,12 @@ import React, { useRef } from 'react'
 import { AppContext } from '../Context/Context'
 import { useContext, useEffect, useState, ref } from 'react'
 import { useParams } from 'react-router'
-import Preloding from "./Preloding";
+
 const Feepayment = () => {
     const { candidatesFee, candiFees } = useContext(AppContext);
     const [PaymentAmount, setPaymentAmount] = useState(0)
     const [PaymentDate, setPaymentDate] = useState("")
-    const [Preload, setPreload] = useState(false)
+    
     const bodys = useRef()
     const { id } = useParams()
     useEffect(() => {
@@ -40,8 +40,7 @@ const Feepayment = () => {
 
         else {
             try {
-                setPreload(true)
-                bodys.current.style.filter = "blur(10px)";
+             
                 const res = fetch("/paynowfee", {
                     method: "POST",
                     headers: {
@@ -50,15 +49,13 @@ const Feepayment = () => {
                     body: JSON.stringify(payObj),
                 })
                 if ((await res).status === 200) {
-                    setPreload(false)
-                    bodys.current.style.filter = "blur(0px)";
+                  
                     window.location.reload(true);
                     return alert("Payment successful")
 
                 }
                 if ((await res).status === 500) {
-                    setPreload(false)
-                    bodys.current.style.filter = "blur(0px)";
+                    
                     return alert("server error please try agin later")
                 }
 
@@ -83,8 +80,8 @@ const Feepayment = () => {
                 paymentData.map((data, index) => {
                     return (
                         <>
-                            {!Preload ? "" : <Preloding />}
-                            <span className="card mb-4 container mt-4" key={index} ref={bodys} >
+                           
+                            <span className="card mb-4 container mt-4" key={index}  >
                                 <div style={{ width: "100px", height: "100px", borderRadius: "50%" }} className="shadow mt-2">
                                     <img src="/logo.jpeg" alt="img" style={{ width: "100%", borderRadius: "50%" }} />
                                 </div>

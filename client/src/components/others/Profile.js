@@ -4,13 +4,13 @@ import { useContext, useEffect, useState, useRef } from "react";
 import { AppContext } from "../Context/Context";
 import { json, useParams } from "react-router";
 import { Link } from "react-router-dom";
-import Preloding from "./Preloding";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Profile() {
   const [statusChek, setstatusChek] = useState(1)
   const [UpdateData, setUpdateData] = useState()
   const [updateNow, setupdateNow] = useState({})
-  const [Preload, setPreload] = useState(false)
-  const bodys = useRef()
+
   const { fetchSchoolAbout, schoolData, ftechLedger, ledgerDataVal, candidatesFee, candiFees } = useContext(AppContext)
 
   const { userId } = useParams("userId")
@@ -77,13 +77,14 @@ function Profile() {
   // UpdateDataBaseData
   const UpdateDataBaseData = async (e) => {
     e.preventDefault()
+    const id = toast.loading("Please wait...")
     if (!updateNow) {
-      return alert("Error in frontend refresh the page")
+     return toast.update(id, { render: "Error in frontend refresh the page", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+      
     }
     else {
       try {
-        setPreload(true)
-        bodys.current.style.filter = "blur(10px)";
+
         const res = fetch("/UpdateDataBaseData", {
           method: "POST",
           headers: {
@@ -93,37 +94,46 @@ function Profile() {
 
         })
         if ((await res).status === 201) {
-          setPreload(false)
-          bodys.current.style.filter = "blur(0px)";
+
           fetchSchoolAbout()
           ftechLedger()
           candidatesFee()
-          return alert("Info Update successfuly")
+          return toast.update(id, { render: "Info Update successfuly", type: "success", isLoading: false, autoClose: 5000, closeOnClick: true },);
+         
         }
         if ((await res).status === 400) {
-          setPreload(false)
-          bodys.current.style.filter = "blur(0px)";
-          return alert("Please select a feild first")
+          return toast.update(id, { render: "Please select a feild first", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+          
         }
         if ((await res).status === 500) {
-          setPreload(false)
-          bodys.current.style.filter = "blur(0px)";
-          return alert("Unable to edit.Please the refresh page try again later")
+          return toast.update(id, { render: "Unable to edit.Please the refresh page try again later", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+          
         }
 
       } catch (error) {
-        setPreload(false)
-        bodys.current.style.filter = "blur(0px)";
+
         return alert(error)
       }
     }
   }
   return (
     <>
+    <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       {canData.map((item) => {
         return (<>
-          {!Preload ? "" : <Preloding />}
-          <div className="page-holder bg-gray-100" ref={bodys}>
+
+          <div className="page-holder bg-gray-100" >
             <div className="container-fluid px-lg-4 px-xl-5">
               {/* <!-- Breadcrumbs --> */}
               <div className="page-breadcrumb">

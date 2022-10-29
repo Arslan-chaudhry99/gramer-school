@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../Context/Context";
 import { NavLink } from "react-router-dom";
 import { useRef } from "react";
-import Preloding from "./Preloding";
+
 const Contact = () => {
   const { fetchSchoolAbout, schoolData } = useContext(AppContext)
   const [Schoolfilter, setSchoolfilter] = useState('Student')
@@ -94,6 +94,7 @@ const Contact = () => {
                 {
                   data.map((items) => {
                     return (<>
+
                       <div className="col-md-6 col-lg-3">
                         <div className="card mb-4">
                           <div

@@ -1,12 +1,13 @@
 import React from "react";
 import Header from "./Header";
 import { useState, useEffect } from "react";
-import Preloding from "./Preloding";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useRef } from "react";
 const RegisForm = () => {
   const variCnic = /^-[0-9]/g
   const [Status, setStatus] = useState("Teacher")
-  const [Preload, setPreload] = useState(false)
+ 
 
   const [Admission, setAdmission] = useState({
     name: "",
@@ -24,7 +25,7 @@ const RegisForm = () => {
     currentStatus: true
 
   });
-  const bodys = useRef()
+
 
 
   let name;
@@ -45,21 +46,22 @@ const RegisForm = () => {
 
   const registerCandi = async (e) => {
     e.preventDefault();
-    console.log(Admission);
+    const id = toast.loading("Please wait...")
     const {
       name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth, classname, rollNumber, education, currentStatus
     } = Admission;
 
     if (!name || !motherName || !cnic || !status || !fatherName || !phone || !fee || !address || !dateBirth) {
-      return alert("Please fill each an every field correctly")
+     return toast.update(id, { render: "Please fill each an every field correctly", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+      
     }
     if (cnic.length < 13 || cnic.length > 13) {
-      return alert("CNIC no correct please enter cnic without slah or space and cnic must have 13 digits")
+     return toast.update(id, { render: "CNIC no correct please enter cnic without slah or space and cnic must have 13 digits", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+  
     }
     else {
       try {
-        setPreload(true)
-        bodys.current.style.filter = "blur(10px)";
+
         const res = await fetch("/admit", {
           method: "POST",
           headers: {
@@ -69,12 +71,11 @@ const RegisForm = () => {
           credentials: "include"
         });
         if ((await res).status === 401) {
-          setPreload(false)
-          bodys.current.style.filter = "blur(0px)";
-          return alert("This Roll Number is not available please try another.")
+         return toast.update(id, { render: "This Roll Number is not available please try another.", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+          
         }
-        if ((await res).status === 200) {
-
+         if ((await res).status === 200) {
+        
           setAdmission({
             name: "",
             motherName: "",
@@ -86,25 +87,21 @@ const RegisForm = () => {
             address: "",
             dateBirth: ""
           })
-          setPreload(false)
-          bodys.current.style.filter = "blur(0px)";
-          return alert("Register successful")
+          return toast.update(id, { render: "Register successful", type: "success", isLoading: false, autoClose: 5000, closeOnClick: true },);
+          
 
         }
-        if ((await res).status === 201) {
-          setPreload(false)
-          bodys.current.style.filter = "blur(0px)";
-          return alert("Seems Like user already exist.")
+      if ((await res).status === 201) {
+       return   toast.update(id, { render: "Seems Like user already exist.", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+          
         }
         if ((await res).status === 400) {
-          setPreload(false)
-          bodys.current.style.filter = "blur(0px)";
+
           return window.location.reload()
         }
 
       } catch (error) {
-        setPreload(false)
-        bodys.current.style.filter = "blur(0px)";
+
         return alert("Please try again.")
       }
     }
@@ -118,8 +115,19 @@ const RegisForm = () => {
 
   return (
     <>
-      {!Preload ? "" : <Preloding />}
-      <div className="py-2 m-2" ref={bodys}>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <div className="py-2 m-2" >
         <div className="card mb-4">
           <div className="card-header">
             <h4 class="card-heading">Add member</h4>

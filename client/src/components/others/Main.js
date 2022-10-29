@@ -4,7 +4,8 @@ import { AppContext } from "../Context/Context";
 import { useContext, useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom"
-import Preloding from "./Preloding";
+
+
 const Main = () => {
   const { candidatesFee, candiFees } = useContext(AppContext)
 
@@ -37,19 +38,21 @@ const Main = () => {
     candidatesFee()
   }, [])
   // student filter
-  let currentDate = new Date().toDateString()
-
-  const studentsFilter = candiFees.filter((item) => {
-    return item.status !== "Teacher" && item.startingDate === currentDate && item.classname === Classfilter
-  })
+  // accessing last element
   const dateData = candiFees.map((item) => {
     return item.startingDate
   })
+  const wasArr = Array.from(new Set(dateData))
+  let lastElement = wasArr[wasArr.length - 1];
 
+  const studentsFilter = candiFees.filter((item) => {
+    return item.status !== "Teacher" && item.startingDate === lastElement && item.classname === Classfilter
+  })
 
   const teacherFilter = candiFees.filter((item) => {
-    return item.status === "Teacher" && item.startingDate === currentDate
+    return item.status === "Teacher" && item.startingDate === lastElement
   })
+  
   const sliceStudentsFilter = studentsFilter.slice(Prevalue, Nextval)
 
   const moveNext = () => {
@@ -78,7 +81,7 @@ const Main = () => {
 
   return (
     <>
-      
+
       <div className="page-holder bg-gray-100" >
         <div className="container-fluid px-lg-4 px-xl-5">
           {/* <!-- Page Header--> */}
@@ -198,6 +201,7 @@ const Main = () => {
                         {sliceStudentsFilter.map((item, index) => {
                           return (
                             <>
+                            
                               <tbody className="align-middle" key={index}>
                                 <tr>
                                   <td>

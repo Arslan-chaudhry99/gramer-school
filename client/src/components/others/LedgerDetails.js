@@ -3,15 +3,17 @@ import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { AppContext } from '../Context/Context'
 import { useNavigate } from 'react-router'
-import Preloding from "./Preloding";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useRef } from 'react'
+import { loderData } from './Preloding'
 const LedgerDetails = () => {
     const navigate = useNavigate()
     const { ledgerDataVal, ftechLedger } = useContext(AppContext)
     let { id } = useParams()
 
-    const [Preload, setPreload] = useState(false)
-    const bodys = useRef()
+
+
     // filtring data start
     const currentData = ledgerDataVal.filter((objs) => {
         return objs._id === id
@@ -30,26 +32,29 @@ const LedgerDetails = () => {
         ledgerValues = e.target.value;
         setPayment({ ...Payment, [ledgerName]: ledgerValues })
     }
-    console.log(ledgerDataVal);
+  
 
     const payNow = async (e) => {
+        const id = toast.loading("Please wait...")
         e.preventDefault()
 
         const { payAmount, ledger, payStatus } = Payment
-        console.log(payStatus);
+        
         if (!payAmount || !ledger) {
-            return alert("Please fill out the amount or check internet connection")
+          return alert("Please fill out each and every field")
+            
         }
-        if (currentData[0].remaning === 0) {
-            return alert("No amount remains to pay")
+        else if (currentData[0].remaning === 0) {
+            toast.update(id, { render: "No amount remains to pay", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+            
         }
-        if (payAmount > currentData[0].remaning) {
-            return alert("Payment amount is greate than payable amount")
+        else if (payAmount > currentData[0].remaning) {
+            toast.update(id, { render: "Payment amount is greate than payable amount", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+            
         }
         else {
             try {
-                setPreload(true)
-                bodys.current.style.filter = "blur(10px)";
+
                 const res = fetch("/paymentRequest", {
                     method: "POST",
                     headers: {
@@ -58,27 +63,25 @@ const LedgerDetails = () => {
                     body: JSON.stringify(Payment),
                 })
                 if ((await res).status === 201) {
-                    setPreload(false)
-                    bodys.current.style.filter = "blur(0px)";
-                    window.location.reload();
-                    return alert("Payment done some remains")
+                    toast.update(id, { render: "Payment done some remains", type: "success", isLoading: false, autoClose: 5000, closeOnClick: true },);
+                    
+                    ftechLedger()
                 }
 
             } catch (error) {
-                setPreload(true)
-                bodys.current.style.filter = "blur(10px)";
+
             }
         }
 
     }
     const deleteLedger = async (e) => {
+        const id = toast.loading("Please wait...")
         e.preventDefault()
         try {
             let sure = window.confirm("Are you sure to delete?");
             let deleteData = { item: currentData[0]._id }
             if (sure) {
-                setPreload(true)
-                bodys.current.style.filter = "blur(10px)";
+
                 const res = fetch("/deleteLedger", {
                     method: "POST",
                     headers: {
@@ -87,10 +90,11 @@ const LedgerDetails = () => {
                     body: JSON.stringify(deleteData),
                 })
                 if ((await res).status === 200) {
-                    setPreload(false)
-                    bodys.current.style.filter = "blur(0px)";
-                    window.location.reload();
-                    return alert("Item deleted successfuly")
+                    toast.update(id, { render: "Item deleted successfuly", type: "success", isLoading: false, autoClose: 5000, closeOnClick: true },);
+                    setTimeout(() => {
+                        navigate("/Books-ledger")
+                    }, 5000);
+                    
                 }
             }
         } catch (error) {
@@ -105,14 +109,26 @@ const LedgerDetails = () => {
 
     return (
         <>
+       <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
             {
                 currentData.length > 0 ? <div>
 
                     {
                         currentData.map((date, index) => {
                             return (<>
-                                {!Preload ? "" : <Preloding />}
-                                <span className="card mb-4 container mt-4" key={index} ref={bodys}>
+
+                                <span className="card mb-4 container mt-4" key={index} >
                                     <div className="card-header d-flex align-items-center ">
                                         <i className="fa fa-arrow-left btn btn-sm btn-warning " style={{ marginRight: "10px" }} aria-hidden="true" onClick={goBack}></i>
                                         <h4 className="card-heading">Pay Now!</h4>

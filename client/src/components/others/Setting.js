@@ -1,23 +1,24 @@
 import React from "react";
 import Header from "./Header";
 import { useState, useEffect, useRef } from "react";
-import Preloding from "./Preloding";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Setting = () => {
   const [CandidateId, setCandidateId] = useState("")
   const [CandidateData, setCandidateData] = useState([])
-  const [Preload, setPreload] = useState(false)
-  const bodys = useRef()
+
   const getCandidate = async (e) => {
     e.preventDefault()
+    const id = toast.loading("Please wait...")
     if (!CandidateId) {
-      return alert("Please paste the candidate id.")
+     return toast.update(id, { render: "Please paste the candidate id.", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+      
     }
     else {
       const CandidateIdObj = {
         CandidateId: CandidateId
       }
-      setPreload(true)
-      bodys.current.style.filter = "blur(10px)";
+
       const res = await fetch("/disableCandidate", {
         method: "POST",
         headers: {
@@ -27,15 +28,13 @@ const Setting = () => {
         credentials: "include"
       });
       if ((await res).status === 200) {
-        setPreload(false)
-        bodys.current.style.filter = "blur(0px)";
         const Data = await res.json()
         setCandidateData(Data)
+        return toast.update(id, { render: "User found!", type: "success", isLoading: false, autoClose: 1000, closeOnClick: true },);
       }
       if ((await res).status === 401) {
-        setPreload(false)
-        bodys.current.style.filter = "blur(0px)";
-        return alert("Candidate Not found")
+        return toast.update(id, { render: "Candidate Not found", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+        
 
       }
 
@@ -81,28 +80,32 @@ const Setting = () => {
   };
 
   // registerNewUser
+
   const registerNewUser = async (e) => {
     e.preventDefault();
-
+    const id = toast.loading("Please wait...")
     const { name, phone, password, cpassword } = User;
     if (!name || !phone || !password || !cpassword) {
-      return alert("Please fill each and every field");
+      return toast.update(id, { render: "Please fill each and every field", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+
     }
     if (password !== cpassword) {
-      return alert("Conform password not the same.");
+      return toast.update(id, { render: "Conform password not the same.", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+
     }
 
     if (!password.match(passw)) {
-      return alert(
-        "password must be between 6 to 20 characters which contain at least one numeric digit, one uppercase and one lowercase letter"
-      );
+      return toast.update(id, { render: "password must be between 6 to 20 characters which contain at least one numeric digit, one uppercase and one lowercase letter", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+
     }
     if (!name.match(userNameVarify)) {
-      return alert("Username must start with Alphanumeric");
-    } else {
+      return toast.update(id, { render: "Username must start with Alphanumeric", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+
+    }
+
+    else {
       try {
-        setPreload(true)
-        bodys.current.style.filter = "blur(10px)";
+
         const res = await fetch("/signup", {
 
           method: "POST",
@@ -113,29 +116,26 @@ const Setting = () => {
         });
 
         if ((await res).status === 422) {
-          setPreload(false)
-          bodys.current.style.filter = "blur(0px)";
-          return alert("Please try another username");
+          return toast.update(id, { render: "Please try another username", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+
         }
         if ((await res).status === 200) {
-          setPreload(false)
-          bodys.current.style.filter = "blur(0px)";
+
           setUser({
             name: "",
             phone: "",
             password: "",
             cpassword: "",
           })
-          return alert("User register successfuly");
+          return toast.update(id, { render: "User register successfuly", type: "success", isLoading: false, autoClose: 5000, closeOnClick: true },);
+
         }
         if ((await res).status === 422) {
-          setPreload(false)
-          bodys.current.style.filter = "blur(0px)";
-          return alert("Error 500. please try again later");
+          return toast.update(id, { render: "Error 500. please try again later", type: "success", isLoading: false, autoClose: 5000, closeOnClick: true },);
+
         }
       } catch (error) {
-        setPreload(false)
-        bodys.current.style.filter = "blur(0px)";
+
         console.log(error);
       }
     }
@@ -151,18 +151,19 @@ const Setting = () => {
   }
   const resetNow = async (e) => {
     e.preventDefault();
-    console.log(Rest);
+    const id = toast.loading("Please wait...")
     const { name, oldPass, newPass, cnewPass } = Rest
     if (!name || !oldPass || !newPass || !cnewPass) {
-      return alert("Please fill out each and every field in order to reset your password.")
+
+      return toast.update(id, { render: "Please fill out each and every field in order to reset your password.", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
     }
     if (newPass !== cnewPass) {
-      return alert("Conform password is not same")
+      return toast.update(id, { render: "Conform password is not same", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+      
     }
     else {
       try {
-        setPreload(true)
-        bodys.current.style.filter = "blur(10px)";
+
         const res = await fetch("/resetpassword", {
 
           method: "POST",
@@ -172,29 +173,26 @@ const Setting = () => {
           body: JSON.stringify(Rest),
         });
         if ((await res).status === 401) {
-          setPreload(false)
-          bodys.current.style.filter = "blur(0px)";
-          return alert("User not found.")
+          return toast.update(id, { render: "User not found.", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+          
         }
         if ((await res).status === 402) {
-          setPreload(false)
-          bodys.current.style.filter = "blur(0px)";
-          return alert("Invalid old password")
+          return toast.update(id, { render: "Invalid old password.", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+          
         }
         if ((await res).status === 203) {
-          setPreload(false)
-          bodys.current.style.filter = "blur(0px)";
+
           setRest({
             name: "",
             oldPass: "",
             newPass: "",
             cnewPass: ""
           })
-          return alert("Password updated success")
+          return toast.update(id, { render: "Password updated success", type: "success", isLoading: false, autoClose: 5000, closeOnClick: true },);
+         
         }
       } catch (error) {
-        setPreload(false)
-        bodys.current.style.filter = "blur(0px)";
+
         console.log(error);
       }
     }
@@ -204,14 +202,13 @@ const Setting = () => {
 
 
   const onOff = async () => {
-
+    
 
     const data = {
       id: CandidateId
     }
     try {
-      setPreload(true)
-      bodys.current.style.filter = "blur(10px)";
+      const id = toast.loading("Please wait...")
       const res = fetch("/enableDisable", {
         method: "Post",
         headers: {
@@ -221,20 +218,21 @@ const Setting = () => {
         credentials: "include"
       });
       if ((await res).status === 201) {
-        setPreload(false)
-        bodys.current.style.filter = "blur(0px)";
-        alert("Update Success")
-        return window.location.reload();
+        setTimeout(() => {
+          window.location.reload()
+        }, 6000);
+        return toast.update(id, { render: "Update Success", type: "success", isLoading: false, autoClose: 5000, closeOnClick: true },);
+        
+        
       }
 
       if ((await res).status === 403) {
-        setPreload(false)
-        bodys.current.style.filter = "blur(0px)";
-        return alert("Unable to update")
+        
+        return toast.update(id, { render: "Unable to update", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+        
       }
     } catch (error) {
-      setPreload(false)
-      bodys.current.style.filter = "blur(0px)";
+
       return alert("Try gain later")
     }
 
@@ -244,8 +242,19 @@ const Setting = () => {
 
   return (
     <>
-      {!Preload ? "" : <Preloding />}
-      <dir className="row w-100" ref={bodys} style={{ marginRight: "0" }}>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <dir className="row w-100" style={{ marginRight: "0" }}>
         <div className="col-lg-4 mb-5">
           <div className="card">
             <div className="card-header">

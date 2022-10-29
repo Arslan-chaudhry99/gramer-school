@@ -5,12 +5,14 @@ import { useContext } from "react";
 import { useNavigate } from "react-router";
 import { AppContext } from "../Context/Context";
 import { Link } from "react-router-dom"
-import Preloding from "./Preloding";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Booksledger = () => {
   const [hisFilter, sethisFilter] = useState(1)
   const { ledgerDataVal, ftechLedger } = useContext(AppContext)
   const [regData, setregData] = useState([])
-  const [Preload, setPreload] = useState(false)
+
   //navigation
   const navigate = useNavigate()
   const bodys = useRef()
@@ -26,16 +28,19 @@ const Booksledger = () => {
   }
   const addNewLedger = async (e) => {
     e.preventDefault()
+    const id = toast.loading("Please wait...")
     const { name, className, rollNumber, amount, details, date } = Ledger
     if (!name || !className || !rollNumber || !amount || !details || !date) {
-      return alert("Please fill each and every field and not that class name, roll number and amout must be a number")
+
+      //do something else
+      return toast.update(id, { render: "Please fill each and every field and not that class name, roll number and amout must be a number", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+
     }
 
     else {
 
       try {
-        setPreload(true)
-        bodys.current.style.filter = "blur(10px)";
+
         const res = fetch("/registerLedger", {
           method: "Post",
           headers: {
@@ -46,21 +51,20 @@ const Booksledger = () => {
         });
 
         if ((await res).status === 401) {
-          setPreload(false)
-          bodys.current.style.filter = "blur(0px)";
-          return alert("Seems Like Candidate note found")
+          return toast.update(id, { render: "Seems Like Candidate note found", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+
         }
         if ((await res).status === 200) {
-          setPreload(false)
-          bodys.current.style.filter = "blur(0px)";
           setLedger({ name: "", className: "", rollNumber: "", amount: "", details: "" })
-          window.location.reload(true);
-          return alert("New student ledger created successfully")
+
+          ftechLedger()
+          return toast.update(id, { render: "New student ledger created successfully", type: "success", isLoading: false, autoClose: 2000, closeOnClick: true },);
+
+
 
         }
       } catch (error) {
-        setPreload(false)
-        bodys.current.style.filter = "blur(0px)";
+
         return alert("Try again")
       }
     }
@@ -85,7 +89,18 @@ const Booksledger = () => {
   }
   return (
     <>
-      {!Preload ? "" : <Preloding />}
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
 
       <div
         className="collapse"
