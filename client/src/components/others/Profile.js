@@ -7,20 +7,39 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function Profile() {
+  const { userId } = useParams("userId")
   const [statusChek, setstatusChek] = useState(1)
   const [UpdateData, setUpdateData] = useState()
   const [updateNow, setupdateNow] = useState({})
+  // data
+  const [schoolData, setschoolData] = useState([])
+  // const [ledgerDataVal, setledgerDataVal] = useState([])
+  // const [candiFees, setcandiFees] = useState([])
+  const { ftechLedger, ledgerDataVal, candidatesFee, candiFees } = useContext(AppContext)
 
-  const { fetchSchoolAbout, schoolData, ftechLedger, ledgerDataVal, candidatesFee, candiFees } = useContext(AppContext)
+  // fetching school data
+  const fetchSchoolAbout = async () => {
+    const id = toast.loading("Loding Data.....")
+    try {
+      const res = await fetch("/getschool", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        credentials: "include"
+      })
+      const Data = await res.json()
+      await setschoolData(Data)
+      await ftechLedger()
+      await candidatesFee()
+      return await toast.update(id, { render: "Done", type: "success", isLoading: false, autoClose: 250, closeOnClick: true },);
+    } catch (error) {
+      return alert("Please try again later.")
+    }
+  }
 
-  const { userId } = useParams("userId")
-  useEffect(() => {
-    fetchSchoolAbout()
-    ftechLedger()
-    candidatesFee()
 
-
-  }, [])
   const canData = schoolData.filter((item) => {
     return item._id === userId
   })
@@ -79,8 +98,8 @@ function Profile() {
     e.preventDefault()
     const id = toast.loading("Please wait...")
     if (!updateNow) {
-     return toast.update(id, { render: "Error in frontend refresh the page", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
-      
+      return toast.update(id, { render: "Error in frontend refresh the page", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
+
     }
     else {
       try {
@@ -96,18 +115,17 @@ function Profile() {
         if ((await res).status === 201) {
 
           fetchSchoolAbout()
-          ftechLedger()
-          candidatesFee()
+
           return toast.update(id, { render: "Info Update successfuly", type: "success", isLoading: false, autoClose: 5000, closeOnClick: true },);
-         
+
         }
         if ((await res).status === 400) {
           return toast.update(id, { render: "Please select a feild first", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
-          
+
         }
         if ((await res).status === 500) {
           return toast.update(id, { render: "Unable to edit.Please the refresh page try again later", type: "error", isLoading: false, autoClose: 5000, closeOnClick: true },);
-          
+
         }
 
       } catch (error) {
@@ -116,9 +134,13 @@ function Profile() {
       }
     }
   }
+  useEffect(() => {
+    fetchSchoolAbout()
+
+  }, [])
   return (
     <>
-    <ToastContainer
+      <ToastContainer
         position="top-center"
         autoClose={5000}
         hideProgressBar={false}
