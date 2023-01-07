@@ -4,17 +4,19 @@ const router = express.Router();
 require("../db/conn");
 const Admission = require("../Model/Admission");
 
-// to store admission for
-router.post("/admit", async (req, res) => {
-     const { name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth, classname, rollNumber, education, currentStatus, image } = req.body;
 
+// to store admission for
+
+router.post("/admit", async (req, res) => {
+     const { name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth, classname, rollNumber, education, currentStatus, photo } = req.body;
+     
      try {
           const userPresent = await Admission.findOne({ cnic: cnic });
           if (userPresent) {
                return res.status(201).json({ success: "already" });
           }
           else {
-               const user = new Admission({ name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth, classname, rollNumber, education, currentStatus });
+               const user = new Admission({ name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth, classname, rollNumber, education, currentStatus ,photo});
                const generateRollNumber = await Admission.find({ rollNumber: rollNumber });
 
                if (status === "Student") {

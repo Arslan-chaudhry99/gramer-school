@@ -22,7 +22,8 @@ const RegisForm = () => {
     classname: 0,
     rollNumber: 0,
     education: "",
-    currentStatus: true
+    currentStatus: true,
+    photo:""
 
   });
 
@@ -39,6 +40,10 @@ const RegisForm = () => {
     setAdmission({ ...Admission, [name]: value })
 
   }
+  console.log(Admission);
+ const setPhotoData=(e)=>{
+  setAdmission({ ...Admission, ["photo"]: e.target.files[0] })
+ }
   useEffect(() => {
     Admission.status = Status
 
@@ -66,6 +71,7 @@ const RegisForm = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+          
           },
           body: JSON.stringify(Admission),
           credentials: "include"
@@ -137,23 +143,25 @@ const RegisForm = () => {
             <form method="POST" encType="multipart/form-data">
               <div className="mb-3">
                 <label className="form-label">Name</label>
-                <input className="form-control" name="name" value={Admission.name} type="text" onChange={setData} />
+                <input className="form-control shadow-0" name="name" value={Admission.name} type="text" onChange={setData} />
               </div>
               <div className="mb-3">
                 <label class="form-label">Mother Name</label>
-                <input class="form-control" name="motherName" type="text" value={Admission.motherName} onChange={setData} />
+                <input class="form-control shadow-0" name="motherName" type="text" value={Admission.motherName} onChange={setData} />
               </div>
               <div className="mb-3">
                 <label htmlFor="cnic" className="form-label"> CNIC</label>
-                <input className="form-control" name="cnic" type="text" value={Admission.cnic} onChange={setData} pattern="[0-9]{5}-[0-9]{7}-[0-9]{1}" />
+                <input className="form-control shadow-0" name="cnic" type="text" value={Admission.cnic} onChange={setData} pattern="[0-9]{5}-[0-9]{7}-[0-9]{1}" />
                 <small>35103-3313331-7</small>
               </div>
               <div className="mb-3">
                 <input
+                className="shadow-0"
                   type="file"
                   accept="image"
                   alt="image"
-                  name="image"
+                  name="photo"
+                  onChange={setPhotoData}
                 />
               </div>
               <select
@@ -168,41 +176,41 @@ const RegisForm = () => {
               </select>
               <div className="mb-3">
                 <label className="form-label">Father Name</label>
-                <input className="form-control" onChange={setData} type="text" name="fatherName" value={Admission.fatherName} />
+                <input className="form-control shadow-0" onChange={setData} type="text" name="fatherName" value={Admission.fatherName} />
               </div>
               <div className="mb-3">
                 <label className="form-label">Phone</label>
-                <input className="form-control" onChange={setData} type="Number" name="phone" value={Admission.phone} />
+                <input className="form-control shadow-0" onChange={setData} type="Number" name="phone" value={Admission.phone} />
               </div>
               {
                 Status === "Student" ?
                   <div className="mb-3">
                     <label className="form-label">Class</label>
-                    <input className="form-control" onChange={setData} type="Number" name="classname" />
+                    <input className="form-control shadow-0" onChange={setData} type="Number" name="classname" />
                   </div> : ""
               }
               {
                 Status === "Student" ?
                   <div className="mb-3">
                     <label className="form-label">Roll Number</label>
-                    <input className="form-control" onChange={setData} type="Number" name="rollNumber" value={Admission.rollNumber} />
+                    <input className="form-control shadow-0" onChange={setData} type="Number" name="rollNumber" value={Admission.rollNumber} />
                   </div> : <div className="mb-3">
                     <label className="form-label">Education</label>
-                    <input className="form-control" onChange={setData} type="text" name="education" value={Admission.education} />
+                    <input className="form-control shadow-0" onChange={setData} type="text" name="education" value={Admission.education} />
                   </div>
               }
 
               <div className="mb-3">
                 <label className="form-label">{Status !== "Teacher" ? "Fee" : "Sellery"} </label>
-                <input className="form-control" onChange={setData} type="Number" name="fee" value={Admission.fee} />
+                <input className="form-control shadow-0" onChange={setData} type="Number" name="fee" value={Admission.fee} />
 
                 <div className="mb-3">
                   <label className="form-label">Address</label>
-                  <input className="form-control" onChange={setData} type="text" name="address" value={Admission.address} />
+                  <input className="form-control shadow-0" onChange={setData} type="text" name="address" value={Admission.address} />
                 </div>
                 <div className="mb-3">
                   <label className="form-label">Date of Birth</label>
-                  <input className="form-control" name="dateBirth" type="date" onChange={setData} />
+                  <input className="form-control shadow-0" name="dateBirth" type="date" onChange={setData} />
                 </div>
               </div>
 

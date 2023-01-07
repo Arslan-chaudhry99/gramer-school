@@ -89,7 +89,7 @@ router.get("/logout", (req, res) => {
     res.clearCookie("userToken")
     res.status(200).json({message:"success"})
   } catch (error) {
-    es.status(500).json({message:"server error"})
+    res.status(500).json({message:"server error"})
   }
 
 })

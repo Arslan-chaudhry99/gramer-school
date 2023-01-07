@@ -111,28 +111,28 @@ const Booksledger = () => {
           <form>
             <div className="mb-3">
               <label className="form-label">Name*</label>
-              <input className="form-control" name="name" value={Ledger.name} type="text" onChange={setLedgerData} required />
+              <input className="form-control shadow-0" name="name" value={Ledger.name} type="text" onChange={setLedgerData} required />
             </div>
             <div className="mb-3">
               <label className="form-label">Class*</label>
-              <input className="form-control" name="className" value={Ledger.className} type="Number" min={"1"} onChange={setLedgerData} required />
+              <input className="form-control shadow-0" name="className" value={Ledger.className} type="Number" min={"1"} onChange={setLedgerData} required />
             </div>
             <div className="mb-3">
               <label className="form-label">Roll Number*</label>
-              <input className="form-control" name="rollNumber" value={Ledger.rollNumber} type="Number" min={"1"} onChange={setLedgerData} required />
+              <input className="form-control shadow-0" name="rollNumber" value={Ledger.rollNumber} type="Number" min={"1"} onChange={setLedgerData} required />
             </div>
             <div className="mb-3">
               <label className="form-label">Payable Amount*</label>
-              <input className="form-control" name="amount" value={Ledger.amount} type="Number" min={"1"} onChange={setLedgerData} required="true" />
+              <input className="form-control shadow-0" name="amount" value={Ledger.amount} type="Number" min={"1"} onChange={setLedgerData} required="true" />
             </div>
             <div className="mb-3">
               <label className="form-label">Starting Date</label>
-              <input className="form-control" name="date" type="date" onChange={setLedgerData} />
+              <input className="form-control shadow-0" name="date" type="date" onChange={setLedgerData} />
             </div>
 
             <div className="mb-3">
               <label className="form-label">Details*</label>
-              <input className="form-control" name="details" type="text" value={Ledger.details} onChange={setLedgerData} required />
+              <input className="form-control shadow-0" name="details" type="text" value={Ledger.details} onChange={setLedgerData} required />
 
             </div>
             <div>

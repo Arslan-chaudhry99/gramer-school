@@ -264,7 +264,7 @@ const Setting = () => {
               <form method="POST">
                 <div className="form-floating ">
                   <input
-                    className="form-control"
+                    className="form-control shadow-0"
                     id="floatingInput"
                     type="text"
                     name="name"
@@ -278,7 +278,7 @@ const Setting = () => {
                 <div className="dropdown-divider"></div>
                 <div className="form-floating mb-3">
                   <input
-                    className="form-control"
+                    className="form-control shadow-0"
                     id="floatingPassword"
                     type="password"
                     name="oldPass"
@@ -290,7 +290,7 @@ const Setting = () => {
                 </div>
                 <div className="form-floating mb-3">
                   <input
-                    className="form-control"
+                    className="form-control shadow-0"
                     id="floatingPassword"
                     type="password"
                     name="newPass"
@@ -302,7 +302,7 @@ const Setting = () => {
                 </div>
                 <div className="form-floating mb-3">
                   <input
-                    className="form-control"
+                    className="form-control shadow-0"
                     id="floatingPassword"
                     type="password"
                     name="cnewPass"
@@ -329,7 +329,7 @@ const Setting = () => {
               <form method="POST" encType="multipart/form-data">
                 <div className="form-floating mb-3">
                   <input
-                    className="form-control"
+                    className="form-control shadow-0"
                     id="name"
                     name="name"
                     type="text"
@@ -343,7 +343,7 @@ const Setting = () => {
                 <div className="dropdown-divider"></div>
                 <div className="form-floating mb-3">
                   <input
-                    className="form-control"
+                    className="form-control shadow-0"
                     id="phone"
                     name="phone"
                     type="tel"
@@ -366,7 +366,7 @@ const Setting = () => {
 
                 <div className="form-floating mb-3 d-flex align-items-center">
                   <input
-                    className="form-control"
+                    className="form-control shadow-0"
                     id="password"
                     type="password"
                     name="password"
@@ -383,7 +383,7 @@ const Setting = () => {
                 </div>
                 <div className="form-floating mb-3 d-flex align-items-center">
                   <input
-                    className="form-control"
+                    className="form-control shadow-0"
                     id="cpassword"
                     name="cpassword"
                     type="password"
@@ -403,7 +403,7 @@ const Setting = () => {
                     type="submit"
                     name="signup"
                     id="signup"
-                    className="btn btn-warning"
+                    className="btn btn-warning shadow-0"
                     value="Register User"
                     onClick={registerNewUser}
                   />
@@ -527,7 +527,7 @@ const Setting = () => {
                               <td className="text-end">
                                 {
                                   <span class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                                    <input class="form-check-input shadow-0" type="checkbox" role="switch" id="flexSwitchCheckDefault"
                                       value={"i am "}
                                       checked={item.currentStatus === true ? true : false}
                                       onClick={onOff}

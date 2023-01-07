@@ -13,14 +13,13 @@ const fun = require("../src/router/GeneratingFees")
 const cookieParser = require('cookie-parser');
 app.use(cookieParser())
 const Authenticate = require("../src/middleware/Authenticate")
-// app.use('/public', express.static(path.join(__dirname, "public")));
-// const User = require("./Model/usersSchema");
+
 app.use(require("./router/Auth"));
 app.use(require("./router/Ledger"));
 app.use(require("./router/Admission"));
 app.use(require("./router/CurrentFees"))
 
-//server listener
+
 corn.schedule("39 12 27 * *", function () {
   console.log("work");
   fun()
@@ -28,8 +27,15 @@ corn.schedule("39 12 27 * *", function () {
 app.get('/*', (request, response) => {
   response.sendFile(path.join(__dirname, '../public/index.html'));
 });
-// send message
+
+
+
+
 
 app.listen(PORT, () => {
   console.log(`connnection successful running on port ${PORT}`);
 });
+
+app.post("/addProduct",(req,res)=>{
+console.log(req);
+})

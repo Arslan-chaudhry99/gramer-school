@@ -138,6 +138,7 @@ function Profile() {
     fetchSchoolAbout()
 
   }, [])
+  console.log(canData);
   return (
     <>
       <ToastContainer
@@ -195,6 +196,7 @@ function Profile() {
                           <input type="text" class="form-control shadow-0" value={item._id}
                             id="currentId"
                           />
+                          
 
                           <span class="input-group-text" id="liveToastBtn" style={{ cursor: "pointer" }} >
 
@@ -283,15 +285,18 @@ function Profile() {
                   </div>
 
                   <div className="col-lg-8 " >
+                    
                     <div class="card-header mb-3 shadow  border border-danger " style={{ borderRadius: "10px" }} >
-
+                   
                       <form class="input-group " method="Post">
                         <input class="form-control shadow-0" type="text" placeholder="Update section" ref={updateInput} value={UpdateData} onChange={(e) => {
                           setUpdateData(e.target.value)
                         }} />
+                      
                         <button class="btn btn-outline-warning shadow-0" type="submit" onClick={UpdateDataBaseData}><i class="fa fa-paper-plane"></i></button>
 
                       </form>
+                      <small className="text-danger "><b >Arslan</b></small>
                     </div>
                     <form className="card mb-4">
                       <div className="card-header">
@@ -331,7 +336,7 @@ function Profile() {
                             </div>
                           </div>
                           <div className="col-sm-6 col-md-6">
-                            <div className="mb-4">
+                            <div className="mb-4" onClick={(e)=>{}}>
                               <label className="form-label">Date Of Birth</label>
                               <span className="form-control d-flex justify-content-between align-items-center" >
                                 <span> {item.dateBirth}</span>

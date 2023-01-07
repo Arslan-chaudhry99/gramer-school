@@ -21,7 +21,7 @@ const Login = () => {
     const { name, password } = Auth;
     if (!name || !password) {
       const id = toast.loading("Please wait...")
-     return toast.update(id, { render: "Invalid credentials", type: "error", isLoading: false, autoClose: 3000, closeOnClick: true });
+      return toast.update(id, { render: "Invalid credentials", type: "error", isLoading: false, autoClose: 3000, closeOnClick: true });
     }
     else {
       const id = toast.loading("Please wait...")
@@ -40,11 +40,11 @@ const Login = () => {
           navigate("/");
           window.location.reload();
         }, 2000);
-       return toast.update(id, { render: "Login successfully", type: "success", isLoading: false, autoClose: 3000, closeOnClick: true });
+        return toast.update(id, { render: "Login successfully", type: "success", isLoading: false, autoClose: 3000, closeOnClick: true });
       }
-     if (!(await res).status === 404 || 400) {
+      if (!(await res).status === 404 || 400) {
 
-      return  toast.update(id, { render: "Invalid credentials", type: "error", isLoading: false, autoClose: 3000, closeOnClick: true });
+        return toast.update(id, { render: "Invalid credentials", type: "error", isLoading: false, autoClose: 3000, closeOnClick: true });
 
 
       }
@@ -89,7 +89,7 @@ const Login = () => {
                   <form id="loginForm" method="POST">
                     <div className="form-floating mb-3">
                       <input
-                        className="form-control"
+                        className="form-control shadow-0"
                         id="floatingInput"
                         type="email"
                         name="name"
@@ -98,10 +98,11 @@ const Login = () => {
                         onChange={setChanges}
                       />
                       <label htmlFor="floatingInput">Username</label>
+                      <small><b>Username:</b>  Arslanchaudhry</small>
                     </div>
                     <div className="form-floating mb-3">
                       <input
-                        className="form-control"
+                        className="form-control shadow-0"
                         id="floatingPassword"
                         type="password"
                         name="password"
@@ -111,6 +112,7 @@ const Login = () => {
                         onChange={setChanges}
                       />
                       <label htmlFor="floatingPassword">Password</label>
+                      <small><b>Password:</b>  Arsl@90</small>
                     </div>
 
                     <button

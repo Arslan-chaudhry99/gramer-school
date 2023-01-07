@@ -53,10 +53,6 @@ const admissionSchema = new mongoose.Schema({
                       type: Boolean,
                       require: true
 
-           },
-           image: {
-                      type: String
-
            }
 
 
