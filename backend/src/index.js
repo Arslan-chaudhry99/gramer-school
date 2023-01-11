@@ -9,16 +9,17 @@ app.use(express.json())
 const PORT = process.env.PORT;
 app.use('/public', express.static('public'));
 const corn = require("node-cron")
-const fun = require("../src/router/GeneratingFees")
+const fun = require("../src/controllers/GeneratingFees")
 const cookieParser = require('cookie-parser');
 app.use(cookieParser())
 const Authenticate = require("../src/middleware/Authenticate")
+let bodyParser = require('body-parser')
 
-app.use(require("./router/Auth"));
-app.use(require("./router/Ledger"));
-app.use(require("./router/Admission"));
-app.use(require("./router/CurrentFees"))
 
+app.use(require("./controllers/Auth"));
+app.use(require("./controllers/Ledger"));
+app.use(require("./controllers/Admission"));
+app.use(require("./controllers/CurrentFees"))
 
 corn.schedule("39 12 27 * *", function () {
   console.log("work");

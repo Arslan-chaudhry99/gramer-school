@@ -154,6 +154,7 @@ function Profile() {
         theme="dark"
       />
       {canData.map((item) => {
+      
         return (<>
 
           <div className="page-holder bg-gray-100" >
@@ -183,7 +184,7 @@ function Profile() {
                       <div className="card-body text-center">
                         <img
                           className="card-profile-img"
-                          src="/logo.jpeg"
+                          src={item.reqFiles[0]}
                           alt="Nathan Andrews"
                         />
                         <h3 className="mb-3">{item.name}</h3>

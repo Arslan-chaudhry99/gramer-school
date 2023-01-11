@@ -3,20 +3,49 @@ const Authenticate = require("../middleware/Authenticate")
 const router = express.Router();
 require("../db/conn");
 const Admission = require("../Model/Admission");
-
-
+const multer = require("multer");
+const { v4: uuidv4 } = require("uuid");
 // to store admission for
-
-router.post("/admit", async (req, res) => {
+const DIR = "./public/img";
+const storage = multer.diskStorage({
+     destination: (req, file, cb) => {
+          cb(null, DIR);
+     },
+     filename: (req, file, cb) => {
+          const fileName = file.originalname.toLowerCase().split(" ").join("-");
+          cb(null, uuidv4() + "-" + fileName);
+     },
+});
+var upload = multer({
+     storage: storage,
+     fileFilter: (req, file, cb) => {
+          if (
+               file.mimetype == "image/png" ||
+               file.mimetype == "image/jpg" ||
+               file.mimetype == "image/jpeg"
+          ) {
+               cb(null, true);
+          } else {
+               cb(null, false);
+               return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
+          }
+     },
+});
+router.route("/admit").post(upload.array("photo", 20), async (req, res) => {
      const { name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth, classname, rollNumber, education, currentStatus, photo } = req.body;
-     
+     const reqFiles = [];
+     const url = req.protocol + "://" + req.get("host");
+     for (var i = 0; i < req.files.length; i++) {
+          reqFiles.push(url + "/public/img/" + req.files[0].filename);
+     }
+   
      try {
           const userPresent = await Admission.findOne({ cnic: cnic });
           if (userPresent) {
                return res.status(201).json({ success: "already" });
           }
           else {
-               const user = new Admission({ name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth, classname, rollNumber, education, currentStatus ,photo});
+               const user = new Admission({ name, motherName, cnic, status, fatherName, phone, fee, address, dateBirth, classname, rollNumber, education, currentStatus, reqFiles });
                const generateRollNumber = await Admission.find({ rollNumber: rollNumber });
 
                if (status === "Student") {
@@ -51,6 +80,7 @@ router.post("/admit", async (req, res) => {
 });
 // to get school data
 router.get("/getschool", async (req, res) => {
+     console.log(req.query);
      try {
           let data = await Admission.find()
           res.status(200).json(data);
