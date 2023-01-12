@@ -6,41 +6,32 @@ import { NavLink } from "react-router-dom";
 import { useRef } from "react"
 import { useSelector, useDispatch } from "react-redux";
 import { getDataTriger } from "../../store/SchoolData";
-
+import STATUSES from "../../store/LodingObject";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Contact = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const [Schoolfilter, setSchoolfilter] = useState('Student')
     const [ClsFilter, setClsFilter] = useState(1)
-    const mainState = useSelector((State) => State.datasets)
+    const { data, status } = useSelector((State) => State.datasets)
+    console.log(data);
     const initialState = {
         query: Schoolfilter,
         className: ClsFilter,
         offSet: 0
     }
     useEffect(() => {
+
         dispatch(getDataTriger(initialState))
-    }, []);
+    }, [Schoolfilter, ClsFilter]);
 
 
+    // set status
+    if (status === STATUSES.LODING) {
 
+    }
 
-    // const data = schoolData.filter((item) => {
-    //     if (Schoolfilter === "Student" || Schoolfilter === "Teacher") {
-    //         if (Schoolfilter === "Teacher") {
-    //             return item.status === Schoolfilter && item.currentStatus !== false
-    //         }
-    //         if (Schoolfilter === "Student") {
-    //             return item.status === Schoolfilter && item.currentStatus !== false && item.classname === ClsFilter
-    //         }
-
-    //     }
-    //     if (Schoolfilter === "disable") {
-    //         return item.currentStatus === false
-    //     }
-
-
-    // })
 
     // setSchoolfilter
     const mainFilter = (e) => {
@@ -96,7 +87,7 @@ const Contact = () => {
                         <section className="mb-3 mb-lg-5">
                             <div className="row mb-3">
                                 {
-                                    mainState.map((items) => {
+                                    data.map((items) => {
 
                                         return (
                                             <>
@@ -121,7 +112,8 @@ const Contact = () => {
                                                                     to={
                                                                         "/Profile/" + items._id
                                                                     }>
-                                                                    <img className="avatar p-1 me-2"
+                                                                    <img className="avatar p-1 me-2 object-fit-cover"
+                                                                        style={{ objectPosition: "top" }}
                                                                         src={
                                                                             items.reqFiles[0]
                                                                         }
@@ -184,6 +176,7 @@ const Contact = () => {
                     </div>
                 </div>
             </footer>
+            <ToastContainer />
         </>
     );
 };
