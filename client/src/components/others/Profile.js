@@ -6,6 +6,8 @@ import { json, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import "./index.css"
+import axios from "axios";
 function Profile() {
   const { userId } = useParams("userId")
   const [statusChek, setstatusChek] = useState(1)
@@ -13,10 +15,10 @@ function Profile() {
   const [updateNow, setupdateNow] = useState({})
   // data
   const [schoolData, setschoolData] = useState([])
-  // const [ledgerDataVal, setledgerDataVal] = useState([])
-  // const [candiFees, setcandiFees] = useState([])
-  const { ftechLedger, ledgerDataVal, candidatesFee, candiFees } = useContext(AppContext)
 
+  const { ftechLedger, ledgerDataVal, candidatesFee, candiFees } = useContext(AppContext)
+  // new modification
+  const [profileInfo, setprofileInfo] = useState([]);
   // fetching school data
   const fetchSchoolAbout = async () => {
     const id = toast.loading("Loding Data.....")
@@ -44,6 +46,11 @@ function Profile() {
     } catch (error) {
       return alert("Please try again later.")
     }
+  }
+
+  let profileData = async () => {
+    let data = await axios.get(`/getProfileInfo?Id=${userId}`)
+    setprofileInfo(await data.data)
   }
 
 
@@ -87,81 +94,15 @@ function Profile() {
     setupdateNow({ candidateId: ID, nameIng, inputValue: value })
   }
   // update on every change in input
-  useEffect(() => {
-    setupdateNow({
-      ...updateNow,
-      inputValue: UpdateData
-    })
-  }, [UpdateData])
+
   // UpdateDataBaseData
-  const UpdateDataBaseData = async (e) => {
-    e.preventDefault()
-    const id = toast.loading("Please wait...")
-    if (!updateNow) {
-      return toast.update(id, {
-        render: "Error in frontend refresh the page",
-        type: "error",
-        isLoading: false,
-        autoClose: 5000,
-        closeOnClick: true
-      },);
 
-    } else {
-      try {
-
-        const res = fetch("/UpdateDataBaseData", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(updateNow)
-
-        })
-        if ((await res).status === 201) {
-
-          fetchSchoolAbout()
-
-          return toast.update(id, {
-            render: "Info Update successfuly",
-            type: "success",
-            isLoading: false,
-            autoClose: 5000,
-            closeOnClick: true
-          },);
-
-        }
-        if ((await res).status === 400) {
-          return toast.update(id, {
-            render: "Please select a feild first",
-            type: "error",
-            isLoading: false,
-            autoClose: 5000,
-            closeOnClick: true
-          },);
-
-        }
-        if ((await res).status === 500) {
-          return toast.update(id, {
-            render: "Unable to edit.Please the refresh page try again later",
-            type: "error",
-            isLoading: false,
-            autoClose: 5000,
-            closeOnClick: true
-          },);
-
-        }
-
-      } catch (error) {
-
-        return alert(error)
-      }
-    }
-  }
   useEffect(() => {
-    fetchSchoolAbout()
+    profileData()
 
   }, [])
-  console.log(canData);
+
+
   return (
     <>
       <ToastContainer position="top-center"
@@ -174,7 +115,7 @@ function Profile() {
         draggable
         pauseOnHover
         theme="dark" /> {
-        canData.map((item) => {
+        profileInfo.map((item) => {
 
           return (
             <>
@@ -203,11 +144,19 @@ function Profile() {
                               { backgroundImage: "url(/dist/img/photos/paul-morris-116514-unsplash.jpg)" }
                             }></div>
                           <div className="card-body text-center">
+                            {/* new here */}
+                            <input type="file" />
+                            {/* new here */}
                             <img className="card-profile-img"
                               src={
                                 item.reqFiles[0]
                               }
                               alt="Nathan Andrews" />
+                            
+                              <div className="camera-icon">
+                                  <i class="fa fa-camera " aria-hidden="true" st></i>
+                                  
+                              </div>
                             <h3 className="mb-3">
                               {
                                 item.name
@@ -218,7 +167,7 @@ function Profile() {
                               }</p>
 
                             {
-                              item.currentStatus === true ? <button className="btn btn-sm btn-success shadow-0">Active</button> : <button className="btn btn-sm btn-danger shadow-0">Disabled</button>
+                              item.currentStatus === true ? <button className="btn btn-sm btn-success shadow-0">Active</button> : <button className="btn btn-sm btn-danger shadow-0"></button>
                             }
                             <div class="input-group mb-3 mt-3">
                               <input type="text" class="form-control shadow-0"
@@ -318,7 +267,7 @@ function Profile() {
                               </span>
                               <div class="collapse mt-3" id="collapseExample1">
                                 {
-                                  teacherOrStudent.map((item) => {
+                                  [].map((item) => {
                                     return (
                                       <>
                                         <span class="form-control d-flex justify-content-between align-items-center mb-2">
@@ -329,7 +278,10 @@ function Profile() {
                                             item.payableAmoun
                                           }/-</span>
                                           {
-                                            item.remaning !== 0 ? <span className="btn btn-sm btn-warning shadow">PayNow!</span> : <span className="btn btn-sm btn-success shadow">Paid</span>
+                                            item.remaning !== 0 ?
+                                              <span className="btn btn-sm btn-warning shadow">PayNow!</span>
+                                              :
+                                              <span className="btn btn-sm btn-success shadow">Paid</span>
                                           } </span>
                                       </>
                                     )
@@ -345,34 +297,11 @@ function Profile() {
 
                       <div className="col-lg-8 ">
 
-                        <div class="card-header mb-3 shadow  border border-danger "
-                          style={
-                            { borderRadius: "10px" }
-                          }>
 
-                          <form class="input-group " method="Post">
-                            <input class="form-control shadow-0" type="text" placeholder="Update section"
-                              ref={updateInput}
-                              value={UpdateData}
-                              onChange={
-                                (e) => {
-                                  setUpdateData(e.target.value)
-                                }
-                              } />
-
-                            <button class="btn btn-outline-warning shadow-0" type="submit"
-                              onClick={UpdateDataBaseData}>
-                              <i class="fa fa-paper-plane"></i>
-                            </button>
-
-                          </form>
-                          <small className="text-danger ">
-                            <b>Arslan</b>
-                          </small>
-                        </div>
                         <form className="card mb-4">
-                          <div className="card-header">
+                          <div className="card-header d-flex justify-content-between">
                             <h4 className="card-heading">Edit Profile</h4>
+                            <i class="fa fa-edit text-success"></i>
                           </div>
                           <div className="card-body">
 
@@ -381,78 +310,66 @@ function Profile() {
                               <div className="col-md-5">
                                 <div className="mb-4">
                                   <label className="form-label">Name</label>
-                                  <span className="form-control d-flex justify-content-between align-items-center">
-                                    <span>{
+                                  <input type="text"
+                                    value={
                                       item.name
-                                    }</span>
-                                    <i class="fa fa-edit text-warning" role="button" id="name"
-                                      onClick={updateValue}></i>
-                                  </span>
+                                    }
+                                    className="form-control editField" />
                                 </div>
                               </div>
                               <div className="col-sm-6 col-md-3">
                                 <div className="mb-4">
                                   <label className="form-label">Father Name</label>
-
-                                  <span className="form-control d-flex justify-content-between align-items-center">
-                                    <span>{
+                                  <input type="text"
+                                    value={
                                       item.fatherName
-                                    }</span>
-                                    <i class="fa fa-edit text-warning" role="button" id="fatherName"
-                                      onClick={updateValue}></i>
-                                  </span>
+                                    }
+                                    className="form-control editField" />
+
                                 </div>
                               </div>
                               <div className="col-sm-6 col-md-4">
                                 <div className="mb-4">
                                   <label className="form-label">Mother Name</label>
-
-                                  <span className="form-control d-flex justify-content-between align-items-center">
-                                    <span>{
+                                  <input type="text"
+                                    value={
                                       item.motherName
-                                    }</span>
-                                    <i class="fa fa-edit text-warning" role="button" id="motherName"
-                                      onClick={updateValue}></i>
-                                  </span>
+                                    }
+                                    className="form-control editField" />
+
                                 </div>
                               </div>
                               <div className="col-sm-6 col-md-6">
-                                <div className="mb-4"
-                                  onClick={
-                                    (e) => { }
-                                  }>
+                                <div className="mb-4">
                                   <label className="form-label">Date Of Birth</label>
-                                  <span className="form-control d-flex justify-content-between align-items-center">
-                                    <span> {
+                                  <input type="text"
+                                    value={
                                       item.dateBirth
-                                    }</span>
-                                    <i class="fa fa-edit text-warning" role="button" id="dateBirth"
-                                      onClick={updateValue}></i>
-                                  </span>
+                                    }
+                                    className="form-control editField" />
+
                                 </div>
                               </div>
                               <div className="col-sm-6 col-md-6">
                                 <div className="mb-4">
                                   <label className="form-label">CNIC Number</label>
-                                  <span className="form-control d-flex justify-content-between align-items-center">
-                                    <span> {
+                                  <input type="text"
+                                    value={
                                       item.cnic
-                                    }</span>
-                                    <i class="fa fa-edit text-warning" role="button" id="cnic"
-                                      onClick={updateValue}></i>
-                                  </span>
+                                    }
+                                    className="form-control editField" />
+
                                 </div>
                               </div>
                               <div className="col-md-12">
                                 <div className="mb-4">
                                   <label className="form-label">Address</label>
-                                  <span className="form-control d-flex justify-content-between align-items-center">
-                                    <span>{
+                                  <input type="text"
+                                    value={
                                       item.address
-                                    }</span>
-                                    <i class="fa fa-edit text-warning" role="button" id="address"
-                                      onClick={updateValue}></i>
-                                  </span>
+                                    }
+                                    className="form-control editField" />
+
                                 </div>
                               </div>
                               <div className="col-sm-6 col-md-8">
@@ -462,20 +379,17 @@ function Profile() {
                                       item.status === "Teacher" ? "Education" : "Class Name"
                                     }</label>
                                   {
-                                    item.status === "Teacher" ? <span className="form-control d-flex justify-content-between align-items-center">
-                                      {
+                                    item.status === "Teacher" ? <input type="text"
+                                      value={
                                         item.education
                                       }
-                                      <i class="fa fa-edit text-warning" role="button" id="education"
-                                        onClick={updateValue}></i>
-                                    </span> : <span className="form-control d-flex justify-content-between align-items-center">
-                                      {
-                                        item.classname
-                                      }th className
-                                      <i class="fa fa-edit text-warning" role="button" id="classname"
-                                        onClick={updateValue}></i>
-                                    </span>
-                                  } </div>
+                                      className="form-control editField" /> : <input type="text"
+                                        value={
+                                          item.classname
+                                        }
+                                        className="form-control editField" />
+                                  }
+                                </div>
 
                               </div>
                               <div className="col-sm-6 col-md-3">
@@ -484,27 +398,24 @@ function Profile() {
                                     {
                                       item.status === "Teacher" ? "Teacher Pay" : "Student Fee"
                                     }</label>
-                                  <span className="form-control d-flex justify-content-between align-items-center">
-                                    <span>Rs {
+                                  <input type="text"
+                                    value={
                                       item.fee
                                     }
-                                      /-</span>
-                                    <i class="fa fa-edit text-warning" role="button" id="fee"
-                                      onClick={updateValue}></i>
-                                  </span>
+                                    className="form-control editField" />
+
                                 </div>
                               </div>
                               {
                                 item.status === "Teacher" ? "" : <div className="col-md-5">
                                   <div className="mb-4">
                                     <label className="form-label">Roll Number</label>
-                                    <span className="form-control d-flex justify-content-between align-items-center">
-                                      <span>{
+                                    <input type="text"
+                                      value={
                                         item.rollNumber
-                                      }</span>
-                                      <i class="fa fa-edit text-warning" role="button" id="rollNumber"
-                                        onClick={updateValue}></i>
-                                    </span>
+                                      }
+                                      className="form-control editField" />
+
                                   </div>
                                 </div>
                               } </div>

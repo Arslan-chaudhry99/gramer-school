@@ -37,6 +37,6 @@ app.listen(PORT, () => {
   console.log(`connnection successful running on port ${PORT}`);
 });
 
-app.post("/addProduct",(req,res)=>{
-console.log(req);
+app.post("/addProduct", (req, res) => {
+  console.log(req);
 })

@@ -1,0 +1,43 @@
+input[type="file"] {
+    /* display: block; */
+    position: absolute;
+    opacity: 0;
+    top: 18%;
+    z-index: 10001;
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    background-color: #f2f2f2;
+
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    display: none;
+    osition: absolute;
+    opacity: 0;
+    top: 18%;
+    z-index: 10001;
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    background-color: #f2f2f2;
+}
+
+.camera-icon {
+    background-color: black;
+    color: white;
+  
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    z-index: 10002;
+
+ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 3px solid white !important;
+    top: 35%;
+    left: 57%;
+}

@@ -28,12 +28,12 @@ export function getDataTriger(qry) {
             const res = await axios.get(`/getschool?name=${qry.query}&className=${qry.className}&page=${qry.offSet}`);
             dispatch(getSchoolRecords(res.data))
             dispatch(setLoding(STATUSES.IDLE))
-            toast.update(id, { render: "All is good", type: "success", isLoading: false ,autoClose: 250,});
+            toast.update(id, { render: "All is good", type: "success", isLoading: false, autoClose: 250, });
 
         } catch (error) {
             dispatch(setLoding(STATUSES.ERROR))
             console.log(error);
-            toast.update(id, { render: "All is not good", type: "error", isLoading: false, autoClose: 500,});
+            toast.update(id, { render: "All is not good", type: "error", isLoading: false, autoClose: 500, });
         }
     }
 }
